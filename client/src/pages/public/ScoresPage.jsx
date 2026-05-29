@@ -124,7 +124,7 @@ export default function ScoresPage() {
         const holeData = holes.map(h => {
           const s = scores[`${player.id}_${h.id}`] || null
           if (s) { gross += s; parSum += h.par; played++ }
-          return { holeId: h.id, strokes: s, rel: s ? s - h.par : null }
+          return { holeId: h.id, sectionId: h.section_id, strokes: s, rel: s ? s - h.par : null }
         })
         const completed = holeData.filter(h => h.strokes !== null)
         const underParCount = completed.filter(h => h.rel <= -1).length
@@ -312,14 +312,26 @@ export default function ScoresPage() {
                         <span className={`text-base min-w-[36px] text-right ${parCls}`}>{parText}</span>
                       </div>
                     </div>
-                    {/* Hole score dots */}
-                    <div className="flex flex-wrap gap-1 pl-8">
-                      {player.holeData.map(({ holeId, strokes, rel }) => (
-                        <span key={holeId}
-                          className={`inline-flex items-center justify-center w-6 h-6 text-xs rounded font-medium ${cellClass(rel)}`}>
-                          {strokes || '·'}
-                        </span>
-                      ))}
+                    {/* Hole score dots grouped by section */}
+                    <div className="pl-8 space-y-1">
+                      {sections.map(sec => {
+                        const secHoles = player.holeData.filter(h => h.sectionId === sec.id)
+                        const secTotal = secHoles.reduce((sum, h) => sum + (h.strokes || 0), 0)
+                        const secPlayed = secHoles.filter(h => h.strokes).length
+                        return (
+                          <div key={sec.id} className="flex items-center gap-1">
+                            {secHoles.map(({ holeId, strokes, rel }) => (
+                              <span key={holeId}
+                                className={`inline-flex items-center justify-center w-6 h-6 text-xs rounded font-medium ${cellClass(rel)}`}>
+                                {strokes || '·'}
+                              </span>
+                            ))}
+                            <span className="ml-1 text-xs font-semibold text-gray-500 min-w-[24px]">
+                              {secPlayed > 0 ? secTotal : '-'}
+                            </span>
+                          </div>
+                        )
+                      })}
                     </div>
                   </div>
                 )
