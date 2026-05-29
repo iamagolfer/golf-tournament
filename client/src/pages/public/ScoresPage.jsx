@@ -31,6 +31,11 @@ export default function ScoresPage() {
 
   useEffect(() => { loadData() }, [])
 
+  useEffect(() => {
+    const id = setInterval(loadData, 10 * 60 * 1000)
+    return () => clearInterval(id)
+  }, [])
+
   async function loadData() {
     const [t, p, s] = await Promise.all([
       api.get('/tournament'), api.get('/players'), api.get('/scores')
@@ -115,7 +120,6 @@ export default function ScoresPage() {
             <p className="text-green-200 text-sm">離開格子自動儲存 Auto-saves on exit</p>
           </div>
           <div className="flex gap-2">
-            <button onClick={loadData} className="text-green-200 text-sm bg-green-700 px-2 py-1 rounded">↻</button>
             <Link to="/" className="text-green-200 text-sm underline">返回</Link>
           </div>
         </div>
@@ -236,9 +240,15 @@ export default function ScoresPage() {
 
           {/* ── ALL PLAYERS LEADERBOARD ── */}
           <div className="px-3">
-            <p className="text-xs text-gray-500 mb-2 font-semibold uppercase tracking-wide">
-              所有球員即時排行 Live Leaderboard — 按目前得失桿排序
-            </p>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide">
+                所有球員即時排行 Live Leaderboard — 按目前得失桿排序
+              </p>
+              <button onClick={loadData}
+                className="text-xs bg-green-700 text-white px-3 py-1 rounded-full font-medium shadow-sm active:bg-green-900">
+                ↻ 更新即時排名
+              </button>
+            </div>
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               {leaderboard.map((player, idx) => {
                 const { text: parText, cls: parCls } = toParDisplay(player.toPar)
