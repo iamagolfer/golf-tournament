@@ -221,6 +221,9 @@ All logic in `logic/rankings.js`:
 ### Public Pages
 - **/** — Info: course, date, tee time, collapsible hole table, rules (brief_rules from DB, fallback to hardcoded)
 - **/pick** — Horse picking with PIN modal; shows 還沒選馬/已選馬了; pick stays secret
+  - Collapsible **🏆 歷屆冠軍及成績** section at top (hardcoded in `PickHorsePage.jsx` → `HISTORY` array)
+  - To add a new year: append an entry to `HISTORY` in `PickHorsePage.jsx` and rebuild
+  - Yellow instruction box shows Chinese only (no English)
 - **/scores** — Group tabs, scrollable scorecard (color-coded inputs, auto-save on blur, clear cell to delete score), live leaderboard
 - **/rankings** — Stroke Play tab + Final Rankings tab; polls every 30s; medals 🥇🥈🥉; dinner cutoff; tiebreaker badges
 
