@@ -25,11 +25,16 @@ export default function Dashboard({ onLogout }) {
   const navigate = useNavigate()
 
   useEffect(() => {
-    Promise.all([api.get('/tournament'), api.get('/players')]).then(([t, p]) => {
-      setTournament(t.tournament)
-      setPlayers(p.players)
-      setPicks(p.picks)
-    })
+    function load() {
+      Promise.all([api.get('/tournament'), api.get('/players')]).then(([t, p]) => {
+        setTournament(t.tournament)
+        setPlayers(p.players || [])
+        setPicks(p.picks || [])
+      })
+    }
+    load()
+    const timer = setInterval(load, 30000)
+    return () => clearInterval(timer)
   }, [])
 
   async function handleLogout() {
@@ -85,6 +90,35 @@ export default function Dashboard({ onLogout }) {
             <div className="mt-2 flex gap-4 text-sm text-gray-500">
               <span>球員: {totalPlayers}/{tournament.total_players || '?'} 人</span>
               <span>已選馬: {pickedCount}/{totalPlayers}</span>
+            </div>
+          </div>
+        )}
+
+        {/* Horse picks tracker */}
+        {players.length > 0 && (
+          <div className="bg-white rounded-xl shadow-sm p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <h3 className="font-bold text-gray-800">🐴 選馬狀況 Horse Picks</h3>
+                <p className="text-xs text-gray-400">每30秒自動更新 · auto-refreshes every 30s</p>
+              </div>
+              <span className={`text-sm font-bold px-2 py-1 rounded-full ${pickedCount === players.length ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                {pickedCount}/{players.length}
+              </span>
+            </div>
+            <div className="space-y-1">
+              {players.map(p => {
+                const pick = picks.find(pk => pk.player_id === p.id)
+                const picked = pick ? players.find(pl => pl.id === pick.picked_player_id) : null
+                return (
+                  <div key={p.id} className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm ${picked ? 'bg-green-50' : 'bg-gray-50'}`}>
+                    <span className="text-gray-700 font-medium">{p.player_number}. {p.chinese_name} {p.english_name}</span>
+                    <span className={picked ? 'text-green-700 font-medium' : 'text-gray-400 italic'}>
+                      {picked ? `→ ${picked.chinese_name} ${picked.english_name}` : '尚未選馬'}
+                    </span>
+                  </div>
+                )
+              })}
             </div>
           </div>
         )}
