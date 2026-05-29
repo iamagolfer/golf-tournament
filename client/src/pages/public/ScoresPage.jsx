@@ -95,20 +95,16 @@ export default function ScoresPage() {
         if (s) { gross += s; parSum += h.par; played++ }
         return { holeId: h.id, strokes: s, rel: s ? s - h.par : null }
       })
+      const netToPar = gross - parSum - player.handicap
       return {
         ...player,
         gross,
-        toPar: played > 0 ? gross - parSum : null,
+        toPar: netToPar,
         played,
         holeData
       }
     })
-    .sort((a, b) => {
-      if (a.toPar === null && b.toPar === null) return 0
-      if (a.toPar === null) return 1
-      if (b.toPar === null) return -1
-      return a.toPar - b.toPar
-    })
+    .sort((a, b) => a.toPar - b.toPar)
 
   return (
     <div className="min-h-screen bg-green-50">
@@ -263,6 +259,7 @@ export default function ScoresPage() {
                         <div className="min-w-0">
                           <span className="text-sm font-medium text-gray-900">{player.chinese_name}</span>
                           <span className="text-xs text-gray-400 ml-1">{player.english_name}</span>
+                          <span className="text-xs text-gray-400 ml-1">差點{player.handicap}</span>
                         </div>
                       </div>
                       <div className="flex items-baseline gap-2 flex-shrink-0 ml-3">
