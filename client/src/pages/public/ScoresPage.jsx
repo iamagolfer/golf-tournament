@@ -60,8 +60,24 @@ export default function ScoresPage() {
 
   async function handleBlur(playerId, holeId, value) {
     const key = `${playerId}_${holeId}`
+
+    if (value === '' || value === null || value === undefined) {
+      // Only call server if there was a saved score to delete
+      if (!scores[key] && scores[key] !== 0) return
+      setCellSaving(prev => ({ ...prev, [key]: true }))
+      try {
+        await api.post('/scores/batch', { playerId, scores: [{ holeId: Number(holeId), strokes: 0 }] })
+        setScores(prev => { const next = { ...prev }; delete next[key]; return next })
+      } catch {
+        setCellError(prev => ({ ...prev, [key]: true }))
+      } finally {
+        setCellSaving(prev => ({ ...prev, [key]: false }))
+      }
+      return
+    }
+
     const s = Number(value)
-    if (!value || isNaN(s) || s < 1 || s > 20) return
+    if (isNaN(s) || s < 1 || s > 20) return
     setCellSaving(prev => ({ ...prev, [key]: true }))
     try {
       await api.post('/scores/batch', { playerId, scores: [{ holeId: Number(holeId), strokes: s }] })

@@ -36,8 +36,14 @@ module.exports = (db) => {
     try {
       const ts = nowStr();
       for (const { holeId, strokes } of scores) {
+        if (!holeId) continue;
         const s = Number(strokes);
-        if (!holeId || isNaN(s) || s < 1 || s > 20) continue;
+        if (s === 0) {
+          // strokes: 0 means clear/delete this hole score
+          db.prepare('DELETE FROM scores WHERE player_id=? AND hole_id=?').run(playerId, holeId);
+          continue;
+        }
+        if (isNaN(s) || s < 1 || s > 20) continue;
         const existing = db.prepare('SELECT id FROM scores WHERE player_id=? AND hole_id=?').get(playerId, holeId);
         if (existing) {
           db.prepare('UPDATE scores SET strokes=?, entered_at=? WHERE player_id=? AND hole_id=?').run(s, ts, playerId, holeId);
