@@ -22,6 +22,7 @@ export default function Dashboard({ onLogout }) {
   const [tournament, setTournament] = useState(null)
   const [players, setPlayers] = useState([])
   const [picks, setPicks] = useState([])
+  const [showPicks, setShowPicks] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -96,30 +97,36 @@ export default function Dashboard({ onLogout }) {
 
         {/* Horse picks tracker */}
         {players.length > 0 && (
-          <div className="bg-white rounded-xl shadow-sm p-4">
-            <div className="flex items-center justify-between mb-3">
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <button onClick={() => setShowPicks(v => !v)}
+              className="w-full px-4 py-4 flex items-center justify-between text-left">
               <div>
                 <h3 className="font-bold text-gray-800">🐴 選馬狀況 Horse Picks</h3>
                 <p className="text-xs text-gray-400">每30秒自動更新 · auto-refreshes every 30s</p>
               </div>
-              <span className={`text-sm font-bold px-2 py-1 rounded-full ${pickedCount === players.length ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                {pickedCount}/{players.length}
-              </span>
-            </div>
-            <div className="space-y-1">
-              {players.map(p => {
-                const pick = picks.find(pk => pk.player_id === p.id)
-                const picked = pick ? players.find(pl => pl.id === pick.picked_player_id) : null
-                return (
-                  <div key={p.id} className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm ${picked ? 'bg-green-50' : 'bg-gray-50'}`}>
-                    <span className="text-gray-700 font-medium">{p.player_number}. {p.chinese_name} {p.english_name}</span>
-                    <span className={picked ? 'text-green-700 font-medium' : 'text-gray-400 italic'}>
-                      {picked ? `→ ${picked.chinese_name} ${picked.english_name}` : '尚未選馬'}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <span className={`text-sm font-bold px-2 py-1 rounded-full ${pickedCount === players.length ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                  {pickedCount}/{players.length}
+                </span>
+                <span className="text-gray-400">{showPicks ? '▲' : '▼'}</span>
+              </div>
+            </button>
+            {showPicks && (
+              <div className="px-4 pb-4 space-y-1">
+                {players.map(p => {
+                  const pick = picks.find(pk => pk.player_id === p.id)
+                  const picked = pick ? players.find(pl => pl.id === pick.picked_player_id) : null
+                  return (
+                    <div key={p.id} className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm ${picked ? 'bg-green-50' : 'bg-gray-50'}`}>
+                      <span className="text-gray-700 font-medium">{p.player_number}. {p.chinese_name} {p.english_name}</span>
+                      <span className={picked ? 'text-green-700 font-medium' : 'text-gray-400 italic'}>
+                        {picked ? `→ ${picked.chinese_name} ${picked.english_name}` : '尚未選馬'}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
         )}
 
