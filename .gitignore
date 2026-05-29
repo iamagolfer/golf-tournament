@@ -1,6 +1,6 @@
 node_modules/
 client/node_modules/
-client/dist/
+# client/dist/ — committed so Railway doesn't need to build
 db/*.sqlite
 .env
 *.log
