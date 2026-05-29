@@ -330,7 +330,7 @@ export default function ScoresPage() {
                             <span className="text-xs text-gray-500">{player.gross}桿</span>
                           </>
                         )}
-                        <span className={`text-base min-w-[36px] text-right ${parCls}`}>{parText}</span>
+                        <span className={`text-base min-w-[36px] text-right ${parCls}`}>淨桿{parText}</span>
                         {player.tbReason && (
                           <span className={`text-xs px-1.5 py-0.5 rounded font-medium whitespace-nowrap ${player.tbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
                             {player.tbWon ? 'TB勝' : 'TB'} {player.tbReason}
