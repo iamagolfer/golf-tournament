@@ -73,7 +73,7 @@ module.exports = (db) => {
   // Admin: change tournament status
   router.put('/status', requireAdmin, (req, res) => {
     const { status } = req.body;
-    const valid = ['setup', 'picking', 'playing', 'finished'];
+    const valid = ['setup', 'picking', 'playing', 'revealed', 'finished'];
     if (!valid.includes(status)) return res.status(400).json({ error: 'Invalid status' });
     const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
     db.prepare('UPDATE tournament SET status=? WHERE id=?').run(status, t.id);
