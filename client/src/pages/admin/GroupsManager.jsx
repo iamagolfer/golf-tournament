@@ -90,11 +90,13 @@ export default function GroupsManager() {
     const flow = STATUS_FLOW[status]
     if (!flow || !flow.next) return
     const confirmMsg =
-      flow.next === 'playing'
+      flow.next === 'picking'
+        ? '確定開放選馬？球員將可以開始選馬！\nOpen horse picking? Players can now pick their horses!'
+        : flow.next === 'playing'
         ? '確定開始比賽？開始後選馬將鎖定，無法更改！\nStart game? Horse picks will be locked!'
         : flow.next === 'revealed'
         ? '確定公布所有人的選馬？公布後所有人都能看到最終排名！\nReveal all horse picks? Everyone will see the final combined rankings!'
-        : `確定結束比賽？`
+        : '確定結束比賽？\nFinish the game?'
     if (!window.confirm(confirmMsg)) return
     await api.put('/tournament/status', { status: flow.next })
     setStatus(flow.next)
