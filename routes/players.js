@@ -78,8 +78,9 @@ module.exports = (db) => {
     for (let i = 0; i < groups.length; i++) {
       const g = groups[i];
       const r = db.prepare('INSERT INTO groups (tournament_id, name, group_order) VALUES (?,?,?)').run(t.id, g.name, i + 1);
+      const groupId = Number(r.lastInsertRowid); // node:sqlite may return BigInt
       for (const pid of g.playerIds) {
-        db.prepare('UPDATE players SET group_id=? WHERE id=?').run(r.lastInsertRowid, pid);
+        db.prepare('UPDATE players SET group_id=? WHERE id=?').run(groupId, pid);
       }
     }
     res.json({ success: true });

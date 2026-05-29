@@ -40,23 +40,34 @@ module.exports = (db) => {
 
   // Admin: update course sections and holes
   router.put('/course', requireAdmin, (req, res) => {
-    const { sections } = req.body;
-    const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
-
-    const existingSecs = db.prepare('SELECT id FROM sections WHERE tournament_id=?').all(t.id);
-    for (const s of existingSecs) {
-      db.prepare('DELETE FROM holes WHERE section_id=?').run(s.id);
-    }
-    db.prepare('DELETE FROM sections WHERE tournament_id=?').run(t.id);
-
-    for (let i = 0; i < sections.length; i++) {
-      const sec = sections[i];
-      const r = db.prepare('INSERT INTO sections (tournament_id, name, section_order) VALUES (?,?,?)').run(t.id, sec.name, i + 1);
-      for (const hole of sec.holes) {
-        db.prepare('INSERT INTO holes (section_id, hole_number, par, yards) VALUES (?,?,?,?)').run(r.lastInsertRowid, hole.hole_number, hole.par, hole.yards || 0);
+    try {
+      const { sections } = req.body;
+      if (!sections || !Array.isArray(sections)) {
+        return res.status(400).json({ error: 'Invalid sections data' });
       }
+      const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
+      if (!t) return res.status(400).json({ error: 'No tournament found' });
+
+      const existingSecs = db.prepare('SELECT id FROM sections WHERE tournament_id=?').all(t.id);
+      for (const s of existingSecs) {
+        db.prepare('DELETE FROM holes WHERE section_id=?').run(s.id);
+      }
+      db.prepare('DELETE FROM sections WHERE tournament_id=?').run(t.id);
+
+      for (let i = 0; i < sections.length; i++) {
+        const sec = sections[i];
+        if (!sec.name || !Array.isArray(sec.holes)) continue;
+        const r = db.prepare('INSERT INTO sections (tournament_id, name, section_order) VALUES (?,?,?)').run(t.id, sec.name, i + 1);
+        const sectionId = Number(r.lastInsertRowid); // node:sqlite may return BigInt
+        for (const hole of sec.holes) {
+          db.prepare('INSERT INTO holes (section_id, hole_number, par, yards) VALUES (?,?,?,?)').run(sectionId, hole.hole_number, hole.par, hole.yards || 0);
+        }
+      }
+      res.json({ success: true });
+    } catch (err) {
+      console.error('Course save error:', err);
+      res.status(500).json({ error: err.message });
     }
-    res.json({ success: true });
   });
 
   // Admin: change tournament status
