@@ -61,6 +61,72 @@ export default function PickHorsePage() {
 
   const isLocked = status === 'playing' || status === 'finished'
   const pickedCount = picks.length
+  const [showHistory, setShowHistory] = useState(false)
+
+  const HISTORY = [
+    {
+      year: '2022', course: '新豐球場', champion: '林家榮 Jason',
+      results: [
+        { name: 'Jason',   score: '+4'  },
+        { name: 'Daniel',  score: '+8'  },
+        { name: 'Casper',  score: '+8'  },
+        { name: 'AD',      score: '+10' },
+        { name: 'Benny',   score: '+10' },
+        { name: 'Albert',  score: '+12' },
+        { name: 'Johnny',  score: '+12' },
+        { name: 'William', score: '+15' },
+        { name: 'Eddie',   score: '+20' },
+      ]
+    },
+    {
+      year: '2023', course: '楊梅球場', champion: '林褚君 William',
+      results: [
+        { name: 'William', score: '0'          },
+        { name: 'Johnny',  score: '+1'         },
+        { name: 'Casper',  score: '+4'         },
+        { name: 'AD',      score: '+6'         },
+        { name: 'Albert',  score: '+7'         },
+        { name: 'Eddie',   score: '+7'         },
+        { name: 'Benny',   score: '+8'         },
+        { name: 'Daniel',  score: '+9'         },
+        { name: 'Jason',   score: '+16'        },
+        { name: 'JJ',      score: 'DQ (No Show)' },
+      ]
+    },
+    {
+      year: '2024', course: '台北球場', champion: '陳威龍 Daniel',
+      results: [
+        { name: 'Daniel',  score: '+1'  },
+        { name: 'JJ',      score: '+3'  },
+        { name: 'Johnny',  score: '+4'  },
+        { name: 'AD',      score: '+8'  },
+        { name: 'Benny',   score: '+9'  },
+        { name: 'Jimmy',   score: '+9'  },
+        { name: 'Albert',  score: '+11' },
+        { name: 'William', score: '+13' },
+        { name: 'Eddie',   score: '+14' },
+        { name: 'Jason',   score: '+18' },
+        { name: 'Jeff',    score: '+18' },
+        { name: 'Casper',  score: '+22' },
+      ]
+    },
+    {
+      year: '2025', course: '新豐球場', champion: '林褚君 William',
+      results: [
+        { name: 'William', score: '-1' },
+        { name: 'Jimmy',   score: '0'  },
+        { name: 'AD',      score: '+1' },
+        { name: 'Johnny',  score: '+2' },
+        { name: 'Albert',  score: '+2' },
+        { name: 'Eddie',   score: '+5' },
+        { name: 'Daniel',  score: '+7' },
+        { name: 'Benny',   score: '+8' },
+        { name: 'Casper',  score: '+9' },
+        { name: 'Jeff',    score: '+9' },
+        { name: 'Jason',   score: '+17'},
+      ]
+    },
+  ]
 
   return (
     <div className="min-h-screen bg-green-50">
@@ -81,6 +147,50 @@ export default function PickHorsePage() {
       )}
 
       <div className="max-w-lg mx-auto px-4 py-4">
+
+        {/* Past champions collapsible */}
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-4">
+          <button onClick={() => setShowHistory(v => !v)}
+            className="w-full px-4 py-3 flex items-center justify-between text-left">
+            <span className="font-bold text-gray-800">🏆 歷屆冠軍及成績</span>
+            <span className="text-gray-400">{showHistory ? '▲' : '▼'}</span>
+          </button>
+          {showHistory && (
+            <div className="px-4 pb-4 space-y-4">
+              {/* Champions summary */}
+              <div className="bg-yellow-50 rounded-lg p-3 space-y-1">
+                {HISTORY.map(h => (
+                  <div key={h.year} className="flex items-center gap-2 text-sm">
+                    <span className="text-yellow-600 font-bold w-10">{h.year}</span>
+                    <span className="text-gray-600">{h.course}</span>
+                    <span className="ml-auto font-medium text-gray-800">🥇 {h.champion}</span>
+                  </div>
+                ))}
+              </div>
+              {/* Per-year results */}
+              {HISTORY.map(h => (
+                <div key={h.year}>
+                  <div className="text-sm font-bold text-green-800 mb-1">{h.year} {h.course} 成績</div>
+                  <div className="space-y-0.5">
+                    {h.results.map((r, i) => (
+                      <div key={i} className="flex items-center justify-between text-sm px-2 py-1 rounded
+                        odd:bg-gray-50 even:bg-white">
+                        <span className="text-gray-500 w-5 text-right mr-2">{i + 1}.</span>
+                        <span className="flex-1 text-gray-800">{r.name}</span>
+                        <span className={`font-medium tabular-nums ${
+                          r.score.startsWith('-') ? 'text-red-600' :
+                          r.score === '0' ? 'text-gray-600' :
+                          r.score.startsWith('+') ? 'text-blue-600' : 'text-gray-400'
+                        }`}>{r.score}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {!isLocked && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 text-sm text-yellow-800">
             點擊你的名字，輸入PIN碼選擇或更改你的馬。比賽開始後無法更改。
