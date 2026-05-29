@@ -153,17 +153,21 @@ function calculateRankings(db) {
     };
   });
 
-  // Sort by total combined points (descending)
-  const finalSorted = [...withCombined].sort((a, b) => b.totalPoints - a.totalPoints);
+  // Sort by total combined points (descending); tiebreaker: higher personal stroke points
+  const finalSorted = [...withCombined].sort((a, b) => {
+    if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
+    return (b.rankingPoints || 0) - (a.rankingPoints || 0);
+  });
 
-  // Assign final ranks (shared if tied)
+  // Assign final ranks (shared only if totalPoints AND rankingPoints are both equal)
   let finalRank = 1;
   for (let idx = 0; idx < finalSorted.length; idx++) {
-    if (idx > 0 && finalSorted[idx].totalPoints === finalSorted[idx - 1].totalPoints) {
-      finalSorted[idx].finalRank = finalSorted[idx - 1].finalRank;
-    } else {
-      finalSorted[idx].finalRank = finalRank;
-    }
+    const prev = finalSorted[idx - 1];
+    const cur = finalSorted[idx];
+    const trulyTied = idx > 0 &&
+      cur.totalPoints === prev.totalPoints &&
+      (cur.rankingPoints || 0) === (prev.rankingPoints || 0);
+    cur.finalRank = trulyTied ? prev.finalRank : finalRank;
     finalRank++;
   }
 

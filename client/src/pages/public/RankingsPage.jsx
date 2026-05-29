@@ -134,8 +134,16 @@ export default function RankingsPage() {
                 🍽️ 第 {dinnerCutoff + 1} 名以後（共6名）請吃晚餐！
               </div>
             )}
-            {finalRankings.map((player, idx) => {
+            {finalRankings.map((player, idx, arr) => {
               const isDinner = player.finalRank > dinnerCutoff && dinnerCutoff > 0
+              // Final tiebreaker badge — only when totalPoints tie was broken by stroke points
+              const above = arr[idx - 1], below = arr[idx + 1]
+              let finalTbWon = false, finalTbLost = false
+              if (above && above.totalPoints === player.totalPoints && (above.rankingPoints||0) !== (player.rankingPoints||0)) {
+                finalTbLost = true
+              } else if (below && below.totalPoints === player.totalPoints && (below.rankingPoints||0) !== (player.rankingPoints||0)) {
+                finalTbWon = true
+              }
               return (
                 <div key={player.id}
                   className={`bg-white rounded-xl shadow-sm p-4 ${isDinner ? 'border-l-4 border-red-400' : ''}`}>
@@ -154,6 +162,11 @@ export default function RankingsPage() {
                     <div className="text-right flex-shrink-0">
                       <div className="text-2xl font-bold text-green-700">{player.totalPoints}</div>
                       <div className="text-xs text-gray-400">總分</div>
+                      {(finalTbWon || finalTbLost) && (
+                        <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${finalTbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                          {finalTbWon ? 'TB勝' : 'TB'} 桿賽得分
+                        </span>
+                      )}
                     </div>
                   </div>
                   {player.isNoShow && <div className="text-xs text-red-500 mt-1">未出席 No show</div>}
