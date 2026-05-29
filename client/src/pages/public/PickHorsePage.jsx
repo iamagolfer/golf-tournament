@@ -84,7 +84,7 @@ export default function PickHorsePage() {
         {!isLocked && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 text-sm text-yellow-800">
             點擊你的名字，輸入PIN碼選擇或更改你的馬。比賽開始後無法更改。<br/>
-            Tap your name, enter your PIN, pick or change your horse. Locked once game starts.
+            Tap your name, enter your PIN, pick your horse. Locked once game starts.
           </div>
         )}
 
