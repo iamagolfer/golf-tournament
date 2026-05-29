@@ -1,0 +1,139 @@
+
+ignore this part down, between " " is comment
+"enter info about the course... some course have 18, 27, or 36 different hole, group each in a group of 9 holes, for instand if 18 hole, front 9 is 前9 , back 9 is 後. for instance if 27 hole, one 9 holes can be call 東區, another 9 holes can be call 西區 or 中區. for instance of 36  holes, each of 9 hole is called 東，南，西，北。:
+ignore this part up
+
+
+
+i want to write  a program, please analysis my requirement and let me know how this program needs to write on what technoloy, HTML ,asp,  React , vite, NOde, ccs design,  database, or no database....etc that can be easily future modify or expansion..  
+
+this program must be view and edit in browser especial mobile freely UI all words can enter in traditional chinese and english
+
+
+the admin need have a easy password page, password use "iam1976", admin login name is "admin"
+admin page have function , 
+
+1. admin function 1: choose the name of the golf course and date and tee time of the tournament 
+2. admin function 2   enter info about the course... for 18 hole, front 9 is 前9 , back 9 is 後. for instance if 27 hole, one 9 holes can be call 東區, another 9 holes can be call 西區 or 中區. basiclly give each 9 hole a name.. then enter info about each of the hole (hole 1, par 4 , 435yard)
+3. admin function 3: give written text rule of this tournament
+4. admin function 4: choose how many player will enter this golf tournament, give a list of number of the player (chineese name, english name, and handicap) entring this tournamnet like below.. prompt error message if number of player enter in 1st step and detail number of players enter is not equal, for instance, says 14 will play, but only give 13 player detail number 
+
+1 林楮君 William (11差點)
+2 陳威龍 Daniel (16差點)
+3 林家榮 Jason (14差點)
+4 簡旭宏 Eddie (20差點)
+5 陳義榮 Benny (14差點)
+6 陳維立 Albert (5差點)
+7 林聰敏 Johnny (2差點)
+8 王裕為 Casper (24差點)
+9 林健裕 Jimmy (13差點)
+10 林全馳 AD (23差點)
+11 王伯軒 JJ (14差點)
+12 黃建富 Jeff (26差點)
+13 洪豪聰 Leon (27差點)
+
+4. admin function 4: group players  into groups before the tournament before the starts and have a action button for tournament official game started and no more change of the pick player(horse player) (why is function explain later: player can not pick or choose thier horse player , you read more you will understand)
+
+
+
+
+Public separate pages which be be view if give the addresss of the page.. 
+
+
+1. display  1:name of the course, date, tee time , 2.the written rule of this tournament written by admin.  and breif game rule you summarize for easy reading after you read all the words 
+
+2. public page 1: dispaly the name and handicap of all the player and a action button as 
+
+1 林楮君 William (11差點)  (button action and status)
+2 陳威龍 Daniel (16差點) (button action and status)
+3 林家榮 Jason (14差點) (button action and status)
+4 簡旭宏 Eddie (20差點) (button action and status)
+5 陳義榮 Benny (14差點) (button action and status)
+6 陳維立 Albert (5差點) (button action and status)
+7 林聰敏 Johnny (2差點) (button action and status)
+8 王裕為 Casper (24差點) (button action and status)
+9 林健裕 Jimmy (13差點) (button action and status)
+10 林全馳 AD (23差點) (button action and status)
+11 王伯軒 JJ (14差點) (button action and status)
+12 黃建富 Jeff (26差點) (button action and status)
+13 洪豪聰 Leon (27差點) (button action and status)
+
+
+let me explain this button action/status and rules ,   which now i can think of is these 3  還沒選馬 ，已選馬了，改變選馬  detail as follow
+
+basiclly the rule of tournamet is , each of us play our own strokes, we will ranking the player's stroke play score minus their handicap 
+. which is the net or net score..  for instance 13 player this time..  best net score player will get 13 points and lowest will get 1 point ... 
+and for the no show player (player didn't show up in the date of the tournament will get 0 point)
+
+if two player net score are the same, we will determine score of the ranking by the following order
+
+we will determine the score the higher ranking player by who shoots lower score in either one of the 9 hole, 
+for instance if player A have 35, 42 and player B have 40,40   Player C 34, 48, both of A and B net score after handicap is the same player C will be place in higher ranking... 
+
+for antoher instance if player A have 35, 42 and player B have 35,40  both of A and B net score after handicap is the same, we move the next rule, we will then use either one of the two 9 holes total scores to see who is shoot lower to decide the ranking, for instance if player A have 35, 42 and player B have 40,40 , then the same player B will be place in higher ranking...
+
+if either one of the two 9 holes total scores still the same, we decide by the ranking number of birdies, player A 1 birdies , player B no birdies.. Play A win ranking ... 
+
+if same number of birdie then we ranking by number of par, Player A 5 par , Player B 6 par , Player B win the ranking 
+
+if same nubmer of par then we ranking by number of Bogey, but for bogey the logic is a little diffeent.. Player A 2 boey , Player B 3 Bogey.. Play A win because less bogey is better
+
+if same nubmer of bogey then we ranking by number of double Bogey, but for double bogey the logic is same like bogey, fewer double bogey win .. Player A 2 boey , Player B 1 double bogey.. Play B win the ranking of this two because less bogey is better
+
+This logic should be abel to solve if 2 , 3 or even 4 5 player have the same net order ... analysis give suggestion or ask question if not clear
+
+----------------------------------------------------------------------------------------------------
+
+
+The fun part of the tournament is not just only stroke play ranking ....  each of us needs to pick a player (or we call horse player) within all the players and they can pick themeslf.. 
+
+
+The total final ranking is by score of player's stroke play ranking + picked player's storke play ranking.. 
+
+this way 
+if play A play bad score low in the ranking if they pick a good bet (we call it a horse or 馬), their total score can be higher
+if Play A play shoot good score but bad pick still can score low on total score.. 
+if  a no show player pick himself will be 0 + 0 = 0 lowest score.. 
+if Play A shoot the best score and pick himself, for 13 players is 13+13= best score
+
+in the end we need to see the total final ranking, for a player of 13 ... the last 6 need to buy dinner in the end
+
+i will upload a jpg view of a excel sheet for your reference for last year tournament when there would 12 playerer, that we used to do all the calculation, 
+we want  use this program to do all these
+
+
+so back to the button action and status , each player enter their pick of player before the tournament started, show if they have picked, or switched pick on the morning around 9am before the tournamnet started.. since the it's public page is there someway to prevent someone accidentally change other's pick ? 
+
+
+
+3. on the day of the tournament , during the  the round , any  one of person in the group can enter score in their group for hole by hole. Any way of validate the score to prevent cheating give me susggestion and ask me questions if you not clear..     in the end we need see the total final ranking for all the player .. the upload jpg it's the excel we used last year or 12 players  for your reference that we used to do all the calculation... 
+
+
+
+
+
+
+
+full tierbreaker 7 fewest triple bogey, 8 fewest quad bogey so on..  then if tied  share the ranking (e.g., two players both ranked 3rd) .. since only 10-14 people in our group the chance of this happening is slim
+
+
+
+If 3 players are tied, do you compare all 3 simultaneously on each criterion, or do you do head-to-head matchups?  compare all 3 
+
+if player A 3 birdies, player B 2 birdies, player C 2 birdies ... Player A gets the higher ranking..  Player B C use next tier to compare
+
+
+
+
+
+score entry Anti-Cheat . option A  admin can edit /override
+
+
+Q1 .. need to be internet accessible from anywhere... i am the admin . probably host in my company machine or what do you suggest to prevent down possiblity during that day .. if use my company machinese will need help to setup the hosting, database, etc.. 
+Q2. all groups can enter and edit scores at the same time.. maybe like after finished 1 hole, enter.. finshed another enter, or maybye 1 hole they forgot, 3rd hole they enter the previous hole.. 
+Q3 best 9 of the two
+Q4.. admin for emergency can 
+Q5. let's make it for this way only.. 
+
+
+sorry i forgot eagle part.. eagle count as better.. compare double eagle, eagle, birdies.... do you have any more questions, or any suggestions ? also after you build the program.. how  can i tested it so i know it will work good .. 
