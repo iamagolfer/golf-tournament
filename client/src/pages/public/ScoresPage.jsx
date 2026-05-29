@@ -85,26 +85,29 @@ export default function ScoresPage() {
     return { id: player.id, gross, toPar, played }
   })
 
-  // Leaderboard — all players sorted by score-to-par (lowest/best first)
-  const leaderboard = players
-    .filter(p => !p.no_show)
-    .map(player => {
-      let gross = 0, parSum = 0, played = 0
-      const holeData = holes.map(h => {
-        const s = scores[`${player.id}_${h.id}`] || null
-        if (s) { gross += s; parSum += h.par; played++ }
-        return { holeId: h.id, strokes: s, rel: s ? s - h.par : null }
+  // N = total field size including no-shows (matches official ranking engine)
+  const N = players.length
+
+  // Leaderboard — all players sorted by net-to-par (lowest/best first)
+  const leaderboard = (() => {
+    let rank = 1
+    return players
+      .filter(p => !p.no_show)
+      .map(player => {
+        let gross = 0, parSum = 0, played = 0
+        const holeData = holes.map(h => {
+          const s = scores[`${player.id}_${h.id}`] || null
+          if (s) { gross += s; parSum += h.par; played++ }
+          return { holeId: h.id, strokes: s, rel: s ? s - h.par : null }
+        })
+        return { ...player, gross, toPar: gross - parSum - player.handicap, played, holeData }
       })
-      const netToPar = gross - parSum - player.handicap
-      return {
-        ...player,
-        gross,
-        toPar: netToPar,
-        played,
-        holeData
-      }
-    })
-    .sort((a, b) => a.toPar - b.toPar)
+      .sort((a, b) => a.toPar - b.toPar)
+      .map((player, idx, arr) => {
+        if (idx > 0 && player.toPar !== arr[idx - 1].toPar) rank = idx + 1
+        return { ...player, rank, rankingPoints: N - rank + 1 }
+      })
+  })()
 
   return (
     <div className="min-h-screen bg-green-50">
@@ -253,9 +256,12 @@ export default function ScoresPage() {
                     className={`px-4 py-3 ${idx < leaderboard.length - 1 ? 'border-b border-gray-100' : ''}`}>
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-2 min-w-0">
-                        <span className="w-6 h-6 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
-                          {idx + 1}
-                        </span>
+                        <div className="flex flex-col items-center flex-shrink-0 w-8">
+                          <span className="w-6 h-6 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold">
+                            {player.rank}
+                          </span>
+                          <span className="text-xs text-green-700 font-semibold leading-tight">{player.rankingPoints}分</span>
+                        </div>
                         <div className="min-w-0">
                           <span className="text-sm font-medium text-gray-900">{player.chinese_name}</span>
                           <span className="text-xs text-gray-400 ml-1">{player.english_name}</span>
