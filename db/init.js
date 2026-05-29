@@ -79,6 +79,9 @@ function initDb() {
     );
   `);
 
+  // Add brief_rules column if not yet present (safe migration)
+  try { db.exec("ALTER TABLE tournament ADD COLUMN brief_rules TEXT DEFAULT ''"); } catch(e) {}
+
   // Ensure at least one tournament row exists
   const existing = db.prepare('SELECT id FROM tournament LIMIT 1').get();
   if (!existing) {

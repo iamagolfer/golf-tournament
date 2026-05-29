@@ -32,9 +32,9 @@ module.exports = (db) => {
 
   // Admin: update rules
   router.put('/rules', requireAdmin, (req, res) => {
-    const { rules_text } = req.body;
+    const { rules_text, brief_rules } = req.body;
     const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
-    db.prepare('UPDATE tournament SET rules_text=? WHERE id=?').run(rules_text, t.id);
+    db.prepare('UPDATE tournament SET rules_text=?, brief_rules=? WHERE id=?').run(rules_text, brief_rules, t.id);
     res.json({ success: true });
   });
 

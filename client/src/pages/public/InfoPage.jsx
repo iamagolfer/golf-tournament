@@ -5,7 +5,7 @@ import { api } from '../../api'
 const BRIEF_RULES = `
 【計分方式 Scoring System】
 每位球員打完18洞後，以當天成績（總桿）扣除個人差點 = 淨桿成績。
-為加速賽事，三桿洞最多8桿, 四桿洞最多9桿，五桿洞最多10桿
+為加速賽事，三桿洞最多8桿, 四桿洞最多10桿，五桿洞最多12桿
 OB要原地補，紅樁兩個球桿旁脫離，不懂按照球場Rule
 新豐樹很多，如果可能會找不到球，建議先多打一個Provisional球
 推桿要將球推進洞才算
@@ -137,7 +137,7 @@ export default function InfoPage() {
         {/* Brief game rules */}
         <div className="bg-white rounded-xl shadow-sm p-4">
           <h2 className="font-bold text-gray-800 mb-3">📋 比賽規則摘要 Rules Summary</h2>
-          <pre className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed font-sans">{BRIEF_RULES.trim()}</pre>
+          <pre className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed font-sans">{(tournament.brief_rules || BRIEF_RULES).trim()}</pre>
         </div>
 
         {/* Admin's custom rules */}
