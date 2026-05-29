@@ -59,12 +59,12 @@ golf-app/
 ├── package.json           ← Server deps: express, cors, express-session
 ├── railway.json           ← { "deploy": { "startCommand": "node server.js" } }
 ├── .nvmrc                 ← "22"
-├── db/init.js             ← SQLite schema + DatabaseSync setup
+├── db/init.js             ← SQLite schema + DatabaseSync setup + safe ALTER TABLE migrations
 ├── routes/
 │   ├── auth.js            ← POST /login, POST /logout, GET /check
-│   ├── tournament.js      ← GET/, PUT/info, PUT/rules, PUT/course, PUT/status, DELETE/reset, DELETE/soft-reset
+│   ├── tournament.js      ← GET/, PUT/info, PUT/rules (brief_rules + rules_text), PUT/course, PUT/status, DELETE/reset, DELETE/soft-reset
 │   ├── players.js         ← GET/, GET/with-pins, PUT/, PUT/groups, PUT/:id/pin, PUT/:id/noshow, POST/pick-horse
-│   ├── scores.js          ← GET/, POST/batch, PUT/:playerId/:holeId (admin override), DELETE/:playerId/:holeId
+│   ├── scores.js          ← GET/, POST/batch (strokes:0 = delete), PUT/:playerId/:holeId (admin), DELETE/:playerId/:holeId
 │   └── rankings.js        ← GET/ (returns strokeRankings, finalRankings, N, status, picksRevealed)
 ├── logic/rankings.js      ← Full ranking engine (net score, tiebreakers, horse picks)
 └── client/
@@ -98,8 +98,10 @@ golf-app/
 One row per tournament. Always read `ORDER BY id DESC LIMIT 1`.
 ```
 id, course_name, date (TEXT "2026-06-15"), tee_time (TEXT "08:00"),
-rules_text, total_players, status (setup|picking|playing|revealed|finished), created_at
+rules_text, brief_rules, total_players,
+status (setup|picking|playing|revealed|finished), created_at
 ```
+`brief_rules` added via safe `ALTER TABLE` migration in `db/init.js`.
 
 ### sections — 9-hole groupings (前9, 後9, 東區, 西區, 中區)
 ```
@@ -174,15 +176,13 @@ For N total players: 1st = N pts, 2nd = N-1 pts ... Last = 1 pt, No-show = 0 pts
 Tied players **share the same rank AND same points**.
 Example: 13 players, two tied for 3rd → both get 11 pts (13-3+1). Next = 9 pts (5th place).
 
-### 3. Tiebreaker Chain (all tied players compared simultaneously)
-1. Most under-par holes (birdie or better, ≤ -1 vs par)
+### 3. Tiebreaker Chain
+1. Most under-par holes (birdie or better, ≤ −1 vs par)
 2. Most pars
 3. Fewest bogeys (+1)
 4. Fewest double bogeys (+2)
-5. Fewest triple bogeys (+3)
-6. Fewest quad bogeys (+4)
-7. Continue pattern up to +12 over par
-8. Share ranking if still tied
+5. Fewest triple bogeys (+3) … up to +12
+6. Share ranking if still tied
 
 Note: 9-hole section score tiebreakers were removed — hole quality only.
 
@@ -190,13 +190,20 @@ Note: 9-hole section score tiebreakers were removed — hole quality only.
 ```
 Final Score = Player's stroke pts + Horse's stroke pts
 ```
+Tiebreaker: higher personal stroke points wins. If still tied → share rank.
 Bottom 6 by final ranking must buy dinner (highlighted red on rankings page).
 
-### 5. Implementation
+### 5. Tiebreaker Badges (both /scores leaderboard and /rankings stroke tab)
+- `TB勝 低標桿洞` (green) — won tiebreaker over player below, shows decisive criterion
+- `TB 低標桿洞` (amber) — lost tiebreaker to player above, shows decisive criterion
+- Final tab: `TB勝 桿賽得分` / `TB 桿賽得分` when total-points tie broken by stroke points
+- No badge for uniquely-ranked players, no-shows, or pending scores
+
+### 6. Implementation
 All logic in `logic/rankings.js`:
 - `calculateRankings(db)` → `{ strokeRankings, finalRankings, N }`
-- `tiebreak(a, b)` — tiebreaker comparator
-- `assignRankingPoints(sorted, N, noScore, noShows)`
+- `tiebreak(a, b)` — stroke tiebreaker comparator (hole quality chain)
+- Final rankings sort: `totalPoints` desc → `rankingPoints` desc → share rank
 
 ---
 
@@ -204,27 +211,38 @@ All logic in `logic/rankings.js`:
 
 ### Admin Pages (login required)
 - **/admin** — Login form
-- **/admin/dashboard** — Status badge, counts, links, reset buttons (Soft Reset / Full Reset)
+- **/admin/dashboard** — Status badge, counts, links, reset buttons; horse picks section collapsible (▼/▲)
 - **/admin/tournament** — Course name, date, tee time, total players
 - **/admin/course** — Section/hole setup (par + yards per hole, section par totals)
-- **/admin/rules** — Plain textarea → shown on public Info page
+- **/admin/rules** — Two textareas: 比賽規則摘要 (brief_rules) + 本次賽事規則 (rules_text); one Save button
 - **/admin/players** — Bulk import format: `1 林楮君 William (11差點)`, PIN management
 - **/admin/groups** — Assign groups, mark no-shows, status control buttons
 
 ### Public Pages
-- **/** — Info: course, date, tee time, collapsible hole table, rules
+- **/** — Info: course, date, tee time, collapsible hole table, rules (brief_rules from DB, fallback to hardcoded)
 - **/pick** — Horse picking with PIN modal; shows 還沒選馬/已選馬了; pick stays secret
-- **/scores** — Group tabs, scrollable scorecard (color-coded inputs, auto-save on blur), live leaderboard at bottom (see below)
-- **/rankings** — Stroke Play tab + Final Rankings tab; polls every 30s; medals 🥇🥈🥉; dinner cutoff
+- **/scores** — Group tabs, scrollable scorecard (color-coded inputs, auto-save on blur, clear cell to delete score), live leaderboard
+- **/rankings** — Stroke Play tab + Final Rankings tab; polls every 30s; medals 🥇🥈🥉; dinner cutoff; tiebreaker badges
 
-### /scores Live Leaderboard (bottom of page)
+### /scores Live Leaderboard (bottom of ScoresPage)
 - **Ranking:** net-to-par = gross − parSum − handicap (lower is better)
-- **Starting position:** players start at −handicap even before entering any scores
-- **Tiebreaker:** same chain as official engine (most under-par → most pars → fewest bogeys → ...)
-- **Ranking points shown:** provisional `{n}分` displayed below rank badge; N = total field including no-shows; no-shows get 0 pts
+- **Starting position:** players start at −handicap before entering any scores (Option B)
+- **Tiebreaker:** same chain as official engine; badges shown inline next to score
+- **Ranking points:** provisional `{n}分` below rank badge; N = total field including no-shows
 - **Player display:** `Chinese Name  English Name  差點{n}`
-- **Refresh:** auto-refreshes every 10 minutes; manual "↻ 更新即時排名" button in leaderboard title row
-- **Color coding:** yellow = eagle+, red = birdie, gray = par, light blue = bogey, blue = double, dark = triple+
+- **Score display:** `淨桿{±n}` in red (under) or blue (over); hole dots grouped by section with section total
+- **Refresh:** auto every 10 min via setInterval; manual "↻ 更新即時排名" button in leaderboard title row
+- **Score deletion:** clear a cell and blur → sends strokes:0 to server → deletes the score record
+
+### Score Cell Color Coding
+| Color | Meaning |
+|---|---|
+| Yellow | Eagle or better (≤ −2) |
+| Red | Birdie (−1) |
+| Light gray | Par (0) |
+| Light blue | Bogey (+1) |
+| Blue | Double bogey (+2) |
+| Dark gray | Triple+ (≥ +3) |
 
 ### Design
 - Mobile-first, large tap targets, bottom-sheet modals
@@ -254,6 +272,15 @@ All logic in `logic/rankings.js`:
 - Pick status shown as: 還沒選馬 (not picked) / 已選馬了 (picked)
 - Pick is secret until admin reveals (status → revealed)
 - Admin emergency override always available
+- Admin dashboard shows pick count badge always; expand with ▼ to see full list
+
+---
+
+## Score Entry Notes
+- Auto-saves on blur (leave cell)
+- Valid range: 1–20 strokes
+- **To delete a score:** clear the cell and blur → server deletes the record (strokes:0 signal)
+- Admin can override or delete any score via PUT/DELETE `/api/scores/:playerId/:holeId`
 
 ---
 
@@ -262,11 +289,12 @@ All logic in `logic/rankings.js`:
 2. `vite not found` on Railway → moved vite to `dependencies`, added `client/.npmrc` (`production=false`)
 3. `node:sqlite` not found on Railway → Node 22 via `.nvmrc` + `package.json engines` + env var
 4. `datetime("now")` crashes → pass JS timestamp as SQL parameter instead
-5. Railway volume mounted at `/app/db` wiped `db/init.js` (code lives there) → volume moved to `/app/data`, `DB_PATH` env var added, `db/init.js` uses `process.env.DB_PATH`
+5. Railway volume mounted at `/app/db` wiped `db/init.js` → volume moved to `/app/data`, `DB_PATH` env var, `db/init.js` uses `process.env.DB_PATH`
 
 ---
 
 ## Behavior Notes for Claude
-- Background `node server.js` reporting **exit code 255** is NORMAL — server is running, not crashed. Only flag if output contains an actual error (not "Golf tournament app running on port...").
+- Background `node server.js` reporting **exit code 255** is NORMAL — server is running, not crashed. Only flag if output contains an actual error.
 - Always build + commit `client/dist/` before pushing frontend changes.
 - The SQLite database file is NOT in git — it lives only on the server and locally.
+- `db/init.js` uses try/catch `ALTER TABLE` for safe column migrations on existing databases.
