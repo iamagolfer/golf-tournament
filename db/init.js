@@ -1,8 +1,12 @@
 const { DatabaseSync } = require('node:sqlite');
 const path = require('path');
+const fs = require('fs');
 
 function initDb() {
-  const db = new DatabaseSync(path.join(__dirname, 'golf.sqlite'));
+  const dbPath = process.env.DB_PATH || path.join(__dirname, 'golf.sqlite');
+  const dbDir = path.dirname(dbPath);
+  if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
+  const db = new DatabaseSync(dbPath);
 
   db.exec(`
     CREATE TABLE IF NOT EXISTS tournament (
