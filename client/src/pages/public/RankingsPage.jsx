@@ -4,6 +4,18 @@ import { api } from '../../api'
 
 const RANK_MEDAL = { 1: '🥇', 2: '🥈', 3: '🥉' }
 
+const TB_LABELS = ['低標桿洞','標準桿洞','柏忌洞','雙柏忌洞','三柏忌洞','四柏忌洞','五柏忌洞','六柏忌洞','七柏忌洞','八柏忌洞','九柏忌洞','十柏忌洞','十一柏忌洞','十二柏忌洞']
+
+function getTiebreakReason(winner, loser) {
+  if ((winner.underParCount||0) !== (loser.underParCount||0)) return TB_LABELS[0]
+  if ((winner.parCount||0) !== (loser.parCount||0)) return TB_LABELS[1]
+  for (let i = 1; i <= 12; i++) {
+    const wc = winner.categoryCounts?.[i]||0, lc = loser.categoryCounts?.[i]||0
+    if (wc !== lc) return TB_LABELS[i+1]
+  }
+  return null
+}
+
 function RankBadge({ rank, N }) {
   if (rank <= 3) return <span className="text-xl">{RANK_MEDAL[rank]}</span>
   const isDinner = rank > N - 6
@@ -157,7 +169,20 @@ export default function RankingsPage() {
             <div className="bg-white rounded-xl p-3 text-xs text-gray-500 text-center">
               淨桿 = 總桿 − 差點 &nbsp;|&nbsp; Net = Gross − Handicap
             </div>
-            {strokeRankings.map(player => (
+            {strokeRankings.map((player, idx, arr) => {
+              const above = arr[idx - 1], below = arr[idx + 1]
+              let tbWon = false, tbLost = false, tbReason = null
+              const eligible = !player.isNoShow && !player.scoresPending && player.netScore !== null
+              if (eligible) {
+                const aboveEligible = above && !above.isNoShow && !above.scoresPending && above.netScore !== null
+                const belowEligible = below && !below.isNoShow && !below.scoresPending && below.netScore !== null
+                if (aboveEligible && above.netScore === player.netScore) {
+                  tbLost = true; tbReason = getTiebreakReason(above, player)
+                } else if (belowEligible && below.netScore === player.netScore) {
+                  tbWon = true; tbReason = getTiebreakReason(player, below)
+                }
+              }
+              return (
               <div key={player.id} className="bg-white rounded-xl shadow-sm p-4">
                 <div className="flex items-center gap-3">
                   <RankBadge rank={player.rank} N={N} />
@@ -165,10 +190,15 @@ export default function RankingsPage() {
                     <div className="font-medium text-gray-900 truncate">
                       {player.chinese_name} <span className="text-gray-500 text-sm">{player.english_name}</span>
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-500 flex items-center flex-wrap gap-1">
                       差點 {player.handicap}
                       {player.netScore !== null && (
                         <> • 總桿 {player.grossScore} − {player.handicap} = <span className="font-medium text-gray-700">淨桿 {player.netScore}</span></>
+                      )}
+                      {tbReason && (
+                        <span className={`px-1.5 py-0.5 rounded font-medium ${tbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                          {tbWon ? 'TB勝' : 'TB'} {tbReason}
+                        </span>
                       )}
                       {player.isNoShow && <span className="text-red-500"> 未出席</span>}
                       {player.scoresPending && <span className="text-orange-500"> 成績未完整</span>}
@@ -210,7 +240,8 @@ export default function RankingsPage() {
                   </div>
                 )}
               </div>
-            ))}
+            )
+          })}
           </>
         )}
 

@@ -19,6 +19,18 @@ function toParDisplay(diff) {
   return { text: `+${diff}`, cls: 'text-blue-700 font-bold' }
 }
 
+const TB_LABELS = ['低標桿洞','標準桿洞','柏忌洞','雙柏忌洞','三柏忌洞','四柏忌洞','五柏忌洞','六柏忌洞','七柏忌洞','八柏忌洞','九柏忌洞','十柏忌洞','十一柏忌洞','十二柏忌洞']
+
+function getTiebreakReason(winner, loser) {
+  if ((winner.underParCount||0) !== (loser.underParCount||0)) return TB_LABELS[0]
+  if ((winner.parCount||0) !== (loser.parCount||0)) return TB_LABELS[1]
+  for (let i = 1; i <= 12; i++) {
+    const wc = winner.categoryCounts?.[i]||0, lc = loser.categoryCounts?.[i]||0
+    if (wc !== lc) return TB_LABELS[i+1]
+  }
+  return null
+}
+
 export default function ScoresPage() {
   const [groups, setGroups]         = useState([])
   const [players, setPlayers]       = useState([])
@@ -139,7 +151,16 @@ export default function ScoresPage() {
       })
       .map((player, idx, arr) => {
         if (idx > 0 && (arr[idx].toPar !== arr[idx - 1].toPar || lbTiebreak(arr[idx], arr[idx - 1]) !== 0)) rank = idx + 1
-        return { ...player, rank, rankingPoints: N - rank + 1 }
+        const above = arr[idx - 1], below = arr[idx + 1]
+        let tbWon = false, tbLost = false, tbReason = null
+        if (above && above.toPar === player.toPar) {
+          tbLost = true
+          tbReason = getTiebreakReason(above, player)
+        } else if (below && below.toPar === player.toPar) {
+          tbWon = true
+          tbReason = getTiebreakReason(player, below)
+        }
+        return { ...player, rank, rankingPoints: N - rank + 1, tbWon, tbLost, tbReason }
       })
   })()
 
@@ -310,6 +331,11 @@ export default function ScoresPage() {
                           </>
                         )}
                         <span className={`text-base min-w-[36px] text-right ${parCls}`}>{parText}</span>
+                        {player.tbReason && (
+                          <span className={`text-xs px-1.5 py-0.5 rounded font-medium whitespace-nowrap ${player.tbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                            {player.tbWon ? 'TB勝' : 'TB'} {player.tbReason}
+                          </span>
+                        )}
                       </div>
                     </div>
                     {/* Hole score dots grouped by section */}
