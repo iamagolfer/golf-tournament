@@ -172,27 +172,13 @@ function calculateRankings(db) {
 
 // Returns negative if a is better (higher rank), positive if b is better
 function tiebreak(a, b) {
-  // TB1 & TB2: best 9 and 2nd-best 9 (lower is better)
-  const aSecs = a.sectionTotals.filter(s => s.total !== null).map(s => s.total);
-  const bSecs = b.sectionTotals.filter(s => s.total !== null).map(s => s.total);
-
-  if (aSecs.length > 0 && bSecs.length > 0) {
-    const aBest = Math.min(...aSecs);
-    const bBest = Math.min(...bSecs);
-    if (aBest !== bBest) return aBest - bBest;
-
-    const aWorst = Math.max(...aSecs);
-    const bWorst = Math.max(...bSecs);
-    if (aWorst !== bWorst) return aWorst - bWorst;
-  }
-
-  // TB3: most under-par holes (birdie, eagle, double eagle — more is better)
+  // TB1: most under-par holes (birdie or better — more is better)
   if (a.underParCount !== b.underParCount) return b.underParCount - a.underParCount;
 
-  // TB4: most pars (more is better)
+  // TB2: most pars (more is better)
   if (a.parCount !== b.parCount) return b.parCount - a.parCount;
 
-  // TB5+: fewest bogeys, fewest doubles, fewest triples... (fewer is better)
+  // TB3+: fewest bogeys, fewest doubles, fewest triples... up to +12 (fewer is better)
   for (let overPar = 1; overPar <= 12; overPar++) {
     const ac = a.categoryCounts[overPar] || 0;
     const bc = b.categoryCounts[overPar] || 0;

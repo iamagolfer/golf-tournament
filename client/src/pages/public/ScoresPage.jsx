@@ -88,7 +88,17 @@ export default function ScoresPage() {
   // N = total field size including no-shows (matches official ranking engine)
   const N = players.length
 
-  // Leaderboard — all players sorted by net-to-par (lowest/best first)
+  function lbTiebreak(a, b) {
+    if (a.underParCount !== b.underParCount) return b.underParCount - a.underParCount
+    if (a.parCount !== b.parCount) return b.parCount - a.parCount
+    for (let i = 1; i <= 12; i++) {
+      const ac = a.categoryCounts[i] || 0, bc = b.categoryCounts[i] || 0
+      if (ac !== bc) return ac - bc
+    }
+    return 0
+  }
+
+  // Leaderboard — all players sorted by net-to-par then tiebreaker
   const leaderboard = (() => {
     let rank = 1
     return players
@@ -100,11 +110,19 @@ export default function ScoresPage() {
           if (s) { gross += s; parSum += h.par; played++ }
           return { holeId: h.id, strokes: s, rel: s ? s - h.par : null }
         })
-        return { ...player, gross, toPar: gross - parSum - player.handicap, played, holeData }
+        const completed = holeData.filter(h => h.strokes !== null)
+        const underParCount = completed.filter(h => h.rel <= -1).length
+        const parCount = completed.filter(h => h.rel === 0).length
+        const categoryCounts = {}
+        for (let i = 1; i <= 12; i++) categoryCounts[i] = completed.filter(h => h.rel === i).length
+        return { ...player, gross, toPar: gross - parSum - player.handicap, played, holeData, underParCount, parCount, categoryCounts }
       })
-      .sort((a, b) => a.toPar - b.toPar)
+      .sort((a, b) => {
+        if (a.toPar !== b.toPar) return a.toPar - b.toPar
+        return lbTiebreak(a, b)
+      })
       .map((player, idx, arr) => {
-        if (idx > 0 && player.toPar !== arr[idx - 1].toPar) rank = idx + 1
+        if (idx > 0 && (arr[idx].toPar !== arr[idx - 1].toPar || lbTiebreak(arr[idx], arr[idx - 1]) !== 0)) rank = idx + 1
         return { ...player, rank, rankingPoints: N - rank + 1 }
       })
   })()
