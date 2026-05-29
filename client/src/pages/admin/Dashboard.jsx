@@ -38,8 +38,16 @@ export default function Dashboard({ onLogout }) {
     navigate('/admin')
   }
 
+  async function handleSoftReset() {
+    if (!window.confirm(
+      '【保留設定，清除比賽資料】\n\n保留：球場、日期、規則、球員名單\n清除：成績、選馬、分組、出席狀態\n\nKeep setup & players, clear scores/picks/groups?'
+    )) return
+    await api.delete('/tournament/soft-reset')
+    window.location.reload()
+  }
+
   async function handleReset() {
-    if (!window.confirm('確定要重置所有比賽資料？此操作無法復原。\nReset all tournament data? This cannot be undone.')) return
+    if (!window.confirm('【完全重置】確定要清除所有資料包含球員名單和球場設定？此操作無法復原。\nFull reset — delete everything including players and course setup?')) return
     await api.delete('/tournament/reset')
     window.location.reload()
   }
@@ -118,12 +126,25 @@ export default function Dashboard({ onLogout }) {
         </div>
 
         {/* Danger zone */}
-        <div className="bg-white rounded-xl shadow-sm p-4 border border-red-100">
-          <h3 className="font-medium text-red-700 mb-2">危險區域 Danger Zone</h3>
-          <button onClick={handleReset}
-            className="w-full bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-lg py-2 text-sm font-medium transition"
+        <div className="bg-white rounded-xl shadow-sm p-4 border border-orange-100 space-y-2">
+          <h3 className="font-medium text-orange-700 mb-1">重置選項 Reset Options</h3>
+
+          {/* Soft reset — recommended */}
+          <button onClick={handleSoftReset}
+            className="w-full bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 rounded-lg py-3 text-sm font-medium transition text-left px-4"
           >
-            重置所有資料 Reset All Data
+            <div className="font-semibold">🔄 清除比賽資料（保留設定）</div>
+            <div className="text-xs text-orange-500 mt-0.5">保留球員名單、球場、規則 · 清除成績、選馬、分組</div>
+            <div className="text-xs text-orange-400">Soft Reset — keep players &amp; setup, clear scores/picks/groups</div>
+          </button>
+
+          {/* Full reset */}
+          <button onClick={handleReset}
+            className="w-full bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-lg py-3 text-sm font-medium transition text-left px-4"
+          >
+            <div className="font-semibold">🗑️ 完全重置所有資料</div>
+            <div className="text-xs text-red-400 mt-0.5">清除一切，包含球員名單和球場設定</div>
+            <div className="text-xs text-red-300">Full Reset — delete everything</div>
           </button>
         </div>
       </div>

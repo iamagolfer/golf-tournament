@@ -69,6 +69,19 @@ module.exports = (db) => {
     res.json({ success: true });
   });
 
+  // Admin: soft reset — keep setup, clear game data only
+  router.delete('/soft-reset', requireAdmin, (req, res) => {
+    const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
+    if (!t) return res.json({ success: true });
+    // Clear scores, picks, groups; reset no_show and group assignment on players; reset status
+    db.prepare('DELETE FROM scores WHERE player_id IN (SELECT id FROM players WHERE tournament_id=?)').run(t.id);
+    db.prepare('DELETE FROM horse_picks WHERE player_id IN (SELECT id FROM players WHERE tournament_id=?)').run(t.id);
+    db.prepare('DELETE FROM groups WHERE tournament_id=?').run(t.id);
+    db.prepare('UPDATE players SET group_id=NULL, no_show=0 WHERE tournament_id=?').run(t.id);
+    db.prepare("UPDATE tournament SET status='setup' WHERE id=?").run(t.id);
+    res.json({ success: true });
+  });
+
   // Admin: reset entire tournament data
   router.delete('/reset', requireAdmin, (req, res) => {
     const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
