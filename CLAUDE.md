@@ -31,9 +31,9 @@ Railway does **NOT** build the frontend. `client/dist/` is pre-built and committ
 
 **After ANY change to `client/src/**`:**
 ```powershell
-cd "C:\Users\3D-Design\Documents\Golf\golf-app"
+cd "C:\Users\Albert\Documents\Golf\golf-app"
 npm run build
-git add client/dist
+git add client/dist client/src
 git commit -m "rebuild frontend"
 git push
 ```
@@ -44,7 +44,7 @@ Backend changes (`routes/`, `logic/`, `db/`, `server.js`) can be pushed without 
 
 ## Local Development
 ```powershell
-cd "C:\Users\3D-Design\Documents\Golf\golf-app"
+cd "C:\Users\Albert\Documents\Golf\golf-app"
 npm start
 # Opens at http://localhost:3001
 ```
@@ -175,16 +175,16 @@ Tied players **share the same rank AND same points**.
 Example: 13 players, two tied for 3rd → both get 11 pts (13-3+1). Next = 9 pts (5th place).
 
 ### 3. Tiebreaker Chain (all tied players compared simultaneously)
-1. Best single 9-hole score (lowest wins — only if all 9 holes complete)
-2. Worse 9-hole score (lowest wins)
-3. Most under-par holes (birdie or better, ≤ -1 vs par)
-4. Most pars
-5. Fewest bogeys (+1)
-6. Fewest double bogeys (+2)
-7. Fewest triple bogeys (+3)
-8. Fewest quad bogeys (+4)
-9. Continue pattern up to +12 over par
-10. Share ranking if still tied
+1. Most under-par holes (birdie or better, ≤ -1 vs par)
+2. Most pars
+3. Fewest bogeys (+1)
+4. Fewest double bogeys (+2)
+5. Fewest triple bogeys (+3)
+6. Fewest quad bogeys (+4)
+7. Continue pattern up to +12 over par
+8. Share ranking if still tied
+
+Note: 9-hole section score tiebreakers were removed — hole quality only.
 
 ### 4. Final Combined Score (Horse Pick)
 ```
@@ -214,8 +214,17 @@ All logic in `logic/rankings.js`:
 ### Public Pages
 - **/** — Info: course, date, tee time, collapsible hole table, rules
 - **/pick** — Horse picking with PIN modal; shows 還沒選馬/已選馬了; pick stays secret
-- **/scores** — Group tabs, scrollable scorecard (color-coded inputs, auto-save on blur), live leaderboard
+- **/scores** — Group tabs, scrollable scorecard (color-coded inputs, auto-save on blur), live leaderboard at bottom (see below)
 - **/rankings** — Stroke Play tab + Final Rankings tab; polls every 30s; medals 🥇🥈🥉; dinner cutoff
+
+### /scores Live Leaderboard (bottom of page)
+- **Ranking:** net-to-par = gross − parSum − handicap (lower is better)
+- **Starting position:** players start at −handicap even before entering any scores
+- **Tiebreaker:** same chain as official engine (most under-par → most pars → fewest bogeys → ...)
+- **Ranking points shown:** provisional `{n}分` displayed below rank badge; N = total field including no-shows; no-shows get 0 pts
+- **Player display:** `Chinese Name  English Name  差點{n}`
+- **Refresh:** auto-refreshes every 10 minutes; manual "↻ 更新即時排名" button in leaderboard title row
+- **Color coding:** yellow = eagle+, red = birdie, gray = par, light blue = bogey, blue = double, dark = triple+
 
 ### Design
 - Mobile-first, large tap targets, bottom-sheet modals
@@ -230,6 +239,12 @@ All logic in `logic/rankings.js`:
   - `NODE_ENV=production`
   - `SESSION_SECRET=golfSecret2024Albert`
   - `NIXPACKS_NODE_VERSION=22`
+  - `DB_PATH=/app/data/golf.sqlite` ← points to persistent volume
+
+### Persistent Volume (CRITICAL — prevents data loss on redeploy)
+- Volume mounted at `/app/data` (NOT `/app/db` — that path collides with code)
+- `db/init.js` reads `process.env.DB_PATH`, falls back to `db/golf.sqlite` locally
+- Without the volume, SQLite data is wiped on every Railway redeploy
 
 ---
 
@@ -247,6 +262,7 @@ All logic in `logic/rankings.js`:
 2. `vite not found` on Railway → moved vite to `dependencies`, added `client/.npmrc` (`production=false`)
 3. `node:sqlite` not found on Railway → Node 22 via `.nvmrc` + `package.json engines` + env var
 4. `datetime("now")` crashes → pass JS timestamp as SQL parameter instead
+5. Railway volume mounted at `/app/db` wiped `db/init.js` (code lives there) → volume moved to `/app/data`, `DB_PATH` env var added, `db/init.js` uses `process.env.DB_PATH`
 
 ---
 
