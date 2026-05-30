@@ -53,6 +53,7 @@ export default function ScoresPage() {
   const [cellSaving, setCellSaving]     = useState({})
   const [cellError, setCellError]       = useState({})
   const [cellSaved, setCellSaved]       = useState({})
+  const [lbView, setLbView]             = useState('net')
   const savedScoresRef                  = useRef({}) // tracks what is actually saved on server
 
   useEffect(() => { loadData() }, [])
@@ -143,41 +144,66 @@ export default function ScoresPage() {
 
   const N = players.length
 
-  // Live leaderboard — recomputes on every score entry
+  // Shared stats — computed once, used by both leaderboard views
+  const playerStats = players
+    .filter(p => !p.no_show)
+    .map(player => {
+      let gross = 0, parSum = 0, played = 0
+      const holeData = holes.map(h => {
+        const s = scores[`${player.id}_${h.id}`] || null
+        if (s) { gross += s; parSum += h.par; played++ }
+        return { holeId: h.id, sectionId: h.section_id, strokes: s, rel: s ? s - h.par : null }
+      })
+      const completed     = holeData.filter(h => h.strokes !== null)
+      const underParCount = completed.filter(h => h.rel <= -1).length
+      const parCount      = completed.filter(h => h.rel === 0).length
+      const categoryCounts = {}
+      for (let i = 1; i <= 12; i++) categoryCounts[i] = completed.filter(h => h.rel === i).length
+      return { ...player, gross, parSum, played, holeData, underParCount, parCount, categoryCounts,
+        toPar: gross - parSum - player.handicap,
+        vsParGross: gross - parSum,
+      }
+    })
+
+  // View 1: net leaderboard (handicap-adjusted)
   const leaderboard = (() => {
     let rank = 1
-    return players
-      .filter(p => !p.no_show)
-      .map(player => {
-        let gross = 0, parSum = 0, played = 0
-        const holeData = holes.map(h => {
-          const s = scores[`${player.id}_${h.id}`] || null
-          if (s) { gross += s; parSum += h.par; played++ }
-          return { holeId: h.id, sectionId: h.section_id, strokes: s, rel: s ? s - h.par : null }
-        })
-        const completed    = holeData.filter(h => h.strokes !== null)
-        const underParCount = completed.filter(h => h.rel <= -1).length
-        const parCount      = completed.filter(h => h.rel === 0).length
-        const categoryCounts = {}
-        for (let i = 1; i <= 12; i++) categoryCounts[i] = completed.filter(h => h.rel === i).length
-        return { ...player, gross, parSum, toPar: gross - parSum - player.handicap, played, holeData, underParCount, parCount, categoryCounts }
-      })
-      .sort((a, b) => {
-        if (a.toPar !== b.toPar) return a.toPar - b.toPar
-        return lbTiebreak(a, b)
-      })
+    return [...playerStats]
+      .sort((a, b) => a.toPar !== b.toPar ? a.toPar - b.toPar : lbTiebreak(a, b))
       .map((player, idx, arr) => {
         if (idx > 0 && (arr[idx].toPar !== arr[idx-1].toPar || lbTiebreak(arr[idx], arr[idx-1]) !== 0)) rank = idx + 1
         const above = arr[idx - 1], below = arr[idx + 1]
-        let tbWon = false, tbLost = false, tbReason = null
+        let tbWon = false, tbReason = null
         if (above && above.toPar === player.toPar) {
-          tbLost = true; tbReason = getTiebreakReason(above, player)
+          tbReason = getTiebreakReason(above, player)
         } else if (below && below.toPar === player.toPar) {
           tbWon = true; tbReason = getTiebreakReason(player, below)
         }
-        return { ...player, rank, rankingPoints: N - rank + 1, tbWon, tbLost, tbReason }
+        return { ...player, rank, rankingPoints: N - rank + 1, tbWon, tbReason }
       })
   })()
+
+  // View 2: stroke leaderboard (traditional, no handicap — fewest over par wins)
+  const strokeLeaderboard = (() => {
+    let rank = 1
+    return [...playerStats]
+      .sort((a, b) => {
+        if (a.played === 0 && b.played === 0) return 0
+        if (a.played === 0) return 1
+        if (b.played === 0) return -1
+        return a.vsParGross - b.vsParGross
+      })
+      .map((player, idx, arr) => {
+        if (idx > 0) {
+          const prev = arr[idx - 1]
+          const tied = player.played > 0 && prev.played > 0 && player.vsParGross === prev.vsParGross
+          if (!tied) rank = idx + 1
+        }
+        return { ...player, rank }
+      })
+  })()
+
+  const activeLeaderboard = lbView === 'net' ? leaderboard : strokeLeaderboard
 
   return (
     <div className="min-h-screen bg-green-50">
@@ -320,9 +346,22 @@ export default function ScoresPage() {
 
           {/* ── ALL PLAYERS LEADERBOARD ── */}
           <div className="px-3">
+            {/* View toggle tabs */}
+            <div className="flex gap-2 mb-2">
+              <button onClick={() => setLbView('net')}
+                className={`flex-1 py-2 text-xs font-semibold rounded-lg transition
+                  ${lbView === 'net' ? 'bg-green-700 text-white shadow-sm' : 'bg-white text-gray-500 hover:bg-green-50 shadow-sm'}`}>
+                🏅 淨桿排名（差點）
+              </button>
+              <button onClick={() => setLbView('stroke')}
+                className={`flex-1 py-2 text-xs font-semibold rounded-lg transition
+                  ${lbView === 'stroke' ? 'bg-green-700 text-white shadow-sm' : 'bg-white text-gray-500 hover:bg-green-50 shadow-sm'}`}>
+                ⛳ 總桿排名（傳統）
+              </button>
+            </div>
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide">
-                所有球員即時排行 Live Leaderboard
+                {lbView === 'net' ? '淨桿即時排行 Net Leaderboard' : '總桿即時排行 Stroke Leaderboard'}
               </p>
               <button onClick={loadData}
                 className="text-xs bg-green-700 text-white px-3 py-1 rounded-full font-medium shadow-sm active:bg-green-900">
@@ -330,11 +369,12 @@ export default function ScoresPage() {
               </button>
             </div>
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-              {leaderboard.map((player, idx) => {
-                const { text: parText, cls: parCls } = toParDisplay(player.toPar)
+              {activeLeaderboard.map((player, idx) => {
+                const netDisplay   = toParDisplay(player.played > 0 ? player.toPar : null)
+                const grossDisplay = toParDisplay(player.played > 0 ? player.vsParGross : null)
                 return (
                   <div key={player.id}
-                    className={`px-4 py-3 ${idx < leaderboard.length - 1 ? 'border-b border-gray-100' : ''}`}>
+                    className={`px-4 py-3 ${idx < activeLeaderboard.length - 1 ? 'border-b border-gray-100' : ''}`}>
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-2 min-w-0">
                         {/* Rank badge */}
@@ -350,7 +390,9 @@ export default function ScoresPage() {
                               {player.rank}
                             </span>
                           )}
-                          <span className="text-xs text-green-700 font-semibold leading-tight">{player.rankingPoints}分</span>
+                          {lbView === 'net' && (
+                            <span className="text-xs text-green-700 font-semibold leading-tight">{player.rankingPoints}分</span>
+                          )}
                         </div>
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5 flex-wrap">
@@ -367,12 +409,18 @@ export default function ScoresPage() {
                         {player.played > 0 && (
                           <span className="text-xs text-gray-500">總桿{player.gross}</span>
                         )}
-                        <span className={`text-base min-w-[36px] text-right ${parCls}`}>淨桿{parText}</span>
-                        {player.tbReason && (
-                          <span className={`text-xs px-1.5 py-0.5 rounded font-medium whitespace-nowrap
-                            ${player.tbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
-                            {player.tbWon ? '勝' : '輸'} {player.tbReason}
-                          </span>
+                        {lbView === 'net' ? (
+                          <>
+                            <span className={`text-base min-w-[36px] text-right ${netDisplay.cls}`}>淨桿{netDisplay.text}</span>
+                            {player.tbReason && (
+                              <span className={`text-xs px-1.5 py-0.5 rounded font-medium whitespace-nowrap
+                                ${player.tbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                                {player.tbWon ? '勝' : '輸'} {player.tbReason}
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          <span className={`text-base min-w-[36px] text-right ${grossDisplay.cls}`}>{grossDisplay.text}</span>
                         )}
                       </div>
                     </div>
