@@ -160,7 +160,7 @@ export default function ScoresPage() {
         const parCount      = completed.filter(h => h.rel === 0).length
         const categoryCounts = {}
         for (let i = 1; i <= 12; i++) categoryCounts[i] = completed.filter(h => h.rel === i).length
-        return { ...player, gross, toPar: gross - parSum - player.handicap, played, holeData, underParCount, parCount, categoryCounts }
+        return { ...player, gross, parSum, toPar: gross - parSum - player.handicap, played, holeData, underParCount, parCount, categoryCounts }
       })
       .sort((a, b) => {
         if (a.toPar !== b.toPar) return a.toPar - b.toPar
@@ -357,15 +357,15 @@ export default function ScoresPage() {
                             <span className="text-sm font-medium text-gray-900">{player.chinese_name}</span>
                             <span className="text-xs text-gray-400">{player.english_name}</span>
                             <span className="text-xs text-gray-400">差點{player.handicap}</span>
+                            {player.played > 0 && (
+                              <span className="text-xs text-gray-500">{player.played}洞用掉了{player.gross - player.parSum}桿</span>
+                            )}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-baseline gap-2 flex-shrink-0 ml-3">
                         {player.played > 0 && (
-                          <>
-                            <span className="text-xs text-gray-400">{player.played}洞</span>
-                            <span className="text-xs text-gray-500">{player.gross}桿</span>
-                          </>
+                          <span className="text-xs text-gray-500">總桿{player.gross}</span>
                         )}
                         <span className={`text-base min-w-[36px] text-right ${parCls}`}>淨桿{parText}</span>
                         {player.tbReason && (
