@@ -31,6 +31,10 @@ module.exports = (db) => {
     if (!playerId || !Array.isArray(scores)) {
       return res.status(400).json({ error: 'Invalid request' });
     }
+    const t = db.prepare('SELECT status FROM tournament ORDER BY id DESC LIMIT 1').get();
+    if (t?.status === 'finished') {
+      return res.status(403).json({ error: '比賽已結束，成績已鎖定。如需修改請聯絡管理員。\nTournament finished — scores are locked.' });
+    }
 
     db.exec('BEGIN');
     try {

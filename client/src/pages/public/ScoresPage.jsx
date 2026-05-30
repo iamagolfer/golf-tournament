@@ -79,6 +79,7 @@ export default function ScoresPage() {
   const [holes, setHoles]               = useState([])
   const [sections, setSections]         = useState([])
   const [scores, setScores]             = useState({})
+  const [status, setStatus]             = useState('setup')
   const [activeGroupId, setActiveGroupId] = useState(null)
   const [cellSaving, setCellSaving]     = useState({})
   const [cellError, setCellError]       = useState({})
@@ -115,6 +116,7 @@ export default function ScoresPage() {
     setHoles(freshHoles)
     setGroups(freshGroups)
     setPlayers(freshPlayers)
+    setStatus(t.tournament?.status || 'setup')
     setActiveGroupId(prev => prev ?? (freshGroups[0]?.id || null))
     setScores(freshScoreMap)
 
@@ -236,6 +238,12 @@ export default function ScoresPage() {
         </div>
       </div>
 
+      {status === 'finished' && (
+        <div className="bg-blue-700 text-white text-center py-2 px-4 text-sm font-medium">
+          🏆 比賽已結束，成績已鎖定。如需修改請聯絡管理員。
+        </div>
+      )}
+
       {groups.length === 0 ? (
         <div className="p-6 text-center text-gray-500">
           <p>尚未設定分組 No groups set up yet</p>
@@ -319,13 +327,15 @@ export default function ScoresPage() {
                                     inputMode="numeric"
                                     min="1" max="20"
                                     value={val || ''}
+                                    disabled={status === 'finished'}
                                     onChange={e => handleChange(player.id, hole.id, e.target.value)}
                                     onBlur={e => handleBlur(player.id, hole.id, e.target.value)}
                                     placeholder="·"
                                     className={`w-[42px] h-[38px] text-center text-sm font-bold rounded
                                       border-0 outline-none focus:ring-2 focus:ring-green-400
                                       transition-colors duration-500
-                                      ${cellError[key]  ? 'bg-red-200 text-red-700' :
+                                      ${status === 'finished' ? 'opacity-60 cursor-not-allowed' :
+                                        cellError[key]  ? 'bg-red-200 text-red-700' :
                                         cellSaving[key] ? 'bg-yellow-100 text-yellow-700' :
                                         cellSaved[key]  ? 'bg-green-200 text-green-800' :
                                         cellClass(rel)}`}
