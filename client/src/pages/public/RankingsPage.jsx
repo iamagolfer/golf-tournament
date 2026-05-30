@@ -168,7 +168,7 @@ export default function RankingsPage() {
                       <div className="text-xs text-gray-400">總分</div>
                       {(finalTbWon || finalTbLost) && (
                         <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${finalTbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
-                          {finalTbWon ? 'TB勝' : 'TB'} 桿賽得分
+                          {finalTbWon ? '勝' : '輸'} 淨桿得分
                         </span>
                       )}
                     </div>
