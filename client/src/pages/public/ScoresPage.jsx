@@ -358,7 +358,7 @@ export default function ScoresPage() {
                             <span className="text-xs text-gray-400">{player.english_name}</span>
                             <span className="text-xs text-gray-400">差點{player.handicap}</span>
                             {player.played > 0 && (
-                              <span className="text-xs text-gray-500">{player.played}洞用掉了{player.gross - player.parSum}桿</span>
+                              <span className="text-xs text-gray-500">{player.played}洞花{player.gross - player.parSum}桿</span>
                             )}
                           </div>
                         </div>
