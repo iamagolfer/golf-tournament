@@ -105,8 +105,10 @@ status (setup|picking|playing|revealed|finished), created_at
 
 ### sections — 9-hole groupings (前9, 後9, 東區, 西區, 中區)
 ```
-id, tournament_id, name, section_order
+id, tournament_id, name, section_order, active (INTEGER DEFAULT 1)
 ```
+`active` added via safe `ALTER TABLE` migration in `db/init.js`.
+Set to 0 to exclude a section from scoring/rankings without deleting it.
 
 ### holes — 9 per section
 ```
@@ -194,8 +196,8 @@ Tiebreaker: higher personal stroke points wins. If still tied → share rank.
 Bottom 6 by final ranking must buy dinner (highlighted red on rankings page).
 
 ### 5. Tiebreaker Badges (both /scores leaderboard and /rankings stroke tab)
-- `TB勝 低標桿洞` (green) — won tiebreaker over player below, shows decisive criterion
-- `TB 低標桿洞` (amber) — lost tiebreaker to player above, shows decisive criterion
+- `勝 低標桿洞` (green) — won tiebreaker over player below, shows decisive criterion
+- `輸 低標桿洞` (amber) — lost tiebreaker to player above, shows decisive criterion
 - Final tab: `TB勝 桿賽得分` / `TB 桿賽得分` when total-points tie broken by stroke points
 - No badge for uniquely-ranked players, no-shows, or pending scores
 
@@ -214,6 +216,10 @@ All logic in `logic/rankings.js`:
 - **/admin/dashboard** — Status badge, counts, links, reset buttons; horse picks section collapsible (▼/▲)
 - **/admin/tournament** — Course name, date, tee time, total players
 - **/admin/course** — Section/hole setup (par + yards per hole, section par totals)
+  - **⛳ 今日賽程 panel** at top: tap section pills to include/exclude from today's play (green=in, gray=out)
+  - Quick-toggle calls `PUT /api/tournament/sections/:id/active` — no full course re-save needed
+  - Inactive section cards fade to 50% opacity; inactive sections ignored by scorecard, leaderboard, rankings
+  - Supports any combo: 2 of 3 nines, 3 of 4, etc. Handicap used as-is regardless of hole count.
 - **/admin/rules** — Two textareas: 比賽規則摘要 (brief_rules) + 本次賽事規則 (rules_text); one Save button
 - **/admin/players** — Bulk import format: `1 林楮君 William (11差點)`, PIN management
 - **/admin/groups** — Assign groups, mark no-shows, status control buttons
@@ -228,14 +234,18 @@ All logic in `logic/rankings.js`:
 - **/rankings** — Stroke Play tab + Final Rankings tab; polls every 30s; medals 🥇🥈🥉; dinner cutoff; tiebreaker badges
 
 ### /scores Live Leaderboard (bottom of ScoresPage)
+- **Two view toggle** (tab strip above leaderboard):
+  - `🏅 淨桿排名（差點）` — default; handicap-adjusted net score, ranking points, 勝/輸 tiebreaker badges
+  - `⛳ 總桿排名（傳統）` — traditional stroke play; sorted by gross over par, no handicap, no points/badges
 - **Ranking:** net-to-par = gross − parSum − handicap (lower is better)
-- **Starting position:** players start at −handicap before entering any scores (Option B)
-- **Tiebreaker:** same chain as official engine; badges shown inline next to score
-- **Ranking points:** provisional `{n}分` below rank badge; N = total field including no-shows
-- **Player display:** `Chinese Name  English Name  差點{n}`
-- **Score display:** `淨桿{±n}` in red (under) or blue (over); hole dots grouped by section with section total
-- **Refresh:** auto every 10 min via setInterval; manual "↻ 更新即時排名" button in leaderboard title row
-- **Score deletion:** clear a cell and blur → sends strokes:0 to server → deletes the score record
+- **Tiebreaker badges:** `勝 低標桿洞` (green) won / `輸 低標桿洞` (amber) lost
+- **Ranking points:** `{n}分` below rank badge (net view only)
+- **Player display:** `Chinese Name  English Name  差點{n}  {N}洞花{M}桿`
+  - `{N}` = holes played, `{M}` = gross − parSum (strokes over par for holes played, no handicap)
+- **Right side:** `總桿{N}` + `淨桿{±n}` (net view) or `+N`/`−N` vs par (stroke view)
+- **Active sections only:** scorecard columns and leaderboard only count holes from active sections
+- **Refresh:** auto every 10 min; manual "↻ 更新即時排名" button
+- **Score deletion:** clear a cell and blur → sends strokes:0 → deletes the score record
 
 ### Score Cell Color Coding
 | Color | Meaning |
@@ -293,6 +303,14 @@ All logic in `logic/rankings.js`:
 3. `node:sqlite` not found on Railway → Node 22 via `.nvmrc` + `package.json engines` + env var
 4. `datetime("now")` crashes → pass JS timestamp as SQL parameter instead
 5. Railway volume mounted at `/app/db` wiped `db/init.js` → volume moved to `/app/data`, `DB_PATH` env var, `db/init.js` uses `process.env.DB_PATH`
+6. Removing `useRef` import while `savedScoresRef` still used it → ScoresPage blank; fixed by restoring import
+
+## Admin Debug Panel (🛠 程式測試)
+Three tabs in the collapsible debug section on the admin dashboard:
+1. **批次設定 PIN碼** — auto-generate PINs from handicap formula, or paste custom list
+2. **批次填入成績** — fill test scores: all-same / by section / by group
+3. **批次選馬** — 4 modes: self-pick / everyone picks same random / next in list (circular) / each picks random
+   - Backend: `POST /api/players/batch-self-pick` with `{ mode: 'self'|'same-random'|'next'|'random' }`
 
 ---
 
