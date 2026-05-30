@@ -4,8 +4,10 @@ import { api } from '../../api'
 
 function defaultSection(name, order) {
   return {
+    id: null,
     name,
     order,
+    active: true,
     holes: Array.from({ length: 9 }, (_, i) => ({ hole_number: i + 1, par: 4, yards: 0 }))
   }
 }
@@ -22,8 +24,10 @@ export default function CourseSetup() {
         const built = d.sections.map(sec => {
           const secHoles = d.holes.filter(h => h.section_id === sec.id)
           return {
+            id: sec.id,
             name: sec.name,
             order: sec.section_order,
+            active: sec.active !== 0,
             holes: secHoles.length > 0
               ? secHoles.map(h => ({ hole_number: h.hole_number, par: h.par, yards: h.yards }))
               : Array.from({ length: 9 }, (_, i) => ({ hole_number: i + 1, par: 4, yards: 0 }))
@@ -33,6 +37,19 @@ export default function CourseSetup() {
       }
     })
   }, [])
+
+  async function toggleActive(idx) {
+    const sec = sections[idx]
+    const newActive = !sec.active
+    setSections(prev => prev.map((s, i) => i === idx ? { ...s, active: newActive } : s))
+    if (sec.id) {
+      try {
+        await api.put(`/tournament/sections/${sec.id}/active`, { active: newActive })
+      } catch {
+        setSections(prev => prev.map((s, i) => i === idx ? { ...s, active: !newActive } : s))
+      }
+    }
+  }
 
   function addSection() {
     const names = ['東區', '西區', '中區', '南區', '北區']
@@ -46,13 +63,11 @@ export default function CourseSetup() {
   }
 
   function updateSectionName(idx, name) {
-    const updated = [...sections]
-    updated[idx] = { ...updated[idx], name }
-    setSections(updated)
+    setSections(prev => prev.map((s, i) => i === idx ? { ...s, name } : s))
   }
 
   function updateHole(secIdx, holeIdx, field, value) {
-    const updated = sections.map((sec, si) => {
+    setSections(prev => prev.map((sec, si) => {
       if (si !== secIdx) return sec
       return {
         ...sec,
@@ -60,8 +75,7 @@ export default function CourseSetup() {
           hi === holeIdx ? { ...h, [field]: Number(value) || 0 } : h
         )
       }
-    })
-    setSections(updated)
+    }))
   }
 
   async function handleSave() {
@@ -71,6 +85,20 @@ export default function CourseSetup() {
     }
     try {
       await api.put('/tournament/course', { sections })
+      // Reload to get fresh IDs after re-insert
+      const d = await api.get('/tournament')
+      if (d.sections && d.sections.length > 0) {
+        setSections(d.sections.map(sec => {
+          const secHoles = d.holes.filter(h => h.section_id === sec.id)
+          return {
+            id: sec.id,
+            name: sec.name,
+            order: sec.section_order,
+            active: sec.active !== 0,
+            holes: secHoles.map(h => ({ hole_number: h.hole_number, par: h.par, yards: h.yards }))
+          }
+        }))
+      }
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
     } catch (err) {
@@ -78,7 +106,9 @@ export default function CourseSetup() {
     }
   }
 
-  const parLabels = { 3: 'Par 3', 4: 'Par 4', 5: 'Par 5' }
+  const activeSections   = sections.filter(s => s.active)
+  const totalActiveHoles = activeSections.reduce((sum, s) => sum + s.holes.length, 0)
+  const totalActivePar   = activeSections.reduce((sum, s) => sum + s.holes.reduce((p, h) => p + h.par, 0), 0)
 
   return (
     <div className="min-h-screen bg-green-50">
@@ -92,8 +122,33 @@ export default function CourseSetup() {
 
       <div className="max-w-lg mx-auto px-4 py-6 space-y-4">
 
+        {/* ── Today's Play Selection ── */}
+        <div className="bg-white rounded-xl shadow-sm p-4">
+          <h2 className="font-bold text-gray-800 mb-1">⛳ 今日賽程 Today's Course</h2>
+          <p className="text-xs text-gray-400 mb-3">點選要出賽的球區 · 成績和排名只計算已選球區</p>
+          <div className="flex flex-wrap gap-2 mb-3">
+            {sections.map((sec, idx) => (
+              <button key={idx} onClick={() => toggleActive(idx)}
+                className={`px-4 py-2 rounded-full text-sm font-semibold transition
+                  ${sec.active
+                    ? 'bg-green-700 text-white shadow-sm'
+                    : 'bg-gray-100 text-gray-400'}`}>
+                {sec.active ? '✓ ' : ''}{sec.name || `區${idx + 1}`}
+              </button>
+            ))}
+          </div>
+          {activeSections.length > 0 ? (
+            <p className="text-xs text-green-700 font-medium">
+              出賽：{activeSections.map(s => s.name).join(' + ')} · {totalActiveHoles}洞 · Par {totalActivePar}
+            </p>
+          ) : (
+            <p className="text-xs text-red-500">⚠ 請至少選擇一個球區</p>
+          )}
+        </div>
+
+        {/* ── Section cards ── */}
         {sections.map((sec, si) => (
-          <div key={si} className="bg-white rounded-xl shadow-sm p-4">
+          <div key={si} className={`bg-white rounded-xl shadow-sm p-4 transition ${!sec.active ? 'opacity-50' : ''}`}>
             <div className="flex items-center gap-3 mb-4">
               <input
                 value={sec.name}
@@ -101,6 +156,9 @@ export default function CourseSetup() {
                 className="flex-1 border border-gray-300 rounded-lg px-3 py-2 font-bold text-base focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="區域名稱 e.g. 前9"
               />
+              {!sec.active && (
+                <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-lg whitespace-nowrap">今日不出賽</span>
+              )}
               {sections.length > 2 && (
                 <button onClick={() => removeSection(si)}
                   className="text-red-400 hover:text-red-600 text-sm px-2 py-1 border border-red-200 rounded-lg">
@@ -170,6 +228,7 @@ export default function CourseSetup() {
           className={`w-full py-3 rounded-xl font-bold text-lg transition ${saved ? 'bg-green-500 text-white' : 'bg-green-700 hover:bg-green-800 text-white'}`}>
           {saved ? '✓ 已儲存 Saved!' : '儲存球場設定 Save Course'}
         </button>
+
       </div>
     </div>
   )

@@ -130,12 +130,17 @@ export default function ScoresPage() {
     }
   }
 
+  // Only count holes from active sections
+  const activeSections   = sections.filter(s => s.active !== 0)
+  const activeSectionIds = new Set(activeSections.map(s => s.id))
+  const activeHoles      = holes.filter(h => activeSectionIds.has(h.section_id))
+
   const activeGroup  = groups.find(g => g.id === activeGroupId) || null
   const groupPlayers = activeGroup ? players.filter(p => p.group_id === activeGroup.id) : []
 
   const groupStats = groupPlayers.map(player => {
     let gross = 0, toPar = 0, played = 0
-    for (const h of holes) {
+    for (const h of activeHoles) {
       const s = scores[`${player.id}_${h.id}`]
       if (s) { gross += s; toPar += s - h.par; played++ }
     }
@@ -149,7 +154,7 @@ export default function ScoresPage() {
     .filter(p => !p.no_show)
     .map(player => {
       let gross = 0, parSum = 0, played = 0
-      const holeData = holes.map(h => {
+      const holeData = activeHoles.map(h => {
         const s = scores[`${player.id}_${h.id}`] || null
         if (s) { gross += s; parSum += h.par; played++ }
         return { holeId: h.id, sectionId: h.section_id, strokes: s, rel: s ? s - h.par : null }
@@ -259,8 +264,8 @@ export default function ScoresPage() {
                   <thead>
                     <tr className="bg-green-700 text-white text-xs">
                       <th className="sticky left-0 z-20 bg-green-700 px-3 py-2 text-left min-w-[110px]">球員 Player</th>
-                      {sections.map((sec, si) => {
-                        const sh = holes.filter(h => h.section_id === sec.id)
+                      {activeSections.map((sec, si) => {
+                        const sh = activeHoles.filter(h => h.section_id === sec.id)
                         return (
                           <th key={sec.id} colSpan={sh.length}
                             className={`py-2 text-center ${si > 0 ? 'border-l-2 border-green-500' : ''}`}>
@@ -272,8 +277,8 @@ export default function ScoresPage() {
                     </tr>
                     <tr className="bg-gray-50 text-xs text-gray-500">
                       <th className="sticky left-0 z-20 bg-gray-50 px-3 py-1.5 text-left">差點</th>
-                      {sections.map(sec =>
-                        holes.filter(h => h.section_id === sec.id).map((hole, hi) => (
+                      {activeSections.map(sec =>
+                        activeHoles.filter(h => h.section_id === sec.id).map((hole, hi) => (
                           <th key={hole.id}
                             className={`py-1.5 text-center min-w-[44px] ${hi === 0 ? 'border-l border-gray-200' : ''}`}>
                             <div className="font-medium text-gray-600">H{hole.hole_number}</div>
@@ -294,8 +299,8 @@ export default function ScoresPage() {
                             <div className="font-medium text-gray-900 text-sm leading-tight">{player.chinese_name}</div>
                             <div className="text-xs text-gray-400">{player.english_name} · {player.handicap}差</div>
                           </td>
-                          {sections.map(sec =>
-                            holes.filter(h => h.section_id === sec.id).map((hole, hi) => {
+                          {activeSections.map(sec =>
+                            activeHoles.filter(h => h.section_id === sec.id).map((hole, hi) => {
                               const key = `${player.id}_${hole.id}`
                               const val = scores[key]
                               const rel = val ? val - hole.par : null
@@ -426,7 +431,7 @@ export default function ScoresPage() {
                     </div>
                     {/* Hole score dots grouped by section */}
                     <div className="pl-10 space-y-1">
-                      {sections.map(sec => {
+                      {activeSections.map(sec => {
                         const secHoles  = player.holeData.filter(h => h.sectionId === sec.id)
                         const secTotal  = secHoles.reduce((sum, h) => sum + (h.strokes || 0), 0)
                         const secPlayed = secHoles.filter(h => h.strokes).length

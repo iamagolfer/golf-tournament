@@ -57,7 +57,8 @@ module.exports = (db) => {
       for (let i = 0; i < sections.length; i++) {
         const sec = sections[i];
         if (!sec.name || !Array.isArray(sec.holes)) continue;
-        const r = db.prepare('INSERT INTO sections (tournament_id, name, section_order) VALUES (?,?,?)').run(t.id, sec.name, i + 1);
+        const active = sec.active === false || sec.active === 0 ? 0 : 1;
+        const r = db.prepare('INSERT INTO sections (tournament_id, name, section_order, active) VALUES (?,?,?,?)').run(t.id, sec.name, i + 1, active);
         const sectionId = Number(r.lastInsertRowid); // node:sqlite may return BigInt
         for (const hole of sec.holes) {
           db.prepare('INSERT INTO holes (section_id, hole_number, par, yards) VALUES (?,?,?,?)').run(sectionId, hole.hole_number, hole.par, hole.yards || 0);
@@ -68,6 +69,13 @@ module.exports = (db) => {
       console.error('Course save error:', err);
       res.status(500).json({ error: err.message });
     }
+  });
+
+  // Admin: toggle a section's active status (quick, no re-save of holes needed)
+  router.put('/sections/:id/active', requireAdmin, (req, res) => {
+    const { active } = req.body;
+    db.prepare('UPDATE sections SET active=? WHERE id=?').run(active ? 1 : 0, req.params.id);
+    res.json({ success: true });
   });
 
   // Admin: change tournament status

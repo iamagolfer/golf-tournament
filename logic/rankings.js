@@ -3,7 +3,7 @@ function calculateRankings(db) {
   if (!tournament) return null;
 
   const players = db.prepare('SELECT * FROM players WHERE tournament_id=? ORDER BY player_number').all(tournament.id);
-  const sections = db.prepare('SELECT * FROM sections WHERE tournament_id=? ORDER BY section_order').all(tournament.id);
+  const sections = db.prepare('SELECT * FROM sections WHERE tournament_id=? AND (active IS NULL OR active=1) ORDER BY section_order').all(tournament.id);
 
   const allHoles = [];
   for (const sec of sections) {
