@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../../api'
 
@@ -31,18 +31,62 @@ function getTiebreakReason(winner, loser) {
   return null
 }
 
+function lbTiebreak(a, b) {
+  if (a.underParCount !== b.underParCount) return b.underParCount - a.underParCount
+  if (a.parCount !== b.parCount) return b.parCount - a.parCount
+  for (let i = 1; i <= 12; i++) {
+    const ac = a.categoryCounts[i] || 0, bc = b.categoryCounts[i] || 0
+    if (ac !== bc) return ac - bc
+  }
+  return 0
+}
+
+// Returns { [playerId]: rank } — used to track position changes between refreshes
+function computeRankMap(players, holes, scoreMap) {
+  const stats = players
+    .filter(p => !p.no_show)
+    .map(player => {
+      let gross = 0, parSum = 0
+      const completed = []
+      for (const h of holes) {
+        const s = scoreMap[`${player.id}_${h.id}`] || null
+        if (s) { gross += s; parSum += h.par; completed.push({ rel: s - h.par }) }
+      }
+      const toPar = gross - parSum - player.handicap
+      const underParCount = completed.filter(h => h.rel <= -1).length
+      const parCount      = completed.filter(h => h.rel === 0).length
+      const categoryCounts = {}
+      for (let i = 1; i <= 12; i++) categoryCounts[i] = completed.filter(h => h.rel === i).length
+      return { id: player.id, toPar, underParCount, parCount, categoryCounts }
+    })
+    .sort((a, b) => {
+      if (a.toPar !== b.toPar) return a.toPar - b.toPar
+      return lbTiebreak(a, b)
+    })
+
+  let rank = 1
+  const rankMap = {}
+  stats.forEach((p, idx, arr) => {
+    if (idx > 0 && (arr[idx].toPar !== arr[idx-1].toPar || lbTiebreak(arr[idx], arr[idx-1]) !== 0)) rank = idx + 1
+    rankMap[p.id] = rank
+  })
+  return rankMap
+}
+
 export default function ScoresPage() {
-  const [groups, setGroups]         = useState([])
-  const [players, setPlayers]       = useState([])
-  const [holes, setHoles]           = useState([])
-  const [sections, setSections]     = useState([])
-  const [scores, setScores]         = useState({})
+  const [groups, setGroups]             = useState([])
+  const [players, setPlayers]           = useState([])
+  const [holes, setHoles]               = useState([])
+  const [sections, setSections]         = useState([])
+  const [scores, setScores]             = useState({})
   const [activeGroupId, setActiveGroupId] = useState(null)
-  const [cellSaving, setCellSaving] = useState({})
-  const [cellError, setCellError]   = useState({})
+  const [cellSaving, setCellSaving]     = useState({})
+  const [cellError, setCellError]       = useState({})
+  const [cellSaved, setCellSaved]       = useState({})
+  const [rankChanges, setRankChanges]   = useState({})
+  const prevRankMapRef                  = useRef({})
 
   useEffect(() => { loadData() }, [])
-
   useEffect(() => {
     const id = setInterval(loadData, 10 * 60 * 1000)
     return () => clearInterval(id)
@@ -52,16 +96,34 @@ export default function ScoresPage() {
     const [t, p, s] = await Promise.all([
       api.get('/tournament'), api.get('/players'), api.get('/scores')
     ])
-    setSections(t.sections || [])
-    setHoles(t.holes || [])
-    const grps = p.groups || []
-    setGroups(grps)
-    setPlayers(p.players || [])
-    setActiveGroupId(prev => prev ?? (grps[0]?.id || null))
+    const freshSections = t.sections || []
+    const freshHoles    = t.holes    || []
+    const freshGroups   = p.groups   || []
+    const freshPlayers  = p.players  || []
 
-    const map = {}
-    for (const sc of s.scores || []) map[`${sc.player_id}_${sc.hole_id}`] = sc.strokes
-    setScores(map)
+    const freshScoreMap = {}
+    for (const sc of s.scores || []) freshScoreMap[`${sc.player_id}_${sc.hole_id}`] = sc.strokes
+
+    setSections(freshSections)
+    setHoles(freshHoles)
+    setGroups(freshGroups)
+    setPlayers(freshPlayers)
+    setActiveGroupId(prev => prev ?? (freshGroups[0]?.id || null))
+    setScores(freshScoreMap)
+
+    // Compute rank changes vs previous server fetch
+    if (freshPlayers.length && freshHoles.length) {
+      const newRankMap = computeRankMap(freshPlayers, freshHoles, freshScoreMap)
+      const changes = {}
+      Object.entries(newRankMap).forEach(([id, rank]) => {
+        const prev = prevRankMapRef.current[Number(id)]
+        if (prev !== undefined && prev !== rank) {
+          changes[Number(id)] = prev - rank // positive = moved up (rank number got smaller)
+        }
+      })
+      setRankChanges(changes)
+      prevRankMapRef.current = newRankMap
+    }
   }
 
   function handleChange(playerId, holeId, value) {
@@ -74,7 +136,6 @@ export default function ScoresPage() {
     const key = `${playerId}_${holeId}`
 
     if (value === '' || value === null || value === undefined) {
-      // Only call server if there was a saved score to delete
       if (!scores[key] && scores[key] !== 0) return
       setCellSaving(prev => ({ ...prev, [key]: true }))
       try {
@@ -93,6 +154,9 @@ export default function ScoresPage() {
     setCellSaving(prev => ({ ...prev, [key]: true }))
     try {
       await api.post('/scores/batch', { playerId, scores: [{ holeId: Number(holeId), strokes: s }] })
+      // Green flash on successful save
+      setCellSaved(prev => ({ ...prev, [key]: true }))
+      setTimeout(() => setCellSaved(prev => { const n = { ...prev }; delete n[key]; return n }), 900)
     } catch {
       setCellError(prev => ({ ...prev, [key]: true }))
     } finally {
@@ -103,7 +167,6 @@ export default function ScoresPage() {
   const activeGroup  = groups.find(g => g.id === activeGroupId) || null
   const groupPlayers = activeGroup ? players.filter(p => p.group_id === activeGroup.id) : []
 
-  // Pre-calculate totals for group scorecard summary column
   const groupStats = groupPlayers.map(player => {
     let gross = 0, toPar = 0, played = 0
     for (const h of holes) {
@@ -113,20 +176,9 @@ export default function ScoresPage() {
     return { id: player.id, gross, toPar, played }
   })
 
-  // N = total field size including no-shows (matches official ranking engine)
   const N = players.length
 
-  function lbTiebreak(a, b) {
-    if (a.underParCount !== b.underParCount) return b.underParCount - a.underParCount
-    if (a.parCount !== b.parCount) return b.parCount - a.parCount
-    for (let i = 1; i <= 12; i++) {
-      const ac = a.categoryCounts[i] || 0, bc = b.categoryCounts[i] || 0
-      if (ac !== bc) return ac - bc
-    }
-    return 0
-  }
-
-  // Leaderboard — all players sorted by net-to-par then tiebreaker
+  // Live leaderboard — recomputes on every score entry
   const leaderboard = (() => {
     let rank = 1
     return players
@@ -138,9 +190,9 @@ export default function ScoresPage() {
           if (s) { gross += s; parSum += h.par; played++ }
           return { holeId: h.id, sectionId: h.section_id, strokes: s, rel: s ? s - h.par : null }
         })
-        const completed = holeData.filter(h => h.strokes !== null)
+        const completed    = holeData.filter(h => h.strokes !== null)
         const underParCount = completed.filter(h => h.rel <= -1).length
-        const parCount = completed.filter(h => h.rel === 0).length
+        const parCount      = completed.filter(h => h.rel === 0).length
         const categoryCounts = {}
         for (let i = 1; i <= 12; i++) categoryCounts[i] = completed.filter(h => h.rel === i).length
         return { ...player, gross, toPar: gross - parSum - player.handicap, played, holeData, underParCount, parCount, categoryCounts }
@@ -150,15 +202,13 @@ export default function ScoresPage() {
         return lbTiebreak(a, b)
       })
       .map((player, idx, arr) => {
-        if (idx > 0 && (arr[idx].toPar !== arr[idx - 1].toPar || lbTiebreak(arr[idx], arr[idx - 1]) !== 0)) rank = idx + 1
+        if (idx > 0 && (arr[idx].toPar !== arr[idx-1].toPar || lbTiebreak(arr[idx], arr[idx-1]) !== 0)) rank = idx + 1
         const above = arr[idx - 1], below = arr[idx + 1]
         let tbWon = false, tbLost = false, tbReason = null
         if (above && above.toPar === player.toPar) {
-          tbLost = true
-          tbReason = getTiebreakReason(above, player)
+          tbLost = true; tbReason = getTiebreakReason(above, player)
         } else if (below && below.toPar === player.toPar) {
-          tbWon = true
-          tbReason = getTiebreakReason(player, below)
+          tbWon = true; tbReason = getTiebreakReason(player, below)
         }
         return { ...player, rank, rankingPoints: N - rank + 1, tbWon, tbLost, tbReason }
       })
@@ -173,9 +223,7 @@ export default function ScoresPage() {
             <h1 className="text-xl font-bold">成績輸入 Score Entry</h1>
             <p className="text-green-200 text-sm">離開格子自動儲存 Auto-saves on exit</p>
           </div>
-          <div className="flex gap-2">
-            <Link to="/" className="text-green-200 text-sm underline">返回</Link>
-          </div>
+          <Link to="/" className="text-green-200 text-sm underline">返回</Link>
         </div>
       </div>
 
@@ -206,7 +254,6 @@ export default function ScoresPage() {
               <div className="overflow-x-auto">
                 <table className="border-collapse text-sm" style={{ minWidth: 'max-content' }}>
                   <thead>
-                    {/* Section name spans */}
                     <tr className="bg-green-700 text-white text-xs">
                       <th className="sticky left-0 z-20 bg-green-700 px-3 py-2 text-left min-w-[110px]">球員 Player</th>
                       {sections.map((sec, si) => {
@@ -220,7 +267,6 @@ export default function ScoresPage() {
                       })}
                       <th className="px-3 py-2 text-center border-l-2 border-green-500 min-w-[64px]">合計</th>
                     </tr>
-                    {/* Hole numbers + par */}
                     <tr className="bg-gray-50 text-xs text-gray-500">
                       <th className="sticky left-0 z-20 bg-gray-50 px-3 py-1.5 text-left">差點</th>
                       {sections.map(sec =>
@@ -263,15 +309,16 @@ export default function ScoresPage() {
                                     placeholder="·"
                                     className={`w-[42px] h-[38px] text-center text-sm font-bold rounded
                                       border-0 outline-none focus:ring-2 focus:ring-green-400
-                                      ${cellError[key]  ? 'bg-red-100 text-red-700' :
-                                        cellSaving[key] ? 'bg-yellow-100' :
+                                      transition-colors duration-500
+                                      ${cellError[key]  ? 'bg-red-200 text-red-700' :
+                                        cellSaving[key] ? 'bg-yellow-100 text-yellow-700' :
+                                        cellSaved[key]  ? 'bg-green-200 text-green-800' :
                                         cellClass(rel)}`}
                                   />
                                 </td>
                               )
                             })
                           )}
-                          {/* Summary column */}
                           <td className="px-3 py-2 text-center border-l border-gray-200 min-w-[64px]">
                             {stat.played > 0 ? (
                               <>
@@ -296,7 +343,7 @@ export default function ScoresPage() {
           <div className="px-3">
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide">
-                所有球員即時排行 Live Leaderboard — 按目前得失桿排序
+                所有球員即時排行 Live Leaderboard
               </p>
               <button onClick={loadData}
                 className="text-xs bg-green-700 text-white px-3 py-1 rounded-full font-medium shadow-sm active:bg-green-900">
@@ -306,21 +353,44 @@ export default function ScoresPage() {
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               {leaderboard.map((player, idx) => {
                 const { text: parText, cls: parCls } = toParDisplay(player.toPar)
+                const rankChange = rankChanges[player.id] || 0
                 return (
                   <div key={player.id}
                     className={`px-4 py-3 ${idx < leaderboard.length - 1 ? 'border-b border-gray-100' : ''}`}>
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-2 min-w-0">
-                        <div className="flex flex-col items-center flex-shrink-0 w-8">
-                          <span className="w-6 h-6 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold">
-                            {player.rank}
-                          </span>
+                        {/* Rank badge */}
+                        <div className="flex flex-col items-center flex-shrink-0 w-10">
+                          {player.rank === 1 ? (
+                            <span className="text-2xl leading-none">🥇</span>
+                          ) : player.rank === 2 ? (
+                            <span className="text-2xl leading-none">🥈</span>
+                          ) : player.rank === 3 ? (
+                            <span className="text-2xl leading-none">🥉</span>
+                          ) : (
+                            <span className="w-6 h-6 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold">
+                              {player.rank}
+                            </span>
+                          )}
                           <span className="text-xs text-green-700 font-semibold leading-tight">{player.rankingPoints}分</span>
                         </div>
+                        {/* Name + position change arrow */}
                         <div className="min-w-0">
-                          <span className="text-sm font-medium text-gray-900">{player.chinese_name}</span>
-                          <span className="text-xs text-gray-400 ml-1">{player.english_name}</span>
-                          <span className="text-xs text-gray-400 ml-1">差點{player.handicap}</span>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="text-sm font-medium text-gray-900">{player.chinese_name}</span>
+                            <span className="text-xs text-gray-400">{player.english_name}</span>
+                            <span className="text-xs text-gray-400">差點{player.handicap}</span>
+                            {rankChange > 0 && (
+                              <span className="text-xs font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">
+                                ↑{rankChange}
+                              </span>
+                            )}
+                            {rankChange < 0 && (
+                              <span className="text-xs font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded">
+                                ↓{Math.abs(rankChange)}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                       <div className="flex items-baseline gap-2 flex-shrink-0 ml-3">
@@ -332,17 +402,18 @@ export default function ScoresPage() {
                         )}
                         <span className={`text-base min-w-[36px] text-right ${parCls}`}>淨桿{parText}</span>
                         {player.tbReason && (
-                          <span className={`text-xs px-1.5 py-0.5 rounded font-medium whitespace-nowrap ${player.tbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                          <span className={`text-xs px-1.5 py-0.5 rounded font-medium whitespace-nowrap
+                            ${player.tbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
                             {player.tbWon ? 'TB勝' : 'TB'} {player.tbReason}
                           </span>
                         )}
                       </div>
                     </div>
                     {/* Hole score dots grouped by section */}
-                    <div className="pl-8 space-y-1">
+                    <div className="pl-10 space-y-1">
                       {sections.map(sec => {
-                        const secHoles = player.holeData.filter(h => h.sectionId === sec.id)
-                        const secTotal = secHoles.reduce((sum, h) => sum + (h.strokes || 0), 0)
+                        const secHoles  = player.holeData.filter(h => h.sectionId === sec.id)
+                        const secTotal  = secHoles.reduce((sum, h) => sum + (h.strokes || 0), 0)
                         const secPlayed = secHoles.filter(h => h.strokes).length
                         return (
                           <div key={sec.id} className="flex items-center gap-1">

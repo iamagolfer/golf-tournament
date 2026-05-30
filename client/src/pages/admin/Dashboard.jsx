@@ -23,7 +23,20 @@ export default function Dashboard({ onLogout }) {
   const [players, setPlayers] = useState([])
   const [picks, setPicks] = useState([])
   const [showPicks, setShowPicks] = useState(false)
+  const [copied, setCopied] = useState(false)
   const navigate = useNavigate()
+
+  async function handleCopyLink() {
+    const url = window.location.origin
+    try {
+      await navigator.clipboard.writeText(url)
+    } catch {
+      window.prompt('複製此連結 Copy this link:', url)
+      return
+    }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2500)
+  }
 
   useEffect(() => {
     function load() {
@@ -148,7 +161,14 @@ export default function Dashboard({ onLogout }) {
 
         {/* Public page links */}
         <div className="bg-white rounded-xl shadow-sm p-4">
-          <h3 className="font-medium text-gray-700 mb-3">公開頁面連結 Public Links</h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-medium text-gray-700">公開頁面連結 Public Links</h3>
+            <button onClick={handleCopyLink}
+              className={`flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg transition
+                ${copied ? 'bg-green-100 text-green-700' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'}`}>
+              {copied ? '✓ 已複製！' : '📋 複製連結'}
+            </button>
+          </div>
           <div className="space-y-2 text-sm">
             {[
               { label: '賽事資訊 Info', path: '/' },

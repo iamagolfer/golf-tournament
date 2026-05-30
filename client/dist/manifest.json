@@ -1,0 +1,18 @@
+{
+  "name": "高爾夫球賽計分系統 Golf Tournament",
+  "short_name": "高爾夫賽",
+  "description": "Golf tournament scoring, horse picks, and live rankings",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0fdf4",
+  "theme_color": "#166534",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/golf-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
