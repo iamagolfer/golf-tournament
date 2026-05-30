@@ -47,9 +47,10 @@ export default function Dashboard({ onLogout }) {
   const [pinStatus, setPinStatus]     = useState('')
   const [pinLoading, setPinLoading]   = useState(false)
 
-  // Debug — Self-pick section
-  const [pickSelfStatus, setPickSelfStatus] = useState('')
-  const [pickSelfLoading, setPickSelfLoading] = useState(false)
+  // Debug — Batch pick section
+  const [pickMode, setPickMode]           = useState('self')
+  const [pickStatus, setPickStatus]       = useState('')
+  const [pickLoading, setPickLoading]     = useState(false)
 
   // Debug — Score section
   const [scoreMode, setScoreMode]     = useState('all')
@@ -145,18 +146,21 @@ export default function Dashboard({ onLogout }) {
     setPinLoading(false)
   }
 
-  // ── Debug: Self-pick function ──
+  // ── Debug: Batch pick function ──
 
-  async function handleBatchSelfPick() {
-    if (!window.confirm(`批次自選馬：讓所有 ${players.length} 位球員選自己為馬？\nBatch self-pick: make all ${players.length} players pick themselves?`)) return
-    setPickSelfLoading(true); setPickSelfStatus('')
+  async function handleBatchPick() {
+    setPickLoading(true); setPickStatus('')
     try {
-      const result = await api.post('/players/batch-self-pick', {})
-      setPickSelfStatus(`完成 Done: ${result.count} 位球員已自選馬`)
+      const result = await api.post('/players/batch-self-pick', { mode: pickMode })
+      if (pickMode === 'same-random') {
+        setPickStatus(`完成：${result.count} 人都選了 ${result.targetName}`)
+      } else {
+        setPickStatus(`完成 Done: ${result.count} 位球員`)
+      }
     } catch (err) {
-      setPickSelfStatus(`失敗 Failed: ${err.message || '未知錯誤'}`)
+      setPickStatus(`失敗 Failed: ${err.message || '未知錯誤'}`)
     }
-    setPickSelfLoading(false)
+    setPickLoading(false)
   }
 
   // ── Debug: Score fill functions ──
@@ -495,29 +499,67 @@ export default function Dashboard({ onLogout }) {
                 </div>
               )}
 
-              {/* ── Section 3: Self-pick ── */}
+              {/* ── Section 3: Batch pick ── */}
               {debugTab === 'selfpick' && (
                 <div className="space-y-3">
-                  <p className="text-xs text-gray-500">讓所有球員選自己為馬（測試用）<br/>Make every player pick themselves as their horse</p>
+                  {/* Mode selector */}
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {[
+                      { key: 'self',        label: '1. 自己選自己',        desc: '每人選自己' },
+                      { key: 'same-random', label: '2. 隨機同一人',        desc: '全員選同一位隨機球員' },
+                      { key: 'next',        label: '3. 選下一位',          desc: '選名單中的下一位（循環）' },
+                      { key: 'random',      label: '4. 各自隨機',          desc: '每人隨機選一位（可重複）' },
+                    ].map(({ key, label, desc }) => (
+                      <button key={key} onClick={() => { setPickMode(key); setPickStatus('') }}
+                        className={`py-2 px-2 text-xs font-medium rounded-lg transition text-left leading-tight ${pickMode === key ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-300' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>
+                        <div className="font-semibold">{label}</div>
+                        <div className={`text-xs mt-0.5 ${pickMode === key ? 'text-blue-500' : 'text-gray-400'}`}>{desc}</div>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Preview */}
                   {players.length > 0 ? (
                     <div className="bg-gray-50 rounded-lg p-2 max-h-48 overflow-y-auto space-y-0.5">
-                      {players.map(p => (
+                      {pickMode === 'self' && players.map(p => (
                         <div key={p.id} className="flex justify-between items-center text-xs text-gray-600 py-0.5">
                           <span>{p.player_number}. {p.chinese_name} {p.english_name}</span>
-                          <span className="text-blue-600 font-medium">→ 自己 Self</span>
+                          <span className="text-blue-600 font-medium ml-2">→ 自己</span>
                         </div>
                       ))}
+                      {pickMode === 'same-random' && (
+                        <div className="text-xs text-gray-500 text-center py-3">
+                          全員選同一位隨機球員<br/>
+                          <span className="text-gray-400">執行後才知道是誰</span>
+                        </div>
+                      )}
+                      {pickMode === 'next' && players.map((p, i) => {
+                        const next = players[(i + 1) % players.length]
+                        return (
+                          <div key={p.id} className="flex justify-between items-center text-xs text-gray-600 py-0.5">
+                            <span>{p.player_number}. {p.chinese_name} {p.english_name}</span>
+                            <span className="text-blue-600 font-medium ml-2">→ {next.chinese_name} {next.english_name}</span>
+                          </div>
+                        )
+                      })}
+                      {pickMode === 'random' && (
+                        <div className="text-xs text-gray-500 text-center py-3">
+                          每人各自隨機選一位（可重複）<br/>
+                          <span className="text-gray-400">執行後才知道結果</span>
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <p className="text-xs text-gray-400 text-center py-2">尚未建立球員名單</p>
                   )}
-                  <button onClick={handleBatchSelfPick} disabled={pickSelfLoading || !players.length}
+
+                  <button onClick={handleBatchPick} disabled={pickLoading || !players.length}
                     className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg disabled:opacity-40 transition">
-                    {pickSelfLoading ? '設定中...' : `一鍵全員自選馬 (${players.length} 人)`}
+                    {pickLoading ? '設定中...' : `套用選馬 (${players.length} 人)`}
                   </button>
-                  {pickSelfStatus && (
+                  {pickStatus && (
                     <div className="text-xs text-center font-medium text-blue-700 bg-blue-50 border border-blue-200 px-3 py-2 rounded-lg">
-                      ✓ {pickSelfStatus}
+                      ✓ {pickStatus}
                     </div>
                   )}
                 </div>

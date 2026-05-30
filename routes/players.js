@@ -86,27 +86,44 @@ module.exports = (db) => {
     res.json({ success: true });
   });
 
-  // Admin: batch self-pick (each player picks themselves)
+  // Admin: batch pick (4 modes)
   router.post('/batch-self-pick', requireAdmin, (req, res) => {
     try {
+      const { mode = 'self' } = req.body;
       const t = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
       if (!t) return res.status(400).json({ error: '尚未建立賽事' });
       if (t.status === 'playing' || t.status === 'revealed' || t.status === 'finished') {
         return res.status(400).json({ error: '比賽已開始，無法更改選馬！\nGame has started, picks are locked!' });
       }
-      const players = db.prepare('SELECT id FROM players WHERE tournament_id=?').all(t.id);
-      const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
-      let ok = 0;
-      for (const player of players) {
-        const existing = db.prepare('SELECT id FROM horse_picks WHERE player_id=?').get(player.id);
-        if (existing) {
-          db.prepare('UPDATE horse_picks SET picked_player_id=?, updated_at=? WHERE player_id=?').run(player.id, now, player.id);
-        } else {
-          db.prepare('INSERT INTO horse_picks (player_id, picked_player_id) VALUES (?,?)').run(player.id, player.id);
-        }
-        ok++;
+      const players = db.prepare('SELECT id, chinese_name, english_name FROM players WHERE tournament_id=? ORDER BY player_number').all(t.id);
+      if (!players.length) return res.status(400).json({ error: '尚未建立球員名單' });
+
+      let assignments;
+      let extraInfo = {};
+      if (mode === 'self') {
+        assignments = players.map(p => ({ playerId: p.id, pickedId: p.id }));
+      } else if (mode === 'same-random') {
+        const target = players[Math.floor(Math.random() * players.length)];
+        assignments = players.map(p => ({ playerId: p.id, pickedId: target.id }));
+        extraInfo = { targetName: `${target.chinese_name} ${target.english_name}` };
+      } else if (mode === 'next') {
+        assignments = players.map((p, i) => ({ playerId: p.id, pickedId: players[(i + 1) % players.length].id }));
+      } else if (mode === 'random') {
+        assignments = players.map(p => ({ playerId: p.id, pickedId: players[Math.floor(Math.random() * players.length)].id }));
+      } else {
+        return res.status(400).json({ error: 'Invalid mode' });
       }
-      res.json({ success: true, count: ok });
+
+      const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
+      for (const { playerId, pickedId } of assignments) {
+        const existing = db.prepare('SELECT id FROM horse_picks WHERE player_id=?').get(playerId);
+        if (existing) {
+          db.prepare('UPDATE horse_picks SET picked_player_id=?, updated_at=? WHERE player_id=?').run(pickedId, now, playerId);
+        } else {
+          db.prepare('INSERT INTO horse_picks (player_id, picked_player_id) VALUES (?,?)').run(playerId, pickedId);
+        }
+      }
+      res.json({ success: true, count: assignments.length, ...extraInfo });
     } catch (err) {
       console.error('batch-self-pick error:', err);
       res.status(500).json({ error: err.message });
