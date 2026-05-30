@@ -83,10 +83,7 @@ export default function RankingsPage() {
               {lastUpdated ? `更新: ${lastUpdated.toLocaleTimeString('zh-TW')} • 每30秒自動重整` : ''}
             </p>
           </div>
-          <div className="flex gap-2 items-center">
-            <button onClick={load} className="text-green-200 text-sm bg-green-700 px-2 py-1 rounded">↻</button>
-            <Link to="/" className="text-green-200 text-sm underline">返回</Link>
-          </div>
+          <Link to="/" className="text-green-200 text-sm underline">返回</Link>
         </div>
       </div>
 
@@ -106,15 +103,19 @@ export default function RankingsPage() {
       )}
 
       {/* Tabs — Final Rankings tab only visible after picks are revealed */}
-      <div className={`grid bg-green-700 ${picksRevealed ? 'grid-cols-2' : 'grid-cols-1'}`}>
+      <div className="flex bg-green-700">
         <button onClick={() => setActiveTab('stroke')}
-          className={`py-3 text-sm font-medium transition ${activeTab === 'stroke' ? 'bg-white text-green-800' : 'text-white hover:bg-green-600'}`}>
+          className={`flex-1 py-3 text-sm font-medium transition ${activeTab === 'stroke' ? 'bg-white text-green-800' : 'text-white hover:bg-green-600'}`}>
           <div>淨桿排名</div>
           <div className={`text-xs ${activeTab === 'stroke' ? 'text-green-600' : 'text-green-300'}`}>Stroke Play</div>
         </button>
+        <button onClick={load}
+          className="flex-shrink-0 flex items-center gap-1.5 bg-green-600 hover:bg-green-500 active:bg-green-900 text-white text-xs font-medium px-3 border-l border-green-500">
+          ↻ 更新淨桿排名
+        </button>
         {picksRevealed && (
           <button onClick={() => setActiveTab('final')}
-            className={`py-3 text-sm font-medium transition ${activeTab === 'final' ? 'bg-white text-green-800' : 'text-white hover:bg-green-600'}`}>
+            className={`flex-1 py-3 text-sm font-medium transition border-l border-green-500 ${activeTab === 'final' ? 'bg-white text-green-800' : 'text-white hover:bg-green-600'}`}>
             <div>最終排名 🐴</div>
             <div className={`text-xs ${activeTab === 'final' ? 'text-green-600' : 'text-green-300'}`}>Final + Horse</div>
           </button>
