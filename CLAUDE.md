@@ -198,7 +198,7 @@ Bottom 6 by final ranking must buy dinner (highlighted red on rankings page).
 ### 5. Tiebreaker Badges (both /scores leaderboard and /rankings stroke tab)
 - `勝 低標桿洞` (green) — won tiebreaker over player below, shows decisive criterion
 - `輸 低標桿洞` (amber) — lost tiebreaker to player above, shows decisive criterion
-- Final tab: `TB勝 桿賽得分` / `TB 桿賽得分` when total-points tie broken by stroke points
+- Final tab: `勝 淨桿得分` / `輸 淨桿得分` when total-points tie broken by stroke points
 - No badge for uniquely-ranked players, no-shows, or pending scores
 
 ### 6. Implementation
@@ -232,6 +232,7 @@ All logic in `logic/rankings.js`:
   - Yellow instruction box shows Chinese only (no English)
 - **/scores** — Group tabs, scrollable scorecard (color-coded inputs, auto-save on blur, clear cell to delete score), live leaderboard
 - **/rankings** — Stroke Play tab + Final Rankings tab; polls every 30s; medals 🥇🥈🥉; dinner cutoff; tiebreaker badges
+  - Default tab: **最終排名🐴** when status is `revealed` or `finished`; **淨桿排名** otherwise
 
 ### /scores Live Leaderboard (bottom of ScoresPage)
 - **Two view toggle** (tab strip above leaderboard):
@@ -260,6 +261,8 @@ All logic in `logic/rankings.js`:
 ### Design
 - Mobile-first, large tap targets, bottom-sheet modals
 - Green golf theme, Noto Sans TC font for Chinese characters
+- Viewport: `width=device-width, initial-scale=1.0` — pinch-to-zoom enabled on both iOS and Android
+- All public page headers have "返回主選單" link (top-right) back to `/`
 
 ---
 
