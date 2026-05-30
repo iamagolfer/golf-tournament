@@ -47,6 +47,10 @@ export default function Dashboard({ onLogout }) {
   const [pinStatus, setPinStatus]     = useState('')
   const [pinLoading, setPinLoading]   = useState(false)
 
+  // Debug — Self-pick section
+  const [pickSelfStatus, setPickSelfStatus] = useState('')
+  const [pickSelfLoading, setPickSelfLoading] = useState(false)
+
   // Debug — Score section
   const [scoreMode, setScoreMode]     = useState('all')
   const [scoreAll, setScoreAll]       = useState('')
@@ -139,6 +143,20 @@ export default function Dashboard({ onLogout }) {
     }
     setPinStatus(`完成: ${ok} 更新，${skip} 略過`)
     setPinLoading(false)
+  }
+
+  // ── Debug: Self-pick function ──
+
+  async function handleBatchSelfPick() {
+    if (!window.confirm(`批次自選馬：讓所有 ${players.length} 位球員選自己為馬？\nBatch self-pick: make all ${players.length} players pick themselves?`)) return
+    setPickSelfLoading(true); setPickSelfStatus('')
+    try {
+      const result = await api.post('/players/batch-self-pick', {})
+      setPickSelfStatus(`完成 Done: ${result.count} 位球員已自選馬`)
+    } catch (err) {
+      setPickSelfStatus(`失敗 Failed: ${err.message || '未知錯誤'}`)
+    }
+    setPickSelfLoading(false)
   }
 
   // ── Debug: Score fill functions ──
@@ -307,6 +325,10 @@ export default function Dashboard({ onLogout }) {
                   className={`flex-1 py-2 text-xs font-semibold rounded-lg transition ${debugTab === 'scores' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>
                   2. 批次填入成績
                 </button>
+                <button onClick={() => setDebugTab('selfpick')}
+                  className={`flex-1 py-2 text-xs font-semibold rounded-lg transition ${debugTab === 'selfpick' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>
+                  3. 批次自選馬
+                </button>
               </div>
 
               {/* ── Section 1: PIN ── */}
@@ -468,6 +490,34 @@ export default function Dashboard({ onLogout }) {
                   {scoreStatus && (
                     <div className="text-xs text-center font-medium text-green-700 bg-green-50 border border-green-200 px-3 py-2 rounded-lg">
                       ✓ {scoreStatus}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ── Section 3: Self-pick ── */}
+              {debugTab === 'selfpick' && (
+                <div className="space-y-3">
+                  <p className="text-xs text-gray-500">讓所有球員選自己為馬（測試用）<br/>Make every player pick themselves as their horse</p>
+                  {players.length > 0 ? (
+                    <div className="bg-gray-50 rounded-lg p-2 max-h-48 overflow-y-auto space-y-0.5">
+                      {players.map(p => (
+                        <div key={p.id} className="flex justify-between items-center text-xs text-gray-600 py-0.5">
+                          <span>{p.player_number}. {p.chinese_name} {p.english_name}</span>
+                          <span className="text-blue-600 font-medium">→ 自己 Self</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 text-center py-2">尚未建立球員名單</p>
+                  )}
+                  <button onClick={handleBatchSelfPick} disabled={pickSelfLoading || !players.length}
+                    className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg disabled:opacity-40 transition">
+                    {pickSelfLoading ? '設定中...' : `一鍵全員自選馬 (${players.length} 人)`}
+                  </button>
+                  {pickSelfStatus && (
+                    <div className="text-xs text-center font-medium text-blue-700 bg-blue-50 border border-blue-200 px-3 py-2 rounded-lg">
+                      ✓ {pickSelfStatus}
                     </div>
                   )}
                 </div>

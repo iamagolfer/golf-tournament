@@ -86,6 +86,33 @@ module.exports = (db) => {
     res.json({ success: true });
   });
 
+  // Admin: batch self-pick (each player picks themselves)
+  router.post('/batch-self-pick', requireAdmin, (req, res) => {
+    try {
+      const t = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
+      if (!t) return res.status(400).json({ error: '尚未建立賽事' });
+      if (t.status === 'playing' || t.status === 'revealed' || t.status === 'finished') {
+        return res.status(400).json({ error: '比賽已開始，無法更改選馬！\nGame has started, picks are locked!' });
+      }
+      const players = db.prepare('SELECT id FROM players WHERE tournament_id=?').all(t.id);
+      const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
+      let ok = 0;
+      for (const player of players) {
+        const existing = db.prepare('SELECT id FROM horse_picks WHERE player_id=?').get(player.id);
+        if (existing) {
+          db.prepare('UPDATE horse_picks SET picked_player_id=?, updated_at=? WHERE player_id=?').run(player.id, now, player.id);
+        } else {
+          db.prepare('INSERT INTO horse_picks (player_id, picked_player_id) VALUES (?,?)').run(player.id, player.id);
+        }
+        ok++;
+      }
+      res.json({ success: true, count: ok });
+    } catch (err) {
+      console.error('batch-self-pick error:', err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   // Public: pick horse (requires PIN)
   router.post('/pick-horse', (req, res) => {
     try {
