@@ -212,9 +212,14 @@ export default function PickHorsePage() {
                   <div>
                     <div className="font-medium text-gray-900">{player.chinese_name} <span className="text-gray-500">{player.english_name}</span></div>
                     <div className="text-xs text-gray-400">差點 {player.handicap}</div>
-                    {status_.pick && (
-                      <div className="text-xs text-gray-400 mt-0.5">🔒 選馬保密中</div>
-                    )}
+                    {status_.pick && (() => {
+                      const picksRevealed = status === 'revealed' || status === 'finished'
+                      if (picksRevealed) {
+                        const horse = players.find(p => p.id === status_.pick.picked_player_id)
+                        return <div className="text-xs text-green-600 mt-0.5">🐴 {horse ? `${horse.chinese_name} ${horse.english_name}` : '-'}</div>
+                      }
+                      return <div className="text-xs text-gray-400 mt-0.5">🔒 選馬保密中</div>
+                    })()}
                   </div>
                 </div>
                 <span className={`text-xs border rounded-full px-2 py-1 flex-shrink-0 ${status_.color}`}>
