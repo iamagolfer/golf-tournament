@@ -88,7 +88,12 @@ export default function ScoresPage() {
 
   useEffect(() => { loadData() }, [])
   useEffect(() => {
-    const id = setInterval(loadData, 10 * 60 * 1000)
+    // Skip refresh if scorer is actively typing in a cell
+    function smartRefresh() {
+      if (document.activeElement?.tagName === 'INPUT') return
+      loadData()
+    }
+    const id = setInterval(smartRefresh, 60 * 1000)
     return () => clearInterval(id)
   }, [])
 
@@ -247,9 +252,15 @@ export default function ScoresPage() {
 
           {/* ── SCROLLABLE GROUP SCORECARD ── */}
           <div className="px-3">
-            <p className="text-xs text-gray-500 mb-2 font-semibold uppercase tracking-wide">
-              {activeGroup?.name} — 直接輸入各洞桿數
-            </p>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide">
+                {activeGroup?.name} — 直接輸入各洞桿數
+              </p>
+              <button onClick={loadData}
+                className="flex items-center gap-1.5 bg-green-700 hover:bg-green-800 active:bg-green-900 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm">
+                ↻ 重新整理成績
+              </button>
+            </div>
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="border-collapse text-sm" style={{ minWidth: 'max-content' }}>
