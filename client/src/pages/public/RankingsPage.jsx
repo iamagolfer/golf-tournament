@@ -103,17 +103,17 @@ export default function RankingsPage() {
       )}
 
       {/* Tabs — Final Rankings tab only visible after picks are revealed */}
-      <div className={`grid bg-green-700 ${picksRevealed ? 'grid-cols-2' : 'grid-cols-1'}`}>
+      <div className={`grid bg-white border-b border-gray-200 ${picksRevealed ? 'grid-cols-2' : 'grid-cols-1'}`}>
         <button onClick={() => setActiveTab('stroke')}
-          className={`py-3 text-sm font-medium transition ${activeTab === 'stroke' ? 'bg-green-500 text-white' : 'text-white hover:bg-green-600'}`}>
+          className={`py-3 text-sm font-semibold transition ${activeTab === 'stroke' ? 'bg-green-700 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}>
           <div>淨桿排名</div>
-          <div className={`text-xs ${activeTab === 'stroke' ? 'text-green-100' : 'text-green-300'}`}>Stroke Play</div>
+          <div className={`text-xs ${activeTab === 'stroke' ? 'text-green-200' : 'text-gray-400'}`}>Stroke Play</div>
         </button>
         {picksRevealed && (
           <button onClick={() => setActiveTab('final')}
-            className={`py-3 text-sm font-medium transition ${activeTab === 'final' ? 'bg-green-500 text-white' : 'text-white hover:bg-green-600'}`}>
+            className={`py-3 text-sm font-semibold transition ${activeTab === 'final' ? 'bg-green-700 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}>
             <div>最終排名 🐴</div>
-            <div className={`text-xs ${activeTab === 'final' ? 'text-green-100' : 'text-green-300'}`}>Final + Horse</div>
+            <div className={`text-xs ${activeTab === 'final' ? 'text-green-200' : 'text-gray-400'}`}>Final + Horse</div>
           </button>
         )}
       </div>
