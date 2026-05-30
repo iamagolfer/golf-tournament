@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../../api'
 
@@ -41,37 +41,6 @@ function lbTiebreak(a, b) {
   return 0
 }
 
-// Returns { [playerId]: rank } — used to track position changes between refreshes
-function computeRankMap(players, holes, scoreMap) {
-  const stats = players
-    .filter(p => !p.no_show)
-    .map(player => {
-      let gross = 0, parSum = 0
-      const completed = []
-      for (const h of holes) {
-        const s = scoreMap[`${player.id}_${h.id}`] || null
-        if (s) { gross += s; parSum += h.par; completed.push({ rel: s - h.par }) }
-      }
-      const toPar = gross - parSum - player.handicap
-      const underParCount = completed.filter(h => h.rel <= -1).length
-      const parCount      = completed.filter(h => h.rel === 0).length
-      const categoryCounts = {}
-      for (let i = 1; i <= 12; i++) categoryCounts[i] = completed.filter(h => h.rel === i).length
-      return { id: player.id, toPar, underParCount, parCount, categoryCounts }
-    })
-    .sort((a, b) => {
-      if (a.toPar !== b.toPar) return a.toPar - b.toPar
-      return lbTiebreak(a, b)
-    })
-
-  let rank = 1
-  const rankMap = {}
-  stats.forEach((p, idx, arr) => {
-    if (idx > 0 && (arr[idx].toPar !== arr[idx-1].toPar || lbTiebreak(arr[idx], arr[idx-1]) !== 0)) rank = idx + 1
-    rankMap[p.id] = rank
-  })
-  return rankMap
-}
 
 export default function ScoresPage() {
   const [groups, setGroups]             = useState([])
@@ -84,8 +53,6 @@ export default function ScoresPage() {
   const [cellSaving, setCellSaving]     = useState({})
   const [cellError, setCellError]       = useState({})
   const [cellSaved, setCellSaved]       = useState({})
-  const [rankChanges, setRankChanges]   = useState({})
-  const prevRankMapRef                  = useRef({})
   const savedScoresRef                  = useRef({}) // tracks what is actually saved on server
 
   useEffect(() => { loadData() }, [])
@@ -120,19 +87,6 @@ export default function ScoresPage() {
     setActiveGroupId(prev => prev ?? (freshGroups[0]?.id || null))
     setScores(freshScoreMap)
 
-    // Compute rank changes vs previous server fetch
-    if (freshPlayers.length && freshHoles.length) {
-      const newRankMap = computeRankMap(freshPlayers, freshHoles, freshScoreMap)
-      const changes = {}
-      Object.entries(newRankMap).forEach(([id, rank]) => {
-        const prev = prevRankMapRef.current[Number(id)]
-        if (prev !== undefined && prev !== rank) {
-          changes[Number(id)] = prev - rank // positive = moved up (rank number got smaller)
-        }
-      })
-      setRankChanges(changes)
-      prevRankMapRef.current = newRankMap
-    }
   }
 
   function handleChange(playerId, holeId, value) {
@@ -378,7 +332,6 @@ export default function ScoresPage() {
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               {leaderboard.map((player, idx) => {
                 const { text: parText, cls: parCls } = toParDisplay(player.toPar)
-                const rankChange = rankChanges[player.id] || 0
                 return (
                   <div key={player.id}
                     className={`px-4 py-3 ${idx < leaderboard.length - 1 ? 'border-b border-gray-100' : ''}`}>
@@ -399,22 +352,11 @@ export default function ScoresPage() {
                           )}
                           <span className="text-xs text-green-700 font-semibold leading-tight">{player.rankingPoints}分</span>
                         </div>
-                        {/* Name + position change arrow */}
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5 flex-wrap">
                             <span className="text-sm font-medium text-gray-900">{player.chinese_name}</span>
                             <span className="text-xs text-gray-400">{player.english_name}</span>
                             <span className="text-xs text-gray-400">差點{player.handicap}</span>
-                            {rankChange > 0 && (
-                              <span className="text-xs font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">
-                                ↑{rankChange}
-                              </span>
-                            )}
-                            {rankChange < 0 && (
-                              <span className="text-xs font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded">
-                                ↓{Math.abs(rankChange)}
-                              </span>
-                            )}
                           </div>
                         </div>
                       </div>
