@@ -85,6 +85,7 @@ export default function ScoresPage() {
   const [cellSaved, setCellSaved]       = useState({})
   const [rankChanges, setRankChanges]   = useState({})
   const prevRankMapRef                  = useRef({})
+  const savedScoresRef                  = useRef({}) // tracks what is actually saved on server
 
   useEffect(() => { loadData() }, [])
   useEffect(() => {
@@ -108,6 +109,7 @@ export default function ScoresPage() {
 
     const freshScoreMap = {}
     for (const sc of s.scores || []) freshScoreMap[`${sc.player_id}_${sc.hole_id}`] = sc.strokes
+    savedScoresRef.current = freshScoreMap // snapshot of what server has
 
     setSections(freshSections)
     setHoles(freshHoles)
@@ -141,11 +143,13 @@ export default function ScoresPage() {
     const key = `${playerId}_${holeId}`
 
     if (value === '' || value === null || value === undefined) {
-      if (!scores[key] && scores[key] !== 0) return
+      // Only send delete if a score was actually saved on the server for this cell
+      if (savedScoresRef.current[key] === undefined) return
       setCellSaving(prev => ({ ...prev, [key]: true }))
       try {
         await api.post('/scores/batch', { playerId, scores: [{ holeId: Number(holeId), strokes: 0 }] })
         setScores(prev => { const next = { ...prev }; delete next[key]; return next })
+        delete savedScoresRef.current[key] // server no longer has this score
       } catch {
         setCellError(prev => ({ ...prev, [key]: true }))
       } finally {
@@ -159,7 +163,7 @@ export default function ScoresPage() {
     setCellSaving(prev => ({ ...prev, [key]: true }))
     try {
       await api.post('/scores/batch', { playerId, scores: [{ holeId: Number(holeId), strokes: s }] })
-      // Green flash on successful save
+      savedScoresRef.current[key] = s // server now has this score
       setCellSaved(prev => ({ ...prev, [key]: true }))
       setTimeout(() => setCellSaved(prev => { const n = { ...prev }; delete n[key]; return n }), 900)
     } catch {
