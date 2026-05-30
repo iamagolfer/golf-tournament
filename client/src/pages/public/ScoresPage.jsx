@@ -371,7 +371,7 @@ export default function ScoresPage() {
                         {player.tbReason && (
                           <span className={`text-xs px-1.5 py-0.5 rounded font-medium whitespace-nowrap
                             ${player.tbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
-                            {player.tbWon ? '勝' : 'TB'} {player.tbReason}
+                            {player.tbWon ? '勝' : '輸'} {player.tbReason}
                           </span>
                         )}
                       </div>
