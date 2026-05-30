@@ -49,6 +49,7 @@ export default function RankingsPage() {
       const r = await api.get('/rankings')
       setData(r)
       setLastUpdated(new Date())
+      if (r.status === 'revealed' || r.status === 'finished') setActiveTab('final')
     } catch (e) {}
     finally { setLoading(false) }
   }
