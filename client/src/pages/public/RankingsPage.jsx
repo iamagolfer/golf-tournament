@@ -83,7 +83,7 @@ export default function RankingsPage() {
               {lastUpdated ? `更新: ${lastUpdated.toLocaleTimeString('zh-TW')} • 每30秒自動重整` : ''}
             </p>
           </div>
-          <Link to="/" className="text-green-200 text-sm underline">返回</Link>
+          <Link to="/" className="text-green-200 text-sm underline">返回主選單</Link>
         </div>
       </div>
 

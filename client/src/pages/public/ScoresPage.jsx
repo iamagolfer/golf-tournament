@@ -219,7 +219,7 @@ export default function ScoresPage() {
             <h1 className="text-xl font-bold">成績輸入 Score Entry</h1>
             <p className="text-green-200 text-sm">離開格子自動儲存 Auto-saves on exit</p>
           </div>
-          <Link to="/" className="text-green-200 text-sm underline">返回</Link>
+          <Link to="/" className="text-green-200 text-sm underline">返回主選單</Link>
         </div>
       </div>
 

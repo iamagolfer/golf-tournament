@@ -138,7 +138,7 @@ export default function PickHorsePage() {
               {isLocked ? '🔒 比賽已開始，選馬已鎖定' : `已選 ${pickedCount}/${players.length} 人`}
             </p>
           </div>
-          <Link to="/" className="text-green-200 text-sm underline">返回</Link>
+          <Link to="/" className="text-green-200 text-sm underline">返回主選單</Link>
         </div>
       </div>
 
