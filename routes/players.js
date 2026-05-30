@@ -92,7 +92,7 @@ module.exports = (db) => {
       const { playerId, pin, pickedPlayerId } = req.body;
       const t = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
 
-      if (t.status === 'playing' || t.status === 'finished') {
+      if (t.status === 'playing' || t.status === 'revealed' || t.status === 'finished') {
         return res.status(400).json({ error: '比賽已開始，無法更改選馬！\nGame has started, picks are locked!' });
       }
 

@@ -59,7 +59,7 @@ export default function PickHorsePage() {
     }
   }
 
-  const isLocked = status === 'playing' || status === 'finished'
+  const isLocked = status === 'playing' || status === 'revealed' || status === 'finished'
   const pickedCount = picks.length
   const [showHistory, setShowHistory] = useState(false)
 
