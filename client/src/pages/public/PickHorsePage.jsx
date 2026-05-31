@@ -244,7 +244,7 @@ export default function PickHorsePage() {
             </div>
             <p className="text-gray-600 text-sm">
               你好，<strong>{modal.playerName}</strong>！請輸入你的PIN碼確認身份。<br/>
-              Hello! Enter your 4-digit PIN to confirm identity.
+              不知道密碼的，可以回查Albert的LINE對話紀錄。
             </p>
 
             <div>
