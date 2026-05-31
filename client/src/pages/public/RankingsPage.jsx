@@ -215,7 +215,7 @@ export default function RankingsPage() {
                       )}
                       {tbReason && (
                         <span className={`px-1.5 py-0.5 rounded font-medium ${tbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
-                          {tbWon ? 'TB勝' : 'TB'} {tbReason}
+                          {tbWon ? '勝' : '輸'}{tbReason}#
                         </span>
                       )}
                       {player.isNoShow && <span className="text-red-500"> 未出席</span>}
