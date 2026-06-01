@@ -28,7 +28,7 @@ app.use('/api/scores', require('./routes/scores')(db));
 app.use('/api/rankings', require('./routes/rankings')(db));
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/dist')));
+  app.use(express.static(path.join(__dirname, 'client/dist'), { index: false }));
 
   const PAGE_TITLES = {
     '/':         '戒指選秀盃主畫面',
