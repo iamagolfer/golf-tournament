@@ -43,6 +43,7 @@ function lbTiebreak(a, b) {
 
 
 export default function ScoresPage() {
+  document.title = '即時輸入查看成績'
   const [groups, setGroups]             = useState([])
   const [players, setPlayers]           = useState([])
   const [holes, setHoles]               = useState([])

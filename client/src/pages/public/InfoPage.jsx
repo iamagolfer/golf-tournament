@@ -41,6 +41,7 @@ const BRIEF_RULES = `
 `
 
 export default function InfoPage() {
+  document.title = '戒指選秀盃主畫面'
   const [tournament, setTournament] = useState(null)
   const [sections, setSections] = useState([])
   const [holes, setHoles] = useState([])

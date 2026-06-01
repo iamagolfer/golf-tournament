@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { api } from '../../api'
 
 export default function PickHorsePage() {
+  document.title = '選馬'
   const [players, setPlayers] = useState([])
   const [picks, setPicks] = useState([]) // { player_id, picked_player_id, updated_at }
   const [status, setStatus] = useState('setup')

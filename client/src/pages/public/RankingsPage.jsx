@@ -39,6 +39,7 @@ function ScoreBar({ player, N }) {
 }
 
 export default function RankingsPage() {
+  document.title = '最終排名'
   const [data, setData] = useState(null)
   const [activeTab, setActiveTab] = useState('stroke')
   const [loading, setLoading] = useState(true)
