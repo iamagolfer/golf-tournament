@@ -29,8 +29,21 @@ app.use('/api/rankings', require('./routes/rankings')(db));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/dist')));
+
+  const PAGE_TITLES = {
+    '/':         '戒指選秀盃主畫面',
+    '/pick':     '選馬',
+    '/scores':   '即時輸入查看成績',
+    '/rankings': '最終排名',
+  };
+
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+    const htmlPath = path.join(__dirname, 'client/dist/index.html');
+    let html = fs.readFileSync(htmlPath, 'utf8');
+    const title = PAGE_TITLES[req.path] || '高爾夫球賽計分系統';
+    html = html.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
+    res.setHeader('Content-Type', 'text/html');
+    res.send(html);
   });
 }
 
