@@ -14,7 +14,13 @@ module.exports = (db) => {
     if (!t) return res.json({ players: [], groups: [], picks: [] });
     const players = db.prepare('SELECT id, tournament_id, player_number, chinese_name, english_name, handicap, group_id, no_show FROM players WHERE tournament_id=? ORDER BY player_number').all(t.id);
     const groups = db.prepare('SELECT * FROM groups WHERE tournament_id=? ORDER BY group_order').all(t.id);
-    const picks = db.prepare('SELECT hp.player_id, hp.picked_player_id, hp.updated_at FROM horse_picks hp JOIN players p ON p.id=hp.player_id WHERE p.tournament_id=?').all(t.id);
+    let picks = [];
+    if (t.status === 'revealed' || t.status === 'finished') {
+      picks = db.prepare('SELECT hp.player_id, hp.picked_player_id, hp.updated_at FROM horse_picks hp JOIN players p ON p.id=hp.player_id WHERE p.tournament_id=?').all(t.id);
+    } else if (t.status !== 'playing') {
+      // setup/picking: only expose that a pick exists, not who was picked
+      picks = db.prepare('SELECT hp.player_id, hp.updated_at FROM horse_picks hp JOIN players p ON p.id=hp.player_id WHERE p.tournament_id=?').all(t.id);
+    }
     res.json({ players, groups, picks });
   });
 

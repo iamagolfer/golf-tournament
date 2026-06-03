@@ -32,8 +32,7 @@ export default function PickHorsePage() {
   function openPickModal(player) {
     if (status === 'playing' || status === 'finished') return
     setModal({ playerId: player.id, playerName: `${player.chinese_name} ${player.english_name}` })
-    const existing = picks.find(p => p.player_id === player.id)
-    setSelectedHorse(existing ? String(existing.picked_player_id) : '')
+    setSelectedHorse('')
     setPin('')
     setError('')
   }
