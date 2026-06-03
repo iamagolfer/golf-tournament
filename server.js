@@ -43,6 +43,7 @@ if (process.env.NODE_ENV === 'production') {
     const title = PAGE_TITLES[req.path] || '高爾夫球賽計分系統';
     html = html.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
     res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Cache-Control', 'no-cache');
     res.send(html);
   });
 }
