@@ -152,7 +152,7 @@ export default function PickHorsePage() {
         <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-4">
           <button onClick={() => setShowHistory(v => !v)}
             className="w-full px-4 py-3 flex items-center justify-between text-left">
-            <span className="font-bold text-gray-800">🏆 歷屆冠軍及成績</span>
+            <span className="font-bold text-gray-800">{showHistory ? '🏆收起歷屆冠軍及成績🏆' : '🏆展開歷屆冠軍及成績🏆'}</span>
             <span className="text-gray-400">{showHistory ? '▲' : '▼'}</span>
           </button>
           {showHistory && (
