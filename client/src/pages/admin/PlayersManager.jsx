@@ -35,6 +35,7 @@ export default function PlayersManager() {
   const [bulkText, setBulkText] = useState('')
   const [showBulk, setShowBulk] = useState(false)
   const [totalPlayers, setTotalPlayers] = useState(0)
+  const [status, setStatus] = useState('setup')
   const [error, setError] = useState('')
   const [saved, setSaved] = useState(false)
   useEffect(() => { loadPlayers() }, [])
@@ -42,6 +43,7 @@ export default function PlayersManager() {
   async function loadPlayers() {
     const [t, p] = await Promise.all([api.get('/tournament'), api.get('/players/with-pins')])
     setTotalPlayers(t.tournament?.total_players || 0)
+    setStatus(t.tournament?.status || 'setup')
     setPlayers(p.players || [])
   }
 
@@ -63,8 +65,19 @@ export default function PlayersManager() {
     setPlayers([...players, { player_number: players.length + 1, chinese_name: '', english_name: '', handicap: 0, pin: '' }])
   }
 
-  function removePlayer(idx) {
-    setPlayers(players.filter((_, i) => i !== idx).map((p, i) => ({ ...p, player_number: i + 1 })))
+  async function removePlayer(idx) {
+    const player = players[idx]
+    if (player.id && status === 'setup') {
+      if (!window.confirm(`刪除 ${player.chinese_name} ${player.english_name}？\nDelete this player?`)) return
+      try {
+        await api.delete(`/players/${player.id}`)
+        await loadPlayers()
+      } catch (err) {
+        setError(err.message)
+      }
+    } else {
+      setPlayers(players.filter((_, i) => i !== idx).map((p, i) => ({ ...p, player_number: i + 1 })))
+    }
   }
 
   async function handleSave() {

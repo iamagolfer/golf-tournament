@@ -66,6 +66,25 @@ module.exports = (db) => {
     res.json({ success: true });
   });
 
+  // Admin: delete a single player (setup phase only)
+  router.delete('/:id', requireAdmin, (req, res) => {
+    const t = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
+    if (!t) return res.status(400).json({ error: 'No tournament' });
+    if (t.status !== 'setup') return res.status(400).json({ error: '只能在賽前設定階段刪除球員\nCan only delete players during setup' });
+
+    db.prepare('DELETE FROM scores WHERE player_id=?').run(req.params.id);
+    db.prepare('DELETE FROM horse_picks WHERE player_id=?').run(req.params.id);
+    db.prepare('DELETE FROM horse_picks WHERE picked_player_id=?').run(req.params.id);
+    db.prepare('DELETE FROM players WHERE id=?').run(req.params.id);
+    db.prepare('UPDATE tournament SET total_players = total_players - 1 WHERE id=?').run(t.id);
+
+    const remaining = db.prepare('SELECT id FROM players WHERE tournament_id=? ORDER BY player_number').all(t.id);
+    for (let i = 0; i < remaining.length; i++) {
+      db.prepare('UPDATE players SET player_number=? WHERE id=?').run(i + 1, remaining[i].id);
+    }
+    res.json({ success: true });
+  });
+
   // Admin: mark no-show
   router.put('/:id/noshow', requireAdmin, (req, res) => {
     const { no_show } = req.body;
