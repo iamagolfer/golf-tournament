@@ -25,7 +25,7 @@ function calculateRankings(db) {
     WHERE p.tournament_id=?
   `).all(tournament.id);
 
-  const N = players.length;
+  const N = players.filter(p => !p.no_show).length;
   if (N === 0) return { strokeRankings: [], finalRankings: [], N: 0 };
 
   // Build per-player stats
@@ -127,9 +127,9 @@ function calculateRankings(db) {
     ranked.push({ ...noScoreYet[k], rank: baseRank + k, rankingPoints: 0, scoresPending: true });
   }
 
-  // No-shows
+  // No-shows — ranked below all active players
   for (const p of noShows) {
-    ranked.push({ ...p, rank: N, rankingPoints: 0 });
+    ranked.push({ ...p, rank: N + 1, rankingPoints: 0 });
   }
 
   // Build picks map

@@ -16,9 +16,9 @@ function getTiebreakReason(winner, loser) {
   return null
 }
 
-function RankBadge({ rank, N }) {
-  if (rank <= 3) return <span className="text-xl">{RANK_MEDAL[rank]}</span>
-  const isDinner = rank > N - 6
+function RankBadge({ rank, N, isNoShow }) {
+  if (!isNoShow && rank <= 3) return <span className="text-xl">{RANK_MEDAL[rank]}</span>
+  const isDinner = !isNoShow && rank > N - 6
   return (
     <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${isDinner ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'}`}>
       {rank}
@@ -141,7 +141,7 @@ export default function RankingsPage() {
               </div>
             )}
             {finalRankings.map((player, idx, arr) => {
-              const isDinner = player.finalRank > dinnerCutoff && dinnerCutoff > 0
+              const isDinner = !player.isNoShow && player.finalRank > dinnerCutoff && dinnerCutoff > 0
               // Final tiebreaker badge — only when totalPoints tie was broken by stroke points
               const above = arr[idx - 1], below = arr[idx + 1]
               let finalTbWon = false, finalTbLost = false
@@ -154,7 +154,7 @@ export default function RankingsPage() {
                 <div key={player.id}
                   className={`bg-white rounded-xl shadow-sm p-4 ${isDinner ? 'border-l-4 border-red-400' : ''}`}>
                   <div className="flex items-center gap-3">
-                    <RankBadge rank={player.finalRank} N={N} />
+                    <RankBadge rank={player.finalRank} N={N} isNoShow={player.isNoShow} />
                     <div className="flex-1 min-w-0">
                       <div className="font-medium text-gray-900 truncate">
                         {player.chinese_name} <span className="text-gray-500">{player.english_name}</span>
@@ -204,7 +204,7 @@ export default function RankingsPage() {
               return (
               <div key={player.id} className="bg-white rounded-xl shadow-sm p-4">
                 <div className="flex items-center gap-3">
-                  <RankBadge rank={player.rank} N={N} />
+                  <RankBadge rank={player.rank} N={N} isNoShow={player.isNoShow} />
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-gray-900 truncate">
                       {player.chinese_name} <span className="text-gray-500 text-sm">{player.english_name}</span>
