@@ -57,7 +57,7 @@ export default function RankingsPage() {
 
   useEffect(() => {
     load()
-    const interval = setInterval(load, 30000)
+    const interval = setInterval(load, 480000)
     return () => clearInterval(interval)
   }, [])
 
@@ -82,7 +82,7 @@ export default function RankingsPage() {
           <div>
             <h1 className="text-xl font-bold">排名 Rankings</h1>
             <p className="text-green-200 text-xs">
-              {lastUpdated ? `更新: ${lastUpdated.toLocaleTimeString('zh-TW')} • 每30秒自動重整` : ''}
+              {lastUpdated ? `更新: ${lastUpdated.toLocaleTimeString('zh-TW')} • 每8分鐘自動重整` : ''}
             </p>
           </div>
           <Link to="/" className="text-green-200 text-sm underline">返回主選單</Link>

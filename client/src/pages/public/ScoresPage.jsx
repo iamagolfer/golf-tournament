@@ -55,6 +55,9 @@ export default function ScoresPage() {
   const [cellError, setCellError]       = useState({})
   const [cellSaved, setCellSaved]       = useState({})
   const [lbView, setLbView]             = useState('net')
+  const [finalRankings, setFinalRankings] = useState([])
+  const [picksRevealed, setPicksRevealed] = useState(false)
+  const [rankingsN, setRankingsN]         = useState(0)
   const savedScoresRef                  = useRef({}) // tracks what is actually saved on server
 
   useEffect(() => { loadData() }, [])
@@ -69,8 +72,8 @@ export default function ScoresPage() {
   }, [])
 
   async function loadData() {
-    const [t, p, s] = await Promise.all([
-      api.get('/tournament'), api.get('/players'), api.get('/scores')
+    const [t, p, s, r] = await Promise.all([
+      api.get('/tournament'), api.get('/players'), api.get('/scores'), api.get('/rankings')
     ])
     const freshSections = t.sections || []
     const freshHoles    = t.holes    || []
@@ -88,7 +91,9 @@ export default function ScoresPage() {
     setStatus(t.tournament?.status || 'setup')
     setActiveGroupId(prev => prev ?? (freshGroups[0]?.id || null))
     setScores(freshScoreMap)
-
+    setFinalRankings(r.finalRankings || [])
+    setPicksRevealed(r.picksRevealed || false)
+    setRankingsN(r.N || 0)
   }
 
   function handleChange(playerId, holeId, value) {
@@ -364,10 +369,17 @@ export default function ScoresPage() {
                   ${lbView === 'stroke' ? 'bg-green-700 text-white shadow-sm' : 'bg-white text-gray-500 hover:bg-green-50 shadow-sm'}`}>
                 ⛳ 總桿排名（傳統）
               </button>
+              {picksRevealed && (
+                <button onClick={() => setLbView('final')}
+                  className={`flex-1 py-2 text-xs font-semibold rounded-lg transition
+                    ${lbView === 'final' ? 'bg-green-700 text-white shadow-sm' : 'bg-white text-gray-500 hover:bg-green-50 shadow-sm'}`}>
+                  🐴 最終排名
+                </button>
+              )}
             </div>
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide">
-                {lbView === 'net' ? '淨桿即時排行 Net Leaderboard' : '總桿即時排行 Stroke Leaderboard'}
+                {lbView === 'net' ? '淨桿即時排行 Net Leaderboard' : lbView === 'stroke' ? '總桿即時排行 Stroke Leaderboard' : '最終排名 Final + Horse'}
               </p>
               <button onClick={loadData}
                 className="text-xs bg-green-700 text-white px-3 py-1 rounded-full font-medium shadow-sm active:bg-green-900">
@@ -375,7 +387,7 @@ export default function ScoresPage() {
               </button>
             </div>
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-              {activeLeaderboard.map((player, idx) => {
+              {lbView !== 'final' ? activeLeaderboard.map((player, idx) => {
                 const netDisplay   = toParDisplay(player.played > 0 ? player.toPar : null)
                 const grossDisplay = toParDisplay(player.played > 0 ? player.vsParGross : null)
                 return (
@@ -453,7 +465,52 @@ export default function ScoresPage() {
                     </div>
                   </div>
                 )
-              })}
+              }) : (() => {
+                const dinnerCutoff = rankingsN - 6
+                return finalRankings.map((player, idx, arr) => {
+                  const isDinner = !player.isNoShow && player.finalRank > dinnerCutoff && dinnerCutoff > 0
+                  const above = arr[idx - 1], below = arr[idx + 1]
+                  let finalTbWon = false, finalTbLost = false
+                  if (above && above.totalPoints === player.totalPoints && (above.rankingPoints||0) !== (player.rankingPoints||0)) {
+                    finalTbLost = true
+                  } else if (below && below.totalPoints === player.totalPoints && (below.rankingPoints||0) !== (player.rankingPoints||0)) {
+                    finalTbWon = true
+                  }
+                  return (
+                    <div key={player.id}
+                      className={`px-4 py-3 ${idx < finalRankings.length - 1 ? 'border-b border-gray-100' : ''} ${isDinner ? 'border-l-4 border-red-400' : ''}`}>
+                      <div className="flex items-center gap-3">
+                        <div className="flex-shrink-0">
+                          {player.finalRank === 1 ? <span className="text-2xl leading-none">🥇</span>
+                          : player.finalRank === 2 ? <span className="text-2xl leading-none">🥈</span>
+                          : player.finalRank === 3 ? <span className="text-2xl leading-none">🥉</span>
+                          : <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${isDinner ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'}`}>{player.finalRank}</span>}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-gray-900">
+                            {player.chinese_name} <span className="text-gray-500 text-sm">{player.english_name}</span>
+                            {isDinner && <span className="ml-1 text-xs text-red-500">🍽️</span>}
+                          </div>
+                          <div className="text-xs text-gray-500 mt-0.5">
+                            淨桿{player.rankingPoints || 0}分 + 馬{player.horsePoints || 0}分
+                            {player.pickedPlayerName && <span className="ml-1 text-green-600">(馬: {player.pickedPlayerName})</span>}
+                          </div>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <div className="text-2xl font-bold text-green-700">{player.totalPoints}</div>
+                          <div className="text-xs text-gray-400">總分</div>
+                          {(finalTbWon || finalTbLost) && (
+                            <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${finalTbWon ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                              {finalTbWon ? '勝' : '輸'} 淨桿得分
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      {player.isNoShow && <div className="text-xs text-red-500 mt-1 pl-11">未出席 No show</div>}
+                    </div>
+                  )
+                })
+              })()}
             </div>
             {/* Color legend */}
             <div className="flex flex-wrap gap-1.5 mt-2 justify-center text-xs">
