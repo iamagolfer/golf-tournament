@@ -222,6 +222,11 @@ export default function RankingsPage() {
                         {player.chinese_name} <span className="text-gray-500">{player.english_name}</span>
                         {isDinner && <span className="ml-2 text-xs text-red-500">🍽️</span>}
                       </div>
+                      {player.grossScore !== null && (
+                        <div className="text-xs text-gray-400 mt-0.5">
+                          總桿{player.grossScore}　差點{player.handicap}　淨桿{player.netScore}
+                        </div>
+                      )}
                       <div className="text-xs text-gray-500 mt-0.5">
                         淨桿{player.rankingPoints || 0}分 + 馬{player.horsePoints || 0}分
                         {player.pickedPlayerName && <span className="ml-1 text-green-600">(馬: {player.pickedPlayerName})</span>}
