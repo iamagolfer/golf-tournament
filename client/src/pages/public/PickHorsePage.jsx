@@ -13,6 +13,8 @@ export default function PickHorsePage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
+  const [revealedPick, setRevealedPick] = useState(null)
+  const [revealing, setRevealing] = useState(false)
 
   useEffect(() => { loadData() }, [])
 
@@ -30,11 +32,26 @@ export default function PickHorsePage() {
   }
 
   function openPickModal(player) {
-    if (status === 'playing' || status === 'finished') return
+    if (status === 'revealed' || status === 'finished') return
     setModal({ playerId: player.id, playerName: `${player.chinese_name} ${player.english_name}` })
     setSelectedHorse('')
     setPin('')
     setError('')
+    setRevealedPick(null)
+  }
+
+  async function handleRevealPick() {
+    if (!pin || pin.length !== 4) return setError('請輸入4位數PIN碼 Enter 4-digit PIN')
+    setRevealing(true)
+    setError('')
+    try {
+      const data = await api.post('/players/reveal-my-pick', { playerId: modal.playerId, pin })
+      setRevealedPick(data.pickedPlayer)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setRevealing(false)
+    }
   }
 
   async function handleSubmitPick() {
@@ -59,7 +76,8 @@ export default function PickHorsePage() {
     }
   }
 
-  const isLocked = status === 'playing' || status === 'revealed' || status === 'finished'
+  const isLocked = status === 'revealed' || status === 'finished'
+  const canChange = status === 'setup' || status === 'picking'
   const pickedCount = picks.length
   const [showHistory, setShowHistory] = useState(false)
 
@@ -135,7 +153,7 @@ export default function PickHorsePage() {
           <div>
             <h1 className="text-xl font-bold">選馬 Pick Your Horse</h1>
             <p className="text-green-200 text-sm">
-              {isLocked ? '🔒 比賽已開始，選馬已鎖定' : `已選 ${pickedCount}/${players.length} 人`}
+              {isLocked ? '🔒 選馬結果公開中' : status === 'playing' ? '🔒 比賽進行中，選馬已鎖定' : `已選 ${pickedCount}/${players.length} 人`}
             </p>
           </div>
           <Link to="/" className="text-green-200 text-sm underline">返回主選單</Link>
@@ -191,9 +209,14 @@ export default function PickHorsePage() {
           )}
         </div>
 
-        {!isLocked && (
+        {canChange && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 text-sm text-yellow-800">
             點擊你的名字，輸入PIN碼選擇或更改你的馬。比賽前半個小時無法更改。
+          </div>
+        )}
+        {status === 'playing' && (
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 mb-4 text-sm text-blue-800">
+            比賽進行中，選馬已鎖定。點擊你的名字，輸入PIN碼可查看你選的馬。
           </div>
         )}
 
@@ -202,7 +225,7 @@ export default function PickHorsePage() {
             const status_ = getPickStatus(player.id)
             return (
               <div key={player.id}
-                onClick={() => !isLocked && openPickModal(player)}
+                onClick={() => openPickModal(player)}
                 className={`bg-white rounded-xl shadow-sm p-4 flex items-center justify-between transition ${!isLocked ? 'cursor-pointer hover:bg-green-50 active:bg-green-100' : ''}`}
               >
                 <div className="flex items-center gap-3">
@@ -260,32 +283,52 @@ export default function PickHorsePage() {
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">選擇你的馬 Pick Your Horse</label>
-              <select
-                value={selectedHorse}
-                onChange={e => setSelectedHorse(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                <option value="">-- 選擇一位球員 Select player --</option>
-                {players.map(p => (
-                  <option key={p.id} value={p.id}>
-                    {p.player_number}. {p.chinese_name} {p.english_name} ({p.handicap}差點)
-                    {p.id === modal.playerId ? ' ★ 自己' : ''}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {picks.find(p => p.player_id === modal.playerId) && (
+              <div className="space-y-2">
+                <button
+                  onClick={handleRevealPick}
+                  disabled={revealing}
+                  className="w-full bg-blue-50 hover:bg-blue-100 border border-blue-300 text-blue-800 py-3 rounded-xl font-medium transition disabled:opacity-50"
+                >
+                  {revealing ? '查詢中...' : '🐴 顯示已選的馬 Show My Pick'}
+                </button>
+                {revealedPick && (
+                  <div className="bg-green-50 border border-green-300 rounded-lg px-4 py-3 text-green-800 font-bold text-center text-lg">
+                    🐴 {revealedPick.chinese_name} {revealedPick.english_name}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {canChange && (
+              <>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">選擇你的馬 Pick Your Horse</label>
+                  <select
+                    value={selectedHorse}
+                    onChange={e => setSelectedHorse(e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-green-500"
+                  >
+                    <option value="">-- 選擇一位球員 Select player --</option>
+                    {players.map(p => (
+                      <option key={p.id} value={p.id}>
+                        {p.player_number}. {p.chinese_name} {p.english_name} ({p.handicap}差點)
+                        {p.id === modal.playerId ? ' ★ 自己' : ''}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  onClick={handleSubmitPick}
+                  disabled={loading}
+                  className="w-full bg-green-700 hover:bg-green-800 text-white py-4 rounded-xl font-bold text-lg transition disabled:opacity-50"
+                >
+                  {loading ? '儲存中...' : '確認選馬 Confirm Pick'}
+                </button>
+              </>
+            )}
 
             {error && <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-3 text-sm">{error}</div>}
-
-            <button
-              onClick={handleSubmitPick}
-              disabled={loading}
-              className="w-full bg-green-700 hover:bg-green-800 text-white py-4 rounded-xl font-bold text-lg transition disabled:opacity-50"
-            >
-              {loading ? '儲存中...' : '確認選馬 Confirm Pick'}
-            </button>
           </div>
         </div>
       )}

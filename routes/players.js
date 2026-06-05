@@ -155,6 +155,27 @@ module.exports = (db) => {
     }
   });
 
+  // Public: reveal own current pick (requires PIN, works in any status)
+  router.post('/reveal-my-pick', (req, res) => {
+    try {
+      const { playerId, pin } = req.body;
+      const player = db.prepare('SELECT * FROM players WHERE id=?').get(playerId);
+      if (!player) return res.status(404).json({ error: '找不到此球員 / Player not found' });
+      if (String(player.pin) !== String(pin)) return res.status(401).json({ error: 'PIN 碼錯誤！Wrong PIN!' });
+
+      const pick = db.prepare('SELECT picked_player_id FROM horse_picks WHERE player_id=?').get(playerId);
+      if (!pick) return res.status(404).json({ error: '尚未選馬 / No pick found' });
+
+      const horse = db.prepare('SELECT chinese_name, english_name FROM players WHERE id=?').get(pick.picked_player_id);
+      if (!horse) return res.status(404).json({ error: '找不到選馬球員 / Horse player not found' });
+
+      res.json({ pickedPlayer: horse });
+    } catch (err) {
+      console.error('reveal-my-pick error:', err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   // Public: pick horse (requires PIN)
   router.post('/pick-horse', (req, res) => {
     try {
