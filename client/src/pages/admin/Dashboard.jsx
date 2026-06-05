@@ -10,6 +10,14 @@ const STATUS_LABELS = {
   finished: { zh: '比賽結束',   en: 'Finished',           color: 'bg-blue-200 text-blue-800' },
 }
 
+const STATUS_FLOW = {
+  setup:    { next: 'picking',  btnLabel: '開放選馬 Open Horse Picking',     btnColor: 'bg-yellow-500 hover:bg-yellow-600' },
+  picking:  { next: 'playing',  btnLabel: '🏌️ 開始比賽！Lock & Start Game', btnColor: 'bg-green-600 hover:bg-green-700' },
+  playing:  { next: 'revealed', btnLabel: '🐴 公布選馬 Reveal Horse Picks',  btnColor: 'bg-purple-600 hover:bg-purple-700' },
+  revealed: { next: 'finished', btnLabel: '🏆 結束比賽 Finish Game',         btnColor: 'bg-blue-600 hover:bg-blue-700' },
+  finished: { next: null,       btnLabel: '比賽已結束 Game Finished',         btnColor: 'bg-gray-400' },
+}
+
 const ADMIN_LINKS = [
   { path: '/admin/tournament', icon: '🏌️', zh: '賽事設定', en: 'Tournament Setup' },
   { path: '/admin/course',     icon: '⛳', zh: '球場設定', en: 'Course Setup' },
@@ -76,6 +84,14 @@ export default function Dashboard({ onLogout }) {
     const timer = setInterval(load, 30000)
     return () => clearInterval(timer)
   }, [])
+
+  async function handleStatusChange(newStatus) {
+    if (newStatus === status) return
+    const labels = { setup: '準備階段', picking: '選馬開放中', playing: '比賽進行中', revealed: '選馬已公布', finished: '比賽結束' }
+    if (!window.confirm(`確定切換狀態到「${labels[newStatus]}」？\nChange status to "${newStatus}"?`)) return
+    await api.put('/tournament/status', { status: newStatus })
+    setTournament(t => ({ ...t, status: newStatus }))
+  }
 
   async function handleLogout() {
     await api.post('/auth/logout', {})
@@ -266,6 +282,22 @@ export default function Dashboard({ onLogout }) {
             <div className="mt-2 flex gap-4 text-sm text-gray-500">
               <span>球員: {totalPlayers}/{tournament.total_players || '?'} 人</span>
               <span>已選馬: {pickedCount}/{totalPlayers}</span>
+            </div>
+            {/* Status switcher — tap any state to jump directly */}
+            <div className="mt-3 pt-3 border-t border-gray-100">
+              <p className="text-xs text-gray-400 mb-2">切換比賽狀態 Change Status</p>
+              <div className="flex gap-1.5 flex-wrap">
+                {Object.entries(STATUS_LABELS).map(([s, info]) => (
+                  <button key={s} onClick={() => handleStatusChange(s)}
+                    className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+                      s === status
+                        ? info.color + ' ring-2 ring-offset-1 ring-gray-400'
+                        : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                    }`}>
+                    {info.zh}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}
