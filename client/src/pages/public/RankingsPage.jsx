@@ -41,7 +41,7 @@ function ScoreBar({ player, N }) {
 export default function RankingsPage() {
   document.title = '最終排名'
   const [data, setData] = useState(null)
-  const [activeTab, setActiveTab] = useState('stroke')
+  const [activeTab, setActiveTab] = useState('gross')
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState(null)
 
@@ -72,7 +72,7 @@ export default function RankingsPage() {
     </div>
   )
 
-  const { strokeRankings, finalRankings, N, picksRevealed, status } = data
+  const { strokeRankings, grossRankings, finalRankings, N, picksRevealed, status } = data
   const dinnerCutoff = N - 6
 
   return (
@@ -104,30 +104,92 @@ export default function RankingsPage() {
         </div>
       )}
 
-      {/* Tabs — Final Rankings tab only visible after picks are revealed */}
-      <div className={`grid bg-white border-b border-gray-200 ${picksRevealed ? 'grid-cols-2' : 'grid-cols-1'}`}>
+      {/* Tabs: 總桿 + 淨桿 always; 最終🐴 only after reveal */}
+      <div className={`grid bg-white border-b border-gray-200 ${picksRevealed ? 'grid-cols-3' : 'grid-cols-2'}`}>
+        <button onClick={() => setActiveTab('gross')}
+          className={`py-3 text-xs font-semibold transition ${activeTab === 'gross' ? 'bg-green-700 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}>
+          <div>總桿排名</div>
+          <div className={`text-xs ${activeTab === 'gross' ? 'text-green-200' : 'text-gray-400'}`}>Stroke Play</div>
+        </button>
         <button onClick={() => setActiveTab('stroke')}
-          className={`py-3 text-sm font-semibold transition ${activeTab === 'stroke' ? 'bg-green-700 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}>
+          className={`py-3 text-xs font-semibold transition ${activeTab === 'stroke' ? 'bg-green-700 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}>
           <div>淨桿排名</div>
-          <div className={`text-xs ${activeTab === 'stroke' ? 'text-green-200' : 'text-gray-400'}`}>Stroke Play</div>
+          <div className={`text-xs ${activeTab === 'stroke' ? 'text-green-200' : 'text-gray-400'}`}>Net Score</div>
         </button>
         {picksRevealed && (
           <button onClick={() => setActiveTab('final')}
-            className={`py-3 text-sm font-semibold transition ${activeTab === 'final' ? 'bg-green-700 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}>
+            className={`py-3 text-xs font-semibold transition ${activeTab === 'final' ? 'bg-green-700 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}>
             <div>最終排名 🐴</div>
             <div className={`text-xs ${activeTab === 'final' ? 'text-green-200' : 'text-gray-400'}`}>Final + Horse</div>
           </button>
         )}
       </div>
-      {/* Refresh bar — always below tabs, no crowding conflict */}
+      {/* Refresh bar */}
       <div className="bg-green-700 border-t border-green-600 px-4 py-1.5 flex justify-center">
         <button onClick={load}
           className="flex items-center gap-2 bg-green-600 hover:bg-green-500 active:bg-green-900 text-white text-xs font-medium px-4 py-1.5 rounded-full">
-          ↻ 更新淨桿排名
+          ↻ 更新排名
         </button>
       </div>
 
       <div className="max-w-lg mx-auto px-4 py-4 space-y-2">
+
+        {/* Gross (stroke play) rankings */}
+        {activeTab === 'gross' && (
+          <>
+            <div className="bg-white rounded-xl p-3 text-xs text-gray-500 text-center">
+              總桿 = 實際打的桿數，不扣差點 &nbsp;|&nbsp; Stroke Play — gross score, no handicap
+            </div>
+            {(grossRankings || []).map((player) => (
+              <div key={player.id} className="bg-white rounded-xl shadow-sm p-4">
+                <div className="flex items-center gap-3">
+                  <RankBadge rank={player.grossRank} N={N} isNoShow={player.isNoShow} />
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium text-gray-900 truncate">
+                      {player.chinese_name} <span className="text-gray-500 text-sm">{player.english_name}</span>
+                    </div>
+                    <div className="text-xs text-gray-500 flex items-center flex-wrap gap-1">
+                      差點 {player.handicap}
+                      {player.grossScore !== null && (
+                        <> • 總桿 <span className="font-medium text-gray-700">{player.grossScore}</span></>
+                      )}
+                      {player.isNoShow && <span className="text-red-500"> 未出席</span>}
+                      {player.scoresPending && <span className="text-orange-500"> 成績未完整</span>}
+                    </div>
+                    {player.holesPlayed > 0 && (
+                      <div className="flex gap-2 mt-1 text-xs text-gray-400">
+                        {player.sectionTotals?.filter(s => s.total !== null).map(s => (
+                          <span key={s.sectionId}>{s.sectionName}: {s.total}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <div className="text-2xl font-bold text-green-700">{player.grossScore ?? '-'}</div>
+                    <div className="text-xs text-gray-400">總桿</div>
+                  </div>
+                </div>
+                {player.holesPlayed > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {player.holeAnalysis?.filter(h => h.strokes).map(h => (
+                      <span key={h.holeId}
+                        className={`inline-flex items-center justify-center w-7 h-7 text-xs rounded font-medium ${
+                          h.relativeToPar <= -2 ? 'bg-yellow-300 text-yellow-900' :
+                          h.relativeToPar === -1 ? 'bg-red-400 text-white' :
+                          h.relativeToPar === 0 ? 'bg-gray-100 text-gray-700' :
+                          h.relativeToPar === 1 ? 'bg-blue-100 text-blue-700' :
+                          h.relativeToPar === 2 ? 'bg-blue-500 text-white' :
+                          'bg-gray-700 text-white'
+                        }`}>
+                        {h.strokes}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </>
+        )}
 
         {/* Final combined rankings */}
         {activeTab === 'final' && (

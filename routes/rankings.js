@@ -22,7 +22,7 @@ module.exports = (db) => {
           horsePoints: null,
           totalPoints: null,
         }));
-        return res.json({ strokeRankings: strokeOnly, finalRankings: [], N: results.N, status, picksRevealed: false });
+        return res.json({ strokeRankings: strokeOnly, grossRankings: results.grossRankings, finalRankings: [], N: results.N, status, picksRevealed: false });
       }
 
       res.json({ ...results, status, picksRevealed: true });

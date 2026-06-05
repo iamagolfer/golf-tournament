@@ -132,6 +132,22 @@ function calculateRankings(db) {
     ranked.push({ ...p, rank: N + 1, rankingPoints: 0 });
   }
 
+  // Gross score (stroke play) rankings — sorted by raw gross score, no handicap
+  const grossSorted = [...withNet].sort((a, b) => a.grossScore - b.grossScore);
+  const grossRanked = [];
+  let gi = 0;
+  while (gi < grossSorted.length) {
+    let gj = gi + 1;
+    while (gj < grossSorted.length && grossSorted[gj].grossScore === grossSorted[gi].grossScore) gj++;
+    const grossRank = gi + 1;
+    for (let k = gi; k < gj; k++) grossRanked.push({ ...grossSorted[k], grossRank });
+    gi = gj;
+  }
+  for (let k = 0; k < noScoreYet.length; k++) {
+    grossRanked.push({ ...noScoreYet[k], grossRank: grossRanked.length + 1, scoresPending: true });
+  }
+  for (const p of noShows) grossRanked.push({ ...p, grossRank: N + 1 });
+
   // Build picks map
   const picksMap = {};
   allPicks.forEach(p => { picksMap[p.player_id] = p.picked_player_id; });
@@ -171,7 +187,7 @@ function calculateRankings(db) {
     finalRank++;
   }
 
-  return { strokeRankings: ranked, finalRankings: finalSorted, N };
+  return { strokeRankings: ranked, grossRankings: grossRanked, finalRankings: finalSorted, N };
 }
 
 // Returns negative if a is better (higher rank), positive if b is better
