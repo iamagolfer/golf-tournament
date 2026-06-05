@@ -3,6 +3,12 @@
 This file is committed to git so Claude Code has full context on any computer.
 Repo: https://github.com/iamagolfer/golf-tournament | Branch: `main`
 
+**See `memory/` folder for supplementary context:**
+- `memory/project.md` — full feature list, past champions, known issues
+- `memory/deployment.md` — Railway setup, build steps, env vars
+- `memory/decisions.md` — why behind every non-obvious design choice
+- `memory/albert.md` — user profile and working preferences
+
 ---
 
 ## Project Owner
@@ -63,9 +69,9 @@ golf-app/
 ├── routes/
 │   ├── auth.js            ← POST /login, POST /logout, GET /check
 │   ├── tournament.js      ← GET/, PUT/info, PUT/rules (brief_rules + rules_text), PUT/course, PUT/status, DELETE/reset, DELETE/soft-reset
-│   ├── players.js         ← GET/, GET/with-pins, PUT/, PUT/groups, PUT/:id/pin, PUT/:id/noshow, POST/pick-horse
+│   ├── players.js         ← GET/, GET/with-pins, PUT/, PUT/groups, PUT/:id/pin, PUT/:id/noshow, DELETE/:id, POST/pick-horse, POST/reveal-my-pick
 │   ├── scores.js          ← GET/, POST/batch (strokes:0 = delete), PUT/:playerId/:holeId (admin), DELETE/:playerId/:holeId
-│   └── rankings.js        ← GET/ (returns strokeRankings, finalRankings, N, status, picksRevealed)
+│   └── rankings.js        ← GET/ (returns strokeRankings, grossRankings, finalRankings, N, status, picksRevealed)
 ├── logic/rankings.js      ← Full ranking engine (net score, tiebreakers, horse picks)
 └── client/
     ├── package.json       ← vite in dependencies (NOT devDependencies) — Railway fix
@@ -203,7 +209,9 @@ Bottom 6 by final ranking must buy dinner (highlighted red on rankings page).
 
 ### 6. Implementation
 All logic in `logic/rankings.js`:
-- `calculateRankings(db)` → `{ strokeRankings, finalRankings, N }`
+- `calculateRankings(db)` → `{ strokeRankings, grossRankings, finalRankings, N }`
+  - `strokeRankings` — handicap-adjusted net score, with `rank`, `rankingPoints`, tiebreaker data
+  - `grossRankings` — raw gross score (no handicap), with `grossRank`; used for 總桿排名 tab
 - `tiebreak(a, b)` — stroke tiebreaker comparator (hole quality chain)
 - Final rankings sort: `totalPoints` desc → `rankingPoints` desc → share rank
 
@@ -229,10 +237,14 @@ All logic in `logic/rankings.js`:
 - **/pick** — Horse picking with PIN modal; shows 還沒選馬/已選馬了; pick stays secret
   - Collapsible **🏆 歷屆冠軍及成績** section at top (hardcoded in `PickHorsePage.jsx` → `HISTORY` array)
   - To add a new year: append an entry to `HISTORY` in `PickHorsePage.jsx` and rebuild
-  - Yellow instruction box shows Chinese only (no English)
+  - Yellow instruction box (setup/picking) shows Chinese only
+  - During `playing` status: blue box shown; players can tap their name → enter PIN → click **🐴 顯示已選的馬** to privately reveal their own pick (calls `POST /api/players/reveal-my-pick`); pick/change horse form is hidden
+  - `POST /api/players/reveal-my-pick` works at any status; validates PIN; returns `{ pickedPlayer: { chinese_name, english_name } }`
 - **/scores** — Group tabs, scrollable scorecard (color-coded inputs, auto-save on blur, clear cell to delete score), live leaderboard
-- **/rankings** — Stroke Play tab + Final Rankings tab; polls every 30s; medals 🥇🥈🥉; dinner cutoff; tiebreaker badges
-  - Default tab: **最終排名🐴** when status is `revealed` or `finished`; **淨桿排名** otherwise
+- **/rankings** — Three tabs: **總桿排名** (Stroke Play, gross score, no handicap) + **淨桿排名** (Net Score, handicap-adjusted) always visible; **最終排名🐴** added only when `revealed`/`finished`; polls every 8 min; medals 🥇🥈🥉; dinner cutoff; tiebreaker badges
+  - Default tab: **最終排名🐴** when status is `revealed` or `finished`; **總桿排名** otherwise
+  - 總桿排名: sorted by raw gross score; shows section totals and per-hole colored badges; no handicap/points
+  - Refresh button label: **↻ 更新排名**
 
 ### /scores Live Leaderboard (bottom of ScoresPage)
 - **Two view toggle** (tab strip above leaderboard):
@@ -279,6 +291,11 @@ All logic in `logic/rankings.js`:
 - Volume mounted at `/app/data` (NOT `/app/db` — that path collides with code)
 - `db/init.js` reads `process.env.DB_PATH`, falls back to `db/golf.sqlite` locally
 - Without the volume, SQLite data is wiped on every Railway redeploy
+
+---
+
+## Player Management Notes
+- `DELETE /api/players/:id` — admin only, setup phase only; deletes player + their scores + horse picks; renumbers remaining players sequentially; decrements `tournament.total_players` by 1
 
 ---
 
