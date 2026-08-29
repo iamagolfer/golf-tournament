@@ -1,9 +1,6 @@
 const express = require('express');
+const { getTournament, requireAdmin } = require('../lib/tournamentContext');
 
-function requireAdmin(req, res, next) {
-  if (!req.session.isAdmin) return res.status(401).json({ error: 'Unauthorized' });
-  next();
-}
 
 function nowStr() {
   return new Date().toISOString().replace('T', ' ').slice(0, 19);
@@ -14,7 +11,7 @@ module.exports = (db) => {
 
   // Public: get all scores
   router.get('/', (req, res) => {
-    const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
     if (!t) return res.json({ scores: [] });
     const scores = db.prepare(`
       SELECT s.player_id, s.hole_id, s.strokes, s.entered_at
@@ -31,7 +28,7 @@ module.exports = (db) => {
     if (!playerId || !Array.isArray(scores)) {
       return res.status(400).json({ error: 'Invalid request' });
     }
-    const t = db.prepare('SELECT status FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
     if (t?.status === 'finished') {
       return res.status(403).json({ error: '比賽已結束，成績已鎖定。如需修改請聯絡管理員。\nTournament finished — scores are locked.' });
     }

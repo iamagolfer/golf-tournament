@@ -1,16 +1,14 @@
 const express = require('express');
+const { getTournament, requireAdmin } = require('../lib/tournamentContext');
+const { TIEBREAK_RULES } = require('../logic/gjRankings');
 
-function requireAdmin(req, res, next) {
-  if (!req.session.isAdmin) return res.status(401).json({ error: 'Unauthorized' });
-  next();
-}
 
 module.exports = (db) => {
   const router = express.Router();
 
   // Public: get all tournament info
   router.get('/', (req, res) => {
-    const t = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
     if (!t) return res.json({ tournament: null, sections: [], holes: [] });
     const sections = db.prepare('SELECT * FROM sections WHERE tournament_id=? ORDER BY section_order').all(t.id);
     const holes = [];
@@ -23,17 +21,17 @@ module.exports = (db) => {
 
   // Admin: update basic info
   router.put('/info', requireAdmin, (req, res) => {
-    const { course_name, date, tee_time, total_players } = req.body;
-    const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
-    db.prepare('UPDATE tournament SET course_name=?, date=?, tee_time=?, total_players=? WHERE id=?')
-      .run(course_name, date, tee_time, Number(total_players) || 0, t.id);
+    const { course_name, date, tee_time, total_players, name } = req.body;
+    const t = getTournament(db, req);
+    db.prepare('UPDATE tournament SET course_name=?, date=?, tee_time=?, total_players=?, name=COALESCE(?, name) WHERE id=?')
+      .run(course_name, date, tee_time, Number(total_players) || 0, name ?? null, t.id);
     res.json({ success: true });
   });
 
   // Admin: update rules
   router.put('/rules', requireAdmin, (req, res) => {
     const { rules_text, brief_rules } = req.body;
-    const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
     db.prepare('UPDATE tournament SET rules_text=?, brief_rules=? WHERE id=?').run(rules_text, brief_rules, t.id);
     res.json({ success: true });
   });
@@ -45,25 +43,55 @@ module.exports = (db) => {
       if (!sections || !Array.isArray(sections)) {
         return res.status(400).json({ error: 'Invalid sections data' });
       }
-      const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
+      const t = getTournament(db, req);
       if (!t) return res.status(400).json({ error: 'No tournament found' });
 
-      const existingSecs = db.prepare('SELECT id FROM sections WHERE tournament_id=?').all(t.id);
-      for (const s of existingSecs) {
-        db.prepare('DELETE FROM holes WHERE section_id=?').run(s.id);
-      }
-      db.prepare('DELETE FROM sections WHERE tournament_id=?').run(t.id);
+      // Reconcile in place rather than wiping and re-inserting. Scores are keyed
+      // on hole_id, so recreating holes would orphan every score already entered
+      // — which matters when the course is edited after a round has been played.
+      const existingSecs = db.prepare('SELECT * FROM sections WHERE tournament_id=? ORDER BY section_order').all(t.id);
+      const dropHole = (holeId) => {
+        db.prepare('DELETE FROM scores WHERE hole_id=?').run(holeId);
+        db.prepare('DELETE FROM holes WHERE id=?').run(holeId);
+      };
 
-      for (let i = 0; i < sections.length; i++) {
-        const sec = sections[i];
-        if (!sec.name || !Array.isArray(sec.holes)) continue;
+      const wanted = sections.filter(sec => sec.name && Array.isArray(sec.holes));
+
+      for (let i = 0; i < wanted.length; i++) {
+        const sec = wanted[i];
         const active = sec.active === false || sec.active === 0 ? 0 : 1;
-        const r = db.prepare('INSERT INTO sections (tournament_id, name, section_order, active) VALUES (?,?,?,?)').run(t.id, sec.name, i + 1, active);
-        const sectionId = Number(r.lastInsertRowid); // node:sqlite may return BigInt
-        for (const hole of sec.holes) {
-          db.prepare('INSERT INTO holes (section_id, hole_number, par, yards) VALUES (?,?,?,?)').run(sectionId, hole.hole_number, hole.par, hole.yards || 0);
+
+        let sectionId;
+        if (existingSecs[i]) {
+          sectionId = existingSecs[i].id;
+          db.prepare('UPDATE sections SET name=?, section_order=?, active=? WHERE id=?')
+            .run(sec.name, i + 1, active, sectionId);
+        } else {
+          const r = db.prepare('INSERT INTO sections (tournament_id, name, section_order, active) VALUES (?,?,?,?)')
+            .run(t.id, sec.name, i + 1, active);
+          sectionId = Number(r.lastInsertRowid); // node:sqlite may return BigInt
         }
+
+        const existingHoles = db.prepare('SELECT * FROM holes WHERE section_id=? ORDER BY hole_number').all(sectionId);
+        sec.holes.forEach((hole, hi) => {
+          const values = [hi + 1, hole.hole_label || '', hole.par, hole.yards || 0, hole.yards_red || 0];
+          if (existingHoles[hi]) {
+            db.prepare('UPDATE holes SET hole_number=?, hole_label=?, par=?, yards=?, yards_red=? WHERE id=?')
+              .run(...values, existingHoles[hi].id);
+          } else {
+            db.prepare('INSERT INTO holes (section_id, hole_number, hole_label, par, yards, yards_red) VALUES (?,?,?,?,?,?)')
+              .run(sectionId, ...values);
+          }
+        });
+        existingHoles.slice(sec.holes.length).forEach(h => dropHole(h.id));
       }
+
+      // Sections the admin removed
+      for (const stale of existingSecs.slice(wanted.length)) {
+        db.prepare('SELECT id FROM holes WHERE section_id=?').all(stale.id).forEach(h => dropHole(h.id));
+        db.prepare('DELETE FROM sections WHERE id=?').run(stale.id);
+      }
+
       res.json({ success: true });
     } catch (err) {
       console.error('Course save error:', err);
@@ -83,14 +111,14 @@ module.exports = (db) => {
     const { status } = req.body;
     const valid = ['setup', 'picking', 'playing', 'revealed', 'finished'];
     if (!valid.includes(status)) return res.status(400).json({ error: 'Invalid status' });
-    const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
     db.prepare('UPDATE tournament SET status=? WHERE id=?').run(status, t.id);
     res.json({ success: true });
   });
 
   // Admin: soft reset — keep setup, clear game data only
   router.delete('/soft-reset', requireAdmin, (req, res) => {
-    const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
     if (!t) return res.json({ success: true });
     // Clear scores, picks, groups; reset no_show and group assignment on players; reset status
     db.prepare('DELETE FROM scores WHERE player_id IN (SELECT id FROM players WHERE tournament_id=?)').run(t.id);
@@ -103,7 +131,7 @@ module.exports = (db) => {
 
   // Admin: reset entire tournament data
   router.delete('/reset', requireAdmin, (req, res) => {
-    const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
     if (!t) return res.json({ success: true });
     db.prepare('DELETE FROM scores WHERE player_id IN (SELECT id FROM players WHERE tournament_id=?)').run(t.id);
     db.prepare('DELETE FROM horse_picks WHERE player_id IN (SELECT id FROM players WHERE tournament_id=?)').run(t.id);
@@ -113,6 +141,53 @@ module.exports = (db) => {
     db.prepare('DELETE FROM sections WHERE tournament_id=?').run(t.id);
     db.prepare('DELETE FROM groups WHERE tournament_id=?').run(t.id);
     db.prepare("UPDATE tournament SET course_name='', date='', tee_time='', rules_text='', total_players=0, status='setup' WHERE id=?").run(t.id);
+    res.json({ success: true });
+  });
+
+  // ---- Green Jacket only ----
+
+  // Admin records who won the sudden-death putting playoff
+  router.put('/playoff-winner', requireAdmin, (req, res) => {
+    const { playerId } = req.body;
+    const t = getTournament(db, req);
+    if (!t) return res.status(400).json({ error: 'No tournament found' });
+    if (playerId) {
+      const p = db.prepare('SELECT id FROM players WHERE id=? AND tournament_id=?').get(playerId, t.id);
+      if (!p) return res.status(400).json({ error: 'Player not in this tournament' });
+    }
+    db.prepare('UPDATE tournament SET playoff_winner_id=? WHERE id=?').run(playerId || null, t.id);
+    res.json({ success: true });
+  });
+
+  // Admin sets the tiebreaker priority order (champion chain and everyone else)
+  router.put('/tiebreak', requireAdmin, (req, res) => {
+    const { champion, others } = req.body;
+    const clean = (chain) => {
+      if (!Array.isArray(chain)) return null;
+      const seen = new Set();
+      const out = [];
+      for (const id of chain) {
+        if (!TIEBREAK_RULES[id] || seen.has(id)) continue;
+        // Lower-handicap and higher-handicap contradict each other
+        if (id === 'hcp_high' && seen.has('hcp_low')) continue;
+        if (id === 'hcp_low' && seen.has('hcp_high')) continue;
+        seen.add(id);
+        out.push(id);
+      }
+      return out;
+    };
+    const c = clean(champion), o = clean(others);
+    if (!c || !o) return res.status(400).json({ error: 'Invalid tiebreak chain' });
+    const t = getTournament(db, req);
+    db.prepare('UPDATE tournament SET tiebreak_champion=?, tiebreak_others=? WHERE id=?')
+      .run(JSON.stringify(c), JSON.stringify(o), t.id);
+    res.json({ success: true, champion: c, others: o });
+  });
+
+  // Admin toggles whether the wildcard badge is visible on public pages
+  router.put('/wildcard-visibility', requireAdmin, (req, res) => {
+    const t = getTournament(db, req);
+    db.prepare('UPDATE tournament SET show_wildcard=? WHERE id=?').run(req.body.show ? 1 : 0, t.id);
     res.json({ success: true });
   });
 

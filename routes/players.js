@@ -1,18 +1,15 @@
 const express = require('express');
+const { getTournament, requireAdmin } = require('../lib/tournamentContext');
 
-function requireAdmin(req, res, next) {
-  if (!req.session.isAdmin) return res.status(401).json({ error: 'Unauthorized' });
-  next();
-}
 
 module.exports = (db) => {
   const router = express.Router();
 
   // Public: get players (no PINs)
   router.get('/', (req, res) => {
-    const t = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
     if (!t) return res.json({ players: [], groups: [], picks: [] });
-    const players = db.prepare('SELECT id, tournament_id, player_number, chinese_name, english_name, handicap, group_id, no_show FROM players WHERE tournament_id=? ORDER BY player_number').all(t.id);
+    const players = db.prepare('SELECT id, tournament_id, player_number, chinese_name, english_name, handicap, group_id, no_show, wildcard, tee FROM players WHERE tournament_id=? ORDER BY player_number').all(t.id);
     const groups = db.prepare('SELECT * FROM groups WHERE tournament_id=? ORDER BY group_order').all(t.id);
     let picks = [];
     if (t.status === 'revealed' || t.status === 'finished') {
@@ -26,7 +23,7 @@ module.exports = (db) => {
 
   // Admin: get players with PINs
   router.get('/with-pins', requireAdmin, (req, res) => {
-    const t = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
     if (!t) return res.json({ players: [] });
     const players = db.prepare('SELECT * FROM players WHERE tournament_id=? ORDER BY player_number').all(t.id);
     res.json({ players });
@@ -35,7 +32,7 @@ module.exports = (db) => {
   // Admin: save full player list
   router.put('/', requireAdmin, (req, res) => {
     const { players } = req.body;
-    const t = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
 
     if (t.total_players > 0 && players.length !== t.total_players) {
       return res.status(400).json({
@@ -47,11 +44,11 @@ module.exports = (db) => {
     db.prepare('DELETE FROM horse_picks WHERE player_id IN (SELECT id FROM players WHERE tournament_id=?)').run(t.id);
     db.prepare('DELETE FROM players WHERE tournament_id=?').run(t.id);
 
-    const stmt = db.prepare('INSERT INTO players (tournament_id, player_number, chinese_name, english_name, handicap, pin) VALUES (?,?,?,?,?,?)');
+    const stmt = db.prepare('INSERT INTO players (tournament_id, player_number, chinese_name, english_name, handicap, pin, wildcard, tee) VALUES (?,?,?,?,?,?,?,?)');
     for (let i = 0; i < players.length; i++) {
       const p = players[i];
       const pin = p.pin || String(1000 + Math.floor(Math.random() * 9000));
-      stmt.run(t.id, i + 1, p.chinese_name.trim(), p.english_name.trim(), Number(p.handicap), pin);
+      stmt.run(t.id, i + 1, (p.chinese_name || '').trim(), (p.english_name || '').trim(), Number(p.handicap), pin, p.wildcard ? 1 : 0, p.tee === 'red' ? 'red' : 'white');
     }
     res.json({ success: true });
   });
@@ -68,7 +65,7 @@ module.exports = (db) => {
 
   // Admin: delete a single player (setup phase only)
   router.delete('/:id', requireAdmin, (req, res) => {
-    const t = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
     if (!t) return res.status(400).json({ error: 'No tournament' });
     if (t.status !== 'setup') return res.status(400).json({ error: '只能在賽前設定階段刪除球員\nCan only delete players during setup' });
 
@@ -95,7 +92,7 @@ module.exports = (db) => {
   // Admin: save groups
   router.put('/groups', requireAdmin, (req, res) => {
     const { groups } = req.body;
-    const t = db.prepare('SELECT id FROM tournament ORDER BY id DESC LIMIT 1').get();
+    const t = getTournament(db, req);
 
     db.prepare('DELETE FROM groups WHERE tournament_id=?').run(t.id);
     db.prepare('UPDATE players SET group_id=NULL WHERE tournament_id=?').run(t.id);
@@ -115,7 +112,7 @@ module.exports = (db) => {
   router.post('/batch-self-pick', requireAdmin, (req, res) => {
     try {
       const { mode = 'self' } = req.body;
-      const t = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
+      const t = getTournament(db, req);
       if (!t) return res.status(400).json({ error: '尚未建立賽事' });
       if (t.status === 'playing' || t.status === 'revealed' || t.status === 'finished') {
         return res.status(400).json({ error: '比賽已開始，無法更改選馬！\nGame has started, picks are locked!' });
@@ -180,7 +177,7 @@ module.exports = (db) => {
   router.post('/pick-horse', (req, res) => {
     try {
       const { playerId, pin, pickedPlayerId } = req.body;
-      const t = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
+      const t = getTournament(db, req);
 
       if (t.status === 'playing' || t.status === 'revealed' || t.status === 'finished') {
         return res.status(400).json({ error: '比賽已開始，無法更改選馬！\nGame has started, picks are locked!' });
@@ -202,6 +199,19 @@ module.exports = (db) => {
       console.error('pick-horse error:', err);
       res.status(500).json({ error: err.message });
     }
+  });
+
+  // Admin: edit a single player without touching scores or group assignment
+  router.put('/:id/details', requireAdmin, (req, res) => {
+    const { chinese_name, english_name, handicap, wildcard, tee } = req.body;
+    const t = getTournament(db, req);
+    const existing = db.prepare('SELECT id FROM players WHERE id=? AND tournament_id=?').get(req.params.id, t.id);
+    if (!existing) return res.status(404).json({ error: 'Player not found' });
+    if (!english_name && !chinese_name) return res.status(400).json({ error: '姓名不可全空' });
+    db.prepare('UPDATE players SET chinese_name=?, english_name=?, handicap=?, wildcard=?, tee=? WHERE id=?')
+      .run((chinese_name || '').trim(), (english_name || '').trim(), Number(handicap) || 0,
+           wildcard ? 1 : 0, tee === 'red' ? 'red' : 'white', existing.id);
+    res.json({ success: true });
   });
 
   return router;

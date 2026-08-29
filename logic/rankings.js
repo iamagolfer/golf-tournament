@@ -1,5 +1,7 @@
-function calculateRankings(db) {
-  const tournament = db.prepare('SELECT * FROM tournament ORDER BY id DESC LIMIT 1').get();
+function calculateRankings(db, tournamentId) {
+  const tournament = tournamentId
+    ? db.prepare('SELECT * FROM tournament WHERE id=?').get(tournamentId)
+    : db.prepare("SELECT * FROM tournament WHERE slug='ring'").get();
   if (!tournament) return null;
 
   const players = db.prepare('SELECT * FROM players WHERE tournament_id=? ORDER BY player_number').all(tournament.id);

@@ -13,7 +13,33 @@ Repo: https://github.com/iamagolfer/golf-tournament | Branch: `main`
 
 ## Project Owner
 Albert (iamalbertc@gmail.com) — organizer of a 10–14 person friends golf group.
-Admin login: `admin` / `iam1976`
+
+---
+
+## CRITICAL: This App Hosts TWO Tournaments
+
+| | 戒指盃 Ring Cup | 綠夾克盃 Green Jacket |
+|---|---|---|
+| slug | `ring` | `greenjacket` |
+| Format | Net score + horse picking + ranking points | **Pure net stroke play** — no horse, no points |
+| Public URLs | `/`, `/pick`, `/scores`, `/rankings` | `/greenjacket`, `/greenjacket/scores`, `/greenjacket/rankings` |
+| Admin URLs | `/admin/dashboard`, `/admin/course`… | `/admin/gj/dashboard`, `/admin/gj/course`… |
+| Admin login | `admin` / `iam1976` | `admin` / `iam1976`<br>`benny` / `benny` |
+| Ranking engine | `logic/rankings.js` | `logic/gjRankings.js` |
+| Pages | `client/src/pages/public/`, `pages/admin/` | `client/src/pages/gj/` |
+
+**How scoping works — read this before touching any route:**
+
+- Every tournament is a row in `tournament`, identified by `slug`.
+- API requests select one with a **`?t=<slug>` query parameter**. Omitting it means `ring`.
+  That is why every pre-existing Ring Cup client keeps working untouched.
+- `lib/tournamentContext.js` provides `getTournament(db, req)` and `requireAdmin`.
+  **Never** query `tournament ORDER BY id DESC LIMIT 1` again — it now returns the wrong tournament.
+- Admin sessions are per tournament: `req.session.admin = { ring: true, greenjacket: true }`.
+  Signing in to one grants nothing on the other. Both can be held at once.
+- Frontend: `api` (Ring Cup, unscoped) and `gjApi` (adds `?t=greenjacket`) from `client/src/api.js`.
+
+`/admin` shows **two separate login forms**, one per tournament.
 
 ---
 
@@ -56,6 +82,16 @@ npm start
 ```
 Or double-click `啟動程式 Start App.bat` in the Golf folder.
 
+`server.js` serves `client/dist` whenever that folder exists, so `npm start` works
+without setting `NODE_ENV`. (It used to require `NODE_ENV=production`, and every
+page URL returned "Cannot GET" without it.)
+
+### Testing against a throwaway database
+Never test writes against `db/golf.sqlite` — it is Albert's real local data.
+Copy it first and point `DB_PATH` at the copy, and **verify the copy is actually
+being used** before writing (a mis-set `DB_PATH` silently falls back to the real file).
+`node logic/gjRankings.test.js` does this correctly: it copies, runs, and deletes.
+
 ---
 
 ## File Structure
@@ -65,24 +101,37 @@ golf-app/
 ├── package.json           ← Server deps: express, cors, express-session
 ├── railway.json           ← { "deploy": { "startCommand": "node server.js" } }
 ├── .nvmrc                 ← "22"
-├── db/init.js             ← SQLite schema + DatabaseSync setup + safe ALTER TABLE migrations
+├── db/init.js             ← Schema + safe ALTER TABLE migrations + seed data (course, roster, champions)
+├── lib/
+│   └── tournamentContext.js ← getTournament(db, req) from ?t=, per-tournament requireAdmin
 ├── routes/
+│   └── champions.js       ← GET (public) + admin CRUD + POST /from-tournament
 │   ├── auth.js            ← POST /login, POST /logout, GET /check
 │   ├── tournament.js      ← GET/, PUT/info, PUT/rules (brief_rules + rules_text), PUT/course, PUT/status, DELETE/reset, DELETE/soft-reset
 │   ├── players.js         ← GET/, GET/with-pins, PUT/, PUT/groups, PUT/:id/pin, PUT/:id/noshow, DELETE/:id, POST/pick-horse, POST/reveal-my-pick
 │   ├── scores.js          ← GET/, POST/batch (strokes:0 = delete), PUT/:playerId/:holeId (admin), DELETE/:playerId/:holeId
 │   └── rankings.js        ← GET/ (returns strokeRankings, grossRankings, finalRankings, N, status, picksRevealed)
-├── logic/rankings.js      ← Full ranking engine (net score, tiebreakers, horse picks)
+├── logic/
+│   ├── rankings.js        ← 戒指盃 engine (net score, tiebreakers, horse picks)
+│   ├── gjRankings.js      ← 綠夾克 engine (net stroke play, configurable tiebreakers)
+│   └── gjRankings.test.js ← Scenario tests — `node logic/gjRankings.test.js`
 └── client/
     ├── package.json       ← vite in dependencies (NOT devDependencies) — Railway fix
     ├── .npmrc             ← production=false (forces full npm install on Railway)
     ├── dist/              ← Pre-built, committed to git
     └── src/
-        ├── App.jsx        ← React Router setup, admin auth guard
-        ├── api.js         ← fetch wrapper (credentials: include, JSON headers)
+        ├── App.jsx        ← React Router setup, per-tournament auth guards
+        ├── api.js         ← `api` (Ring Cup) and `gjApi` (adds ?t=greenjacket)
         └── pages/
-            ├── admin/     ← Login, Dashboard, TournamentSetup, CourseSetup, RulesEditor, PlayersManager, GroupsManager
-            └── public/    ← InfoPage, PickHorsePage, ScoresPage, RankingsPage
+            ├── admin/     ← 戒指盃: Login (both forms), Dashboard, TournamentSetup, CourseSetup, RulesEditor, PlayersManager, GroupsManager
+            ├── public/    ← 戒指盃: InfoPage, PickHorsePage, ScoresPage, RankingsPage
+            └── gj/        ← 綠夾克, self-contained (deliberately not sharing components with the Ring Cup)
+                ├── gjTheme.jsx      ← dark green + gold palette, shared display helpers
+                ├── GjAdminShell.jsx ← admin chrome, Card/Field/SaveButton, useSaver
+                ├── GjInfoPage / GjScoresPage / GjRankingsPage
+                ├── GjDashboard / GjTournamentSetup / GjCourseSetup / GjRulesEditor
+                ├── GjPlayersManager / GjGroupsManager / GjTiebreakSettings
+                └── ChampionsManager.jsx ← used by BOTH tournaments (takes the scoped api as a prop)
 ```
 
 ---
@@ -90,11 +139,14 @@ golf-app/
 ## Public URLs
 | Route | Page |
 |-------|------|
-| `/` | Tournament info + rules |
-| `/pick` | Horse picking (PIN protected) |
+| `/` | 戒指盃 info + rules |
+| `/pick` | Horse picking (PIN protected) + past champions |
 | `/scores` | Score entry (auto-saves on blur) |
-| `/rankings` | Live rankings (polls every 30s) |
-| `/admin` | Admin login |
+| `/rankings` | Live rankings (polls every 8 min) |
+| `/greenjacket` | 綠夾克盃 info + past champions (always expanded) |
+| `/greenjacket/scores` | Score entry + live net/gross leaderboard |
+| `/greenjacket/rankings` | Net rankings (default) / gross rankings |
+| `/admin` | Admin login — **two forms**, one per tournament |
 
 ---
 
@@ -103,11 +155,14 @@ golf-app/
 ### tournament
 One row per tournament. Always read `ORDER BY id DESC LIMIT 1`.
 ```
-id, course_name, date (TEXT "2026-06-15"), tee_time (TEXT "08:00"),
-rules_text, brief_rules, total_players,
-status (setup|picking|playing|revealed|finished), created_at
+id, slug (ring|greenjacket), name, course_name, date (TEXT "2026-06-15"),
+tee_time (TEXT "08:00"), rules_text, brief_rules, total_players,
+status (setup|picking|playing|revealed|finished), created_at,
+playoff_winner_id, show_wildcard, tiebreak_champion (JSON), tiebreak_others (JSON)
 ```
-`brief_rules` added via safe `ALTER TABLE` migration in `db/init.js`.
+Always look a tournament up **by slug**, never by "newest row".
+`brief_rules`, `slug`, `name`, `playoff_winner_id`, `show_wildcard`,
+`tiebreak_champion`, `tiebreak_others` all added via safe `ALTER TABLE` migrations.
 
 ### sections — 9-hole groupings (前9, 後9, 東區, 西區, 中區)
 ```
@@ -118,14 +173,31 @@ Set to 0 to exclude a section from scoring/rankings without deleting it.
 
 ### holes — 9 per section
 ```
-id, section_id, hole_number (1-9), par, yards
+id, section_id, hole_number (1-9, ordering only), hole_label, par, yards, yards_red
 ```
+`hole_number` is an INTEGER used purely for ordering within a section.
+`hole_label` is what players see, so it can hold non-numeric labels like `"10A"`.
+再興 currently plays `10,11,12,13,14,16,17,18,10A` — hole 15 is under renovation
+and 10A stands in for it as the **last hole played**.
+`yards` = white tee (men), `yards_red` = red tee (ladies).
 
 ### players
 ```
 id, tournament_id, player_number, chinese_name, english_name,
-handicap, pin (4-digit string), group_id (NULL if unassigned), no_show (0|1)
+handicap, pin (4-digit string), group_id (NULL if unassigned), no_show (0|1),
+wildcard (0|1), tee (white|red)
 ```
+`chinese_name` may be empty — display falls back to `english_name`.
+
+### champions / champion_results — past winners, per tournament
+```
+champions:        id, slug, year, course, champion_name, display_order
+champion_results: id, champion_id, position, player_name, score
+```
+Previously hardcoded in `PickHorsePage.jsx`; now editable from the admin panel.
+`GET /api/champions?t=<slug>` is public; POST/PUT/DELETE require that tournament's admin.
+`POST /api/champions/from-tournament` builds an entry from the finished
+tournament's leaderboard (scores as net-to-par, no-shows as `DQ (No Show)`).
 
 ### groups
 ```
@@ -214,6 +286,56 @@ All logic in `logic/rankings.js`:
   - `grossRankings` — raw gross score (no handicap), with `grossRank`; used for 總桿排名 tab
 - `tiebreak(a, b)` — stroke tiebreaker comparator (hole quality chain)
 - Final rankings sort: `totalPoints` desc → `rankingPoints` desc → share rank
+
+---
+
+---
+
+## 綠夾克盃 Green Jacket — Ranking Rules
+
+Pure net stroke play: `Net = Gross (18 holes) − Handicap`, lower wins.
+No horse picks, no ranking points, no final combined tab, no dinner cutoff.
+
+### Configurable tiebreakers
+Unlike the Ring Cup's hardcoded chain, the admin sets the priority order at
+`/admin/gj/tiebreak`. Two independent chains are stored as JSON on `tournament`:
+
+| Field | Default | Applies to |
+|---|---|---|
+| `tiebreak_champion` | `["pk"]` | players tied for 1st |
+| `tiebreak_others` | `["back9","hole_countback"]` | 2nd place onward |
+
+Available rule ids (`logic/gjRankings.js` → `TIEBREAK_RULES`):
+`pk`, `hcp_low`, `hcp_high`, `back9`, `front9`, `last6`, `last3`, `last1`, `hole_countback`.
+`hcp_low`/`hcp_high` are mutually exclusive (enforced server-side).
+
+- **`pk` is a terminator**, not a comparison — the engine stops, flags
+  `awaitingPlayoff`, and waits for the admin to record the sudden-death putting
+  result via `PUT /api/tournament/playoff-winner`.
+- **Nothing about the course is hardcoded.** `back9`, `last6/3/1` and
+  `hole_countback` are all derived from the holes stored in the database.
+  When hole 15 reopens, edit the course in the admin panel and every rule follows.
+  With 10A last, `hole_countback` compares `10A → 18 → 17 → 16 → 14 … → 1`.
+- **Countback is skipped unless both players finished all 18 holes.**
+- **Finished rounds rank above rounds in progress**, so a nine-hole total never
+  appears to beat an eighteen-hole one. Partial net scores render as "暫 N" in grey.
+
+Run `node logic/gjRankings.test.js` to exercise all of this — it covers champion
+ties, back-nine decisions, hole countback on 10A, playoff overrides, USGA chains,
+and unfinished rounds, against a throwaway copy of the database.
+
+---
+
+## Editing the Course Without Losing Scores
+`PUT /api/tournament/course` **reconciles in place** — it updates existing hole
+rows rather than deleting and re-inserting them. Scores are keyed on `hole_id`,
+so the old delete-and-recreate approach orphaned every score already entered.
+Renaming `10A` to `15` next month therefore keeps the 2026 results intact.
+
+Likewise, `PUT /api/players` replaces the whole roster and **wipes all scores** —
+use `PUT /api/players/:id/details` to edit one player (name, handicap, wildcard,
+tee) without touching scores. The Green Jacket admin uses the safe endpoint by
+default and only offers bulk import behind a warning.
 
 ---
 

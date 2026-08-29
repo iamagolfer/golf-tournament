@@ -26,19 +26,26 @@ app.use('/api/tournament', require('./routes/tournament')(db));
 app.use('/api/players', require('./routes/players')(db));
 app.use('/api/scores', require('./routes/scores')(db));
 app.use('/api/rankings', require('./routes/rankings')(db));
+app.use('/api/champions', require('./routes/champions')(db));
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/dist'), { index: false }));
+// Serve the built frontend whenever it exists, so 'npm start' works locally
+// without NODE_ENV. Vite's dev server runs on its own port and is unaffected.
+const distPath = path.join(__dirname, 'client/dist');
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath, { index: false }));
 
   const PAGE_TITLES = {
     '/':         '戒指選秀盃主畫面',
     '/pick':     '選馬',
     '/scores':   '即時輸入查看成績',
     '/rankings': '最終排名',
+    '/greenjacket':           '綠夾克盃',
+    '/greenjacket/scores':    '綠夾克盃 — 輸入成績',
+    '/greenjacket/rankings':  '綠夾克盃 — 排名',
   };
 
   app.get('*', (req, res) => {
-    const htmlPath = path.join(__dirname, 'client/dist/index.html');
+    const htmlPath = path.join(distPath, 'index.html');
     let html = fs.readFileSync(htmlPath, 'utf8');
     const title = PAGE_TITLES[req.path] || '高爾夫球賽計分系統';
     html = html.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
