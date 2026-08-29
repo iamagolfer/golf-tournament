@@ -1,0 +1,33 @@
+Where it lives — lines 118–131, inside the "Status control" card.
+
+What it displays
+
+Label: "目前狀態 Current Status"
+Value: the raw status string from the database 
+(e.g. setup, picking, playing, revealed, finished), shown capitalized via Tailwind's capitalize class (line 123)
+Where status comes from
+
+On load (loadData, line 23–43), it calls GET /tournament and reads t.tournament?.status, defaulting to 'setup' if missing. That's it — no derived logic, it's the stored DB value.
+
+The action button (line 125–130)
+
+The STATUS_FLOW map (lines 5–11) defines the full state machine:
+
+Current	Next	Button label
+
+setup	picking	開放選馬 Open Horse Picking
+picking	playing	Lock & Start Game
+playing	revealed	Reveal Horse Picks
+revealed	finished	Finish Game
+finished	(none)	(no button shown)
+
+
+
+The button only renders if STATUS_FLOW[status]?.next exists (line 125), so finished shows no button.
+
+handleStatusChange (lines 89–101)
+
+Reads the next status from STATUS_FLOW[status].next
+Shows a window.confirm() with a different message depending on which transition
+Calls PUT /tournament/status with { status: flow.next }
+Updates local status state immediately (optimistic update)

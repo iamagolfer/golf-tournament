@@ -1,0 +1,47 @@
+One-Time Setup on the Office Computer
+Step 1 — Install Node.js v22 (if not already installed)
+Download from https://nodejs.org → choose v22 LTS
+
+Step 2 — Clone the project from GitHub
+
+
+cd "C:\Users\YourName\Documents"
+git clone https://github.com/iamagolfer/golf-tournament.git golf-app
+cd golf-app
+npm run install:all
+Step 3 — Create the start shortcut
+The .bat file won't be there since it's outside the golf-app folder. Just run:
+
+
+npm start
+Daily Workflow (Both Computers)
+When you START working — always pull first:
+
+
+cd "C:\...\golf-app"
+git pull
+npm start
+When you FINISH — always push:
+
+
+git add .
+git commit -m "describe what you changed"
+git push
+If you changed any frontend files, add the build step:
+
+
+npm run build
+git add .
+git commit -m "describe changes"
+git push
+Important: The Database is NOT Shared
+Each computer has its own local db/golf.sqlite file — it's excluded from git on purpose (you don't want test data mixing with real data).
+
+Where	Database
+Home computer	Local test data only
+Office computer	Local test data only
+Railway (live)	Real tournament data — this is the one that matters
+So you can test freely on either machine without affecting the live app on Railway.
+
+If You Edit on Both Computers Same Day
+Always git pull before starting to avoid conflicts. Since you're likely the only developer, conflicts are rare — but pulling first prevents them entirely.

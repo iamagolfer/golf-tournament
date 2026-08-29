@@ -5,6 +5,9 @@ ignore this part up
 
 
 
+
+
+
 i want to write  a program, please analysis my requirement and let me know how this program needs to write on what technoloy, HTML ,asp,  React , vite, NOde, ccs design,  database, or no database....etc that can be easily future modify or expansion..  
 
 this program must be view and edit in browser especial mobile freely UI all words can enter in traditional chinese and english
@@ -39,6 +42,8 @@ admin page have function ,
 
 Public separate pages which be be view if give the addresss of the page.. 
 
+0 display a hardcode page of past champ
+
 
 1. display  1:name of the course, date, tee time , 2.the written rule of this tournament written by admin.  and breif game rule you summarize for easy reading after you read all the words 
 
@@ -57,6 +62,37 @@ Public separate pages which be be view if give the addresss of the page..
 11 王伯軒 JJ (14差點) (button action and status)
 12 黃建富 Jeff (26差點) (button action and status)
 13 洪豪聰 Leon (27差點) (button action and status)
+
+
+1 林楮君 William (11差點)
+2 陳威龍 Daniel (16差點)
+3 林家榮 Jason (14差點)
+4 簡旭宏 Eddie (20差點)
+5 陳義榮 Benny (14差點)
+6 陳維立 Albert (5差點)
+7 林聰敏 Johnny (2差點)
+8 王裕為 Casper (24差點)
+9 林健裕 Jimmy (13差點)
+10 林全馳 AD (23差點)
+11 王伯軒 JJ (14差點)
+12 黃建富 Jeff (26差點)
+13 洪豪聰 Leon (27差點)
+
+1 林楮君 William 1101
+2 陳威龍 Daniel 1156
+3 林家榮 Jason 1134
+4 簡旭宏 Eddie 2190
+5 陳義榮 Benny 1134
+6 陳維立 Albert 5045
+7 林聰敏 Johnny 2012
+8 王裕為 Casper 2234
+9 林健裕 Jimmy 1123
+10 林全馳 AD 2223
+11 王伯軒 JJ 1134
+12 黃建富 Jeff 2256
+13 洪豪聰 Leon 2267
+
+
 
 
 let me explain this button action/status and rules ,   which now i can think of is these 3  還沒選馬 ，已選馬了，改變選馬  detail as follow
@@ -137,3 +173,291 @@ Q5. let's make it for this way only..
 
 
 sorry i forgot eagle part.. eagle count as better.. compare double eagle, eagle, birdies.... do you have any more questions, or any suggestions ? also after you build the program.. how  can i tested it so i know it will work good .. 
+
+
+
+under score, please modify a litte bit..  now has tab all, group 1 , group2 group 3 , group 4 
+
+change the tab to only Group 1, Group 2 , Group 3, group4 ...  no need for all
+
+each tab of group show all players in that particular groups for score editing first, then 
+in the bottome show all the score enter for all player so far as tournament progress  (this way on the same page player can see all player score in the same page)
+
+
+make change to score page, within the group we don't want to go in the player's name to edit individual hole score, 
+make it so we can enter all players score for the hole in this page without going inside of that player's page.. 
+maybe make  top row hole1 ..   hole 18 scrollable, any method to solve this problem
+
+in the bottom , right now it is showing individual hole score for everyone.  but also a total under par score for hole's played already , sort them in order who have the lowest 
+under par score for the hole played..  
+
+
+
+
+
+can you change it so it refresh every 10 min of other player's new score
+can you move the existing refresh button on the top title row of live leaderboard.. a refresh button with name title 更新即時排名
+
+
+
+i want to change the logic of live leaderboard in the score page
+
+the leaderboad should be ranking take consideration of the player's handicap not just their score
+meaning player A have handicap of 14, should start from -14
+
+
+also right after the name of the player it should show their handicap
+
+
+do you understand my 2 asking , ask me if you are not clear or give suggestion
+
+
+
+i want to change the display the liveleader under score page
+
+now it's like
+
+rank, name of the player, handicap   18洞  totalscore, 
+
+can you change to 
+
+
+rank_"x分", ..rest the same 
+basically adding thier rank point + 分 beside their ranking 
+
+this way in the mid round , any palyer can add their rank point with their pick horse
+ranking point
+
+ask me question if you are not clear, or give suggestion 
+
+
+
+right now seems like once you enter a score in player's row. it can not be deleted to zero.. 
+please make this possible, 
+because maybe on the tournament day  if 2 groups starts from front 9 , 2 groups starts from back 9,
+those start from back 9 maybe enter few of their frist hole score in the wrong 9 hole section.
+they can correct this in the mid round  
+ask me question if you are not clear, or give suggestion 
+
+
+as change we request before, right now seems like once you enter a score in player's row. it can be change to blank
+we need because maybe on the tournament day  if 2 groups starts from front 9 , 2 groups starts from back 9,
+those start from back 9 maybe enter few of their frist hole score in the wrong 9 hole section.
+they can correct this in the mid round  
+but after change to blank, if we refresh , the old score come back 
+
+
+
+ask me question if you are not clear, or give suggestion 
+
+
+
+
+can you change the tiebreaker chain in ranking into this easier logic
+
+1. Most under Par (doubl eagele, eagle, birdies all count as one)
+2. Most Par (0)
+3. Fewest bogeys (+1)
+4. Fewest double bogeys (+2)
+5. Fewest triple bogeys (+3)
+6. Fewest quad bogeys (+4)
+7. Continue pattern up to +12 over par
+8. Share ranking if still tied
+
+on the liveleaderboad tied players also use this tiebreaker logic for the hole score enter
+
+ask me question if you are not clear, or give suggestion 
+
+
+right now under liver leaderboard each player hole by hole score is listed all together without section
+can you list each player score ,  9 holes first row and 9 hole total, 9 holes second row and 9 hole total
+ask me question if you are not clear, or give suggestion 
+
+
+for the player that need to decide on the tiebreaker.. in liveboarder and ranking 
+can you write out their wining reason or tiebreaker reason 
+ ask me question if you are not clear, or give suggestion 
+
+
+
+ on the liveleaderboad each player's net score is in red number if it's negative, blue number if it's positive now
+ can you put the word "淨桿" before the number
+ ask me if you are not clear or have question
+
+
+
+ in the public page, pick horse page,
+
+ in the FRONT  of THE SECTION WITH 點擊你的名字  
+
+Creat a section which can expand and collapse
+Title 歷屆冠軍及成績  and information as follow
+
+2022 新豐球場冠軍 林家榮 Jason
+2023 楊梅球場冠軍 林褚君 William 
+2024 台北球場冠軍 陳威龍 Daniel
+2025 新豐球場冠軍 林褚君 William
+
+
+2022 新豐球場成績 
+Jason +4
+Daniel +8 
+Casper +8
+AD +10
+Benny +10
+Albert +12
+Johnny +12
+William +15
+Eddie +20
+
+2023 楊梅球場冠軍 
+William 0
+Johnny 1
+Casper 4
+AD 6
+Albert 7
+Eddie 7
+Benny 8
+Daniel 9
+Jason 16
+JJ DQ(No Show)
+
+2024 台北球場冠軍 
+Daniel +1 
+JJ +3
+Johnny +4
+AD +8
+Benny +9 
+Jimmy +9
+Albert +11
+William +13
+Eddie +14
+Jason +18
+Jeff +18
+Casper +22
+
+2025 新豐球場 
+William	-1
+Jimmy 0
+AD	+1
+Johnny +2	
+Albert +2
+Eddie +5	
+Daniel +7	
+Benny +8	
+Casper +9	
+Jeff +9	
+Jason +17
+
+
+
+
+2 PWA  where in the project would you add this to let player add to their home screen.. i don't understand   3. good idea about copy link , 5 save feedback on score entry , 
+i don't quite understand where on the page would it auto-save message apprear so i can't decide   6 is good idea..    On the more stakes drama section answer.. 4. is a very good idea about position change arrows   
+2 bubble drama highlight is good.. but on  the liveleaderboard can you add  🥇🥈🥉 (Gold 1st, Silver 2nd, Bronze 3rd) logo to each of the player who is current in the top 3
+
+
+
+let testing this program 
+
+on dashboard can you add beloe horse picks and above tournament setup a section 程式測試(Debug) 
+it expand and collapse.
+for now add these two secition for debug purpose , ask me question if you are not clear, can give suggestion also
+
+Section1 . once i created player list , i can fill in something like these
+
+no, player name, player english name , pin code
+1 林楮君 William 1101
+2 陳威龍 Daniel 1156
+3 林家榮 Jason 1134
+4 簡旭宏 Eddie 2190
+5 陳義榮 Benny 1134
+6 陳維立 Albert 5045
+7 林聰敏 Johnny 2012
+8 王裕為 Casper 2234
+9 林健裕 Jimmy 1123
+10 林全馳 AD 2223
+11 王伯軒 JJ 1134
+12 黃建富 Jeff 2256
+13 洪豪聰 Leon 2267
+i can press a button,  it fill  player list with their pin code, so i dont' have to enter one by one with the code i wanted
+
+
+basiclly the 4 digit pin is in this logic, 
+postive an minus handicap all treated with the positve or minus
+5 is 5 , -5 is still 5, -10 still 10
+if their handicap is 2 digit, 
+first digit of handicap is the 1st digit of 4 pin code, 
+second digit of handicap is last digital of 4 pin code
+their handicap minus 1 =  is when we put 2 and 3 digial of 4 pin code
+
+if their handicap is 1 digit
+first digit of handicap is the 1st digit of 4 pin code, 
+first digit of handicap is also the last digital of 4 pin code
+their handicap minus 1 =  is when we put 2 and 3 digial of 4 pin code
+
+for instance handicap 14 = 1134
+for instance handicap 26 = 2256
+for instance handicap  5 = 5045
+for instance handicap -4 = 4034
+
+
+
+Section2. once i created a player list and creat group, i can fill all player's score in the following fashion, this way i don't have enter one by one 
+1. all player with x score
+2. all palyer with x score on first 9, y score on second 9, w score on third 9 if it existed
+3. all player with x score on group 1, all player with y score on group 2, .... so on for all the group 
+
+also in the pick page, can you show the current status of the game, 
+
+
+Debug 的 3. 批次選馬的改成 4種 option .. 1 自己選自己  2. Random 下選一位大, 家都選這一位 3 選在自己Player list 位置的下一位 4  Random 選一位選手 (可重複)
+
+
+in the score page, live leaderboard can take out the position change arrow function 
+
+
+in the live leaderboard,  now the display logic for each of the top grid is this right ?
+
+name of player,english name, handi                     holes played so far, number of total stroke made, how many under par off their handicap 
+change to 
+Left side:
+
+Rank badge (🥇🥈🥉 or number) + ranking points (分) below it
+Chinese name · English name · 差點{handicap}
+{N}洞 — holes played so far (only shown if played > 0) append without any spae 用掉了{N}杆  (N is the number over par for the holes played)
+
+Right side:
+總桿{N} — total gross strokes so far (only shown if played > 0)
+淨桿{±N} — net-to-par = gross − par played − handicap (the ranking score)
+Tiebreaker badge (TB勝 / TB) if applicable
+
+
+switch place of {N}洞 to left side , and append 
+this way the live leaderboard shows how many stroke lost for that player, they can compare to their handicap and know right the way
+and switch the word {N}杆 to 總桿{N}
+ask me question if you are not clear or sugggestion 
+
+
+the liveleaader i want to  show two view
+the first one is like what it is now.. it's default view... 
+the second one should be who shoot the less strokes over par for the hole record so far in the tournament (the traditional tournament view)
+
+the live leader should can be able to switch between these two view.. each get their button of logo&refresh ranking
+the refresh button can be in the same place now... 
+just where and how it switch between these two view, give me two options to choose, 
+if you not clear about my question let me know.. 
+
+
+there is a concern,  some player's phone might have their text in large or extra large setting..
+i notice the program basiclly limited the text size... 
+i think limiting the text size will give player exactly what we like them to see, so no text go out of the box or grid or something like that.... 
+but maybe we should give them an option to zoom in and zoom out.. 
+
+discuss with me before do anything, what do you think 
+
+
+on  the ranking point , for the same final point player
+
+winner shows TB勝  桿賽得分 change to 勝 淨桿得分
+loser show TB 桿賽得分  Change to 輸 淨桿得分
