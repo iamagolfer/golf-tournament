@@ -1,3 +1,15 @@
+# 戒指盃狀態流程 — 程式筆記
+
+關於 [GroupsManager.jsx](../client/src/pages/admin/GroupsManager.jsx) 的「Status control」卡片。
+同一組 STATUS_FLOW 也用在 [Dashboard.jsx](../client/src/pages/admin/Dashboard.jsx) 的狀態切換器。
+
+> 注意:綠夾克盃**不用**這套流程,它只有 setup → playing → finished 三段,
+> 邏輯在 [GjDashboard.jsx](../client/src/pages/gj/GjDashboard.jsx)。
+
+(行號可能已隨改版變動,以實際檔案為準。)
+
+---
+
 Where it lives — lines 118–131, inside the "Status control" card.
 
 What it displays
