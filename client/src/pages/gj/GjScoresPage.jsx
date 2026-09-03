@@ -236,6 +236,9 @@ export default function GjScoresPage() {
                   </tbody>
                 </table>
               </div>
+              <div className="px-4 py-1.5 bg-gray-50 border-t text-xs text-gray-400 text-center">
+                ← 左右滑動查看全部洞 / Scroll to see all holes →
+              </div>
             </div>
           </div>
 
