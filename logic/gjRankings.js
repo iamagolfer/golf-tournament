@@ -187,7 +187,9 @@ function rankBucket(bucket, { championChain, othersChain, playoffWinnerId, start
         group = [winner, ...group.slice(0, wi), ...group.slice(wi + 1)];
         out.push({ ...winner, rank: nextRank, tiebreakWon: playoffLabel });
         nextRank += 1;
-        group = group.slice(1);
+        // Everyone left in the group lost the playoff to that winner, so they
+        // each carry the "lost" label even when they stay tied with each other.
+        group = group.slice(1).map(p => ({ ...p, tiebreakLost: p.tiebreakLost || playoffLabel }));
         awaitingPlayoff = false;
         if (group.length === 1) {
           out.push({ ...group[0], rank: nextRank, tiebreakLost: playoffLabel });

@@ -98,7 +98,10 @@ export function medal(rank) {
   return rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : null
 }
 
-// Badge shown when a tie was resolved (or is still waiting on the playoff)
+// Badges shown when a tie was resolved (or is still waiting on the playoff).
+// A player in the middle of a three-way tie both lost to the player above and
+// beat the player below, so both badges show — ↑ first (the player above),
+// then ↓ (the player below).
 export function TiebreakBadge({ player }) {
   if (player.awaitingPlayoff) {
     return (
@@ -107,19 +110,19 @@ export function TiebreakBadge({ player }) {
       </span>
     )
   }
-  if (player.tiebreakWon) {
-    return (
-      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">
-        勝 {player.tiebreakWon}
-      </span>
-    )
-  }
-  if (player.tiebreakLost) {
-    return (
-      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-300">
-        輸 {player.tiebreakLost}
-      </span>
-    )
-  }
-  return null
+  if (!player.tiebreakLost && !player.tiebreakWon) return null
+  return (
+    <>
+      {player.tiebreakLost && (
+        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-300">
+          ↑輸 {player.tiebreakLost}
+        </span>
+      )}
+      {player.tiebreakWon && (
+        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">
+          ↓勝 {player.tiebreakWon}
+        </span>
+      )}
+    </>
+  )
 }
