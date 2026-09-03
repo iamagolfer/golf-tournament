@@ -41,15 +41,37 @@ export default function GjPlayersManager() {
   const [editing, setEditing] = useState(null)
   const [bulk, setBulk] = useState('')
   const [showBulk, setShowBulk] = useState(false)
+  const [status, setStatus] = useState(null)
 
   useEffect(() => { load() }, [])
-  const load = () => gjApi.get('/players').then(d => setPlayers(d.players || []))
+  const load = () => Promise.all([gjApi.get('/players'), gjApi.get('/tournament')])
+    .then(([d, t]) => {
+      setPlayers(d.players || [])
+      setStatus(t.tournament?.status ?? null)
+    })
 
   const saveOne = (p) => run(async () => {
     await gjApi.put(`/players/${p.id}/details`, p)
     await load()
     setEditing(null)
   }, '已更新 ✓')
+
+  // The server refuses this once play starts, so the button only shows during
+  // setup — a player who drops out mid-round is marked 未到 instead.
+  const deleteOne = (p) => {
+    const who = p.chinese_name || p.english_name
+    if (!confirm(
+      `確定刪除「${who}」？\n\n` +
+      `• 會一併刪除他已輸入的成績\n` +
+      `• 其餘選手的編號會重新排序\n\n` +
+      `此動作無法復原。`
+    )) return
+    run(async () => {
+      await gjApi.delete(`/players/${p.id}`)
+      await load()
+      setEditing(null)
+    }, `已刪除 ${who} ✓`)
+  }
 
   const importBulk = () => {
     const { players: parsed, errors } = parseBulk(bulk)
@@ -70,6 +92,7 @@ export default function GjPlayersManager() {
       <Card title="選手名單">
         <p className="text-xs text-gray-400 mb-3">
           點選手可直接修改姓名、差點、外卡與 Tee 別 — <b>不會影響已輸入的成績</b>。
+          {status === 'setup' && ' 展開後最下面有刪除鈕。'}
         </p>
         <div className="divide-y divide-gray-100">
           {players.map(p => editing?.id === p.id ? (
@@ -99,6 +122,16 @@ export default function GjPlayersManager() {
                 <button onClick={() => setEditing(null)}
                   className="px-4 bg-gray-200 text-gray-700 py-2 rounded text-sm">取消</button>
               </div>
+              {status === 'setup' ? (
+                <button onClick={() => deleteOne(editing)} disabled={saving}
+                  className="w-full bg-red-50 hover:bg-red-100 text-red-700 border border-red-300 py-2 rounded text-sm font-medium disabled:opacity-50">
+                  🗑 刪除這位選手
+                </button>
+              ) : (
+                <p className="text-xs text-gray-400 text-center pt-1">
+                  比賽已開始,不能刪除選手 — 臨時不來請到「分組設定」標記<b>未到</b>
+                </p>
+              )}
             </div>
           ) : (
             <button key={p.id} onClick={() => setEditing({ ...p })}
