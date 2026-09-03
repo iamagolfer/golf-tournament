@@ -107,11 +107,19 @@ to fit — so both still work next year with a different field, and after hole 1
 reopens. Scenarios needing a specific shape (two players on the same handicap, a
 back nine of 7+ holes) skip themselves with a printed reason rather than failing.
 
-The HTTP test covers the game-day concurrency case: every phone submitting at
-once, hole-by-hole waves, two phones editing the same hole, and the admin acting
-while scores are coming in. The server handles 400 concurrent score writes
-without dropping one (measured); a single Node client firing 270 requests in one
-burst is what falls over, not the server.
+The HTTP test models how the day actually runs: **one person per group enters
+that group's scores (≈4 writers), while everyone else has a page open reading.**
+The load is on the read side, so it runs every reader hammering `/api/rankings`
+and `/api/scores` while a scorer keeps writing, and checks nobody ever sees a
+half-written leaderboard. Measured: 30 concurrent readers polling every 20ms
+during writes → median 88ms, p95 105ms, zero failed reads. The real pages
+auto-refresh every 8–10 minutes, so this is far heavier than game day.
+
+It also covers two phones editing the same hole (the `UNIQUE(player_id, hole_id)`
+row must not double up), the admin acting mid-entry, and a stress ceiling of the
+whole field submitting complete rounds at once. The server itself handles 400
+concurrent score writes without dropping one — a single Node client firing 270
+requests in one burst is what falls over, not the server.
 
 ---
 

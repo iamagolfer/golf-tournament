@@ -142,36 +142,81 @@ async function main() {
     (await guest.get('/api/tournament?t=greenjacket')).body.tournament.status === 'playing');
 
   // ════════════════════════════════════════════════════════════════
-  head('D', '全部選手同時用手機輸入成績(併發)');
-  await clearAll();
-  // Every player's phone submits its full round at the same moment
+  // The real game-day shape: one person per group enters that group's scores,
+  // while everyone else has a page open reading. So a handful of writers and
+  // many concurrent readers — the read side is the one under load.
   const phones = players.map(p => phone(`phone-${p.player_number}`));
-  const results = await Promise.all(players.map((p, i) =>
-    postRound(phones[i], p, roundForNet(p, 72 + i))));
-  check(`${players.length} 支手機同時送出都成功`, results.every(x => x.status === 200),
-    results.filter(x => x.status !== 200).map(x => x.status).join(','));
-  check('成績筆數正確,沒有重複或遺漏',
-    (await scoreCount()) === players.length * holes.length,
-    `${await scoreCount()} / ${players.length * holes.length}`);
+  const groups = [...new Set(players.map(p => p.group_id ?? 0))];
+  const scorers = groups.map(g => players.filter(p => (p.group_id ?? 0) === g));
+  const rounds = new Map(players.map((p, i) => [p.id, roundForNet(p, 72 + i)]));
 
-  head('D2', '一洞一洞輸入(真實手機用法)— 每洞全場同時送出');
+  head('D', `每組一人輸入 — ${scorers.length} 位記分員,逐洞送出整組成績`);
   await clearAll();
-  // The real pattern: a group finishes a hole and everyone enters it at once,
-  // hole after hole — one wave of players.length writes per hole.
-  const rounds = players.map((p, i) => roundForNet(p, 72 + i));
-  const waveResults = [];
+  const writeResults = [];
   for (const [hi, h] of holes.entries()) {
-    waveResults.push(...await Promise.all(players.map((p, i) =>
-      phones[i].post('/api/scores/batch?t=greenjacket', {
-        playerId: p.id, scores: [{ holeId: h.id, strokes: rounds[i][hi] }],
+    // Each group's scorer submits their whole group's scores for this hole
+    writeResults.push(...await Promise.all(scorers.map((group, gi) =>
+      phones[gi].post('/api/scores/batch?t=greenjacket', {
+        playerId: group[0].id, scores: [{ holeId: h.id, strokes: rounds.get(group[0].id)[hi] }],
+      }).then(async res => {
+        for (const p of group.slice(1)) {
+          await phones[gi].post('/api/scores/batch?t=greenjacket', {
+            playerId: p.id, scores: [{ holeId: h.id, strokes: rounds.get(p.id)[hi] }],
+          });
+        }
+        return res;
       }))));
   }
-  const bad = waveResults.filter(x => x.status !== 200);
-  check(`逐洞併發 ${waveResults.length} 次寫入全部成功`, bad.length === 0,
-    bad.slice(0, 3).map(x => x.error || x.status).join(', '));
+  check(`${scorers.length} 位記分員逐洞輸入全部成功`,
+    writeResults.every(x => x.status === 200),
+    writeResults.filter(x => x.status !== 200).slice(0, 3).map(x => x.error || x.status).join(', '));
   const finalCount = await scoreCount();
-  check('最終筆數正確', finalCount === players.length * holes.length,
-    `${finalCount} / ${players.length * holes.length}`);
+  check('全場成績筆數正確,沒有重複或遺漏',
+    finalCount === players.length * holes.length, `${finalCount} / ${players.length * holes.length}`);
+
+  head('D2', `輸入的同時,${players.length * 2} 支手機一直刷新排名頁`);
+  // Readers hammer the two pages people actually stare at while a scorer keeps
+  // entering holes. Nobody should ever see a broken or half-written leaderboard.
+  const readers = Array.from({ length: players.length * 2 }, (_, i) => phone(`reader-${i}`));
+  let readerStop = false;
+  const latencies = [];
+  const readerLoop = async (client, url) => {
+    const seen = [];
+    while (!readerStop) {
+      const t0 = Date.now();
+      const res = await client.get(url);
+      latencies.push(Date.now() - t0);
+      seen.push(res);
+      await new Promise(r => setTimeout(r, 20));
+    }
+    return seen;
+  };
+  const reading = readers.map((c, i) =>
+    readerLoop(c, i % 2 ? '/api/rankings?t=greenjacket' : '/api/scores?t=greenjacket'));
+  // Meanwhile the scorer rewrites a hole for the whole field, repeatedly
+  for (let pass = 0; pass < 3; pass++) {
+    for (const [hi, h] of holes.slice(0, 6).entries()) {
+      await Promise.all(players.map((p, i) => phones[i].post('/api/scores/batch?t=greenjacket', {
+        playerId: p.id, scores: [{ holeId: h.id, strokes: rounds.get(p.id)[hi] }],
+      })));
+    }
+  }
+  readerStop = true;
+  const readBatches = (await Promise.all(reading)).flat();
+  const failedReads = readBatches.filter(x => x.status !== 200);
+  check(`讀取 ${readBatches.length} 次全部成功`, failedReads.length === 0,
+    failedReads.slice(0, 3).map(x => x.error || x.status).join(', '));
+  const rankingReads = readBatches.filter(x => Array.isArray(x.body.netRankings));
+  check('每次排名都回傳完整名單(不會讀到半寫入的資料)',
+    rankingReads.every(x => x.body.netRankings.length === players.length),
+    [...new Set(rankingReads.map(x => x.body.netRankings.length))].join(','));
+  check('排名內容始終有效(名次不會是 undefined)',
+    rankingReads.every(x => x.body.netRankings.every(p => p.rank !== undefined)));
+  latencies.sort((a, b) => a - b);
+  const p95 = latencies[Math.floor(latencies.length * 0.95)] || 0;
+  check(`讀取速度可接受(中位 ${latencies[Math.floor(latencies.length / 2)]}ms · p95 ${p95}ms)`, p95 < 2000,
+    `p95=${p95}ms`);
+  console.log(`   註:實際頁面是每 8–10 分鐘自動更新一次,這裡是每 20ms 連打的極端情況`);
 
   head('D3', '兩支手機同時改同一位選手的同一洞');
   const target = players[0], h0 = holes[0];
@@ -185,11 +230,12 @@ async function main() {
   check('同一洞只留一筆(不會變兩筆)', dupes.length === 1, `${dupes.length} 筆`);
   check('留下的是其中一次的桿數', [4, 7].includes(dupes[0].strokes), `strokes=${dupes[0].strokes}`);
 
-  head('D4', '大家同時重新整理排名頁');
-  const reads = await Promise.all(Array.from({ length: 20 }, () => guest.get('/api/rankings?t=greenjacket')));
-  check('20 次同時讀取排名都成功', reads.every(x => x.status === 200));
-  check('每次回傳的人數一致',
-    new Set(reads.map(x => (x.body.netRankings || []).length)).size === 1);
+  head('D4', '壓力上限 — 全場同時送出整份成績(比實際情況重得多)');
+  await clearAll();
+  const burst = await Promise.all(players.map((p, i) => postRound(phones[i], p, rounds.get(p.id))));
+  check(`${players.length} 支手機同時送出整份成績都成功`, burst.every(x => x.status === 200),
+    burst.filter(x => x.status !== 200).map(x => x.error || x.status).join(','));
+  check('筆數正確', (await scoreCount()) === players.length * holes.length);
 
   head('D5', '選手輸入成績的同時,管理員在後台操作');
   const [writes, adminAct] = await Promise.all([
