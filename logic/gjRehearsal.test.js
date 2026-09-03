@@ -410,7 +410,7 @@ else {
 }
 
 // ══════════════════════════════════════════════════════════════════
-head('11c', 'Lucky 7 獎 / BB 獎 — 只在淨桿,第一個人剩兩洞時才出現');
+head('11c', 'Lucky 7 獎 / BB 獎 — 只在淨桿,全部人打完 18 洞才出現');
 if (players.length < 8) skip('Lucky 7 / BB', '選手不足 8 位,排不出第 7 名');
 else {
   reset();
@@ -418,22 +418,31 @@ else {
   setStatus('playing');
   const full = players.map((p, i) => roundOf(grossFor(p, 70 + i * 2)));
 
-  // Everyone still has three or more holes to go
+  // Mid-round the board is upside down — fewest holes played sits top — so
+  // nothing may show yet.
   players.forEach((p, i) => setRound(p, full[i].slice(0, holes.length - 3)));
   r = rank();
-  check('還有三洞沒輸入 → 獎項不顯示',
+  check('大家都還沒打完 → 獎項不顯示',
     r.awardsVisible === false && r.netRankings.every(p => !p.awards));
 
-  // The first player gets to two holes remaining — awards appear
+  // The first player holes out but the rest are still on the course
   clearScores();
-  players.forEach((p, i) => setRound(p, full[i].slice(0, i === 0 ? holes.length - 2 : holes.length - 4)));
+  players.forEach((p, i) => setRound(p, i === 0 ? full[i] : full[i].slice(0, holes.length - 4)));
   r = rank();
-  check('第一個人剩兩洞 → 獎項出現', r.awardsVisible === true);
+  check('只有第一個人打完 → 還是不顯示',
+    r.awardsVisible === false && r.netRankings.every(p => !p.awards));
+
+  // Everyone in but one, who still has a single hole to enter
+  clearScores();
+  players.forEach((p, i) => setRound(p, i === players.length - 1 ? full[i].slice(0, holes.length - 1) : full[i]));
+  r = rank();
+  check('剩最後一人的最後一洞 → 還是不顯示', r.awardsVisible === false);
 
   // Full field in, awards settle on the final order
   clearScores();
   players.forEach((p, i) => setRound(p, full[i]));
   r = rank();
+  check('最後一洞填完 → 獎項出現', r.awardsVisible === true);
   const lucky = r.netRankings.filter(p => p.awards?.includes('lucky7'));
   const bb = r.netRankings.filter(p => p.awards?.includes('bb'));
   dump(r, players.length);

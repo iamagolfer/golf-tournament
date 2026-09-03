@@ -355,6 +355,24 @@ Run `node logic/gjRankings.test.js` to exercise all of this — it covers champi
 ties, back-nine decisions, hole countback on 10A, playoff overrides, USGA chains,
 and unfinished rounds, against a throwaway copy of the database.
 
+### Lucky 7 獎 / BB 獎 — Green Jacket only, net rankings only
+🍀 Lucky 7 = seventh on net · 🎱 BB = second to last. The gross tab never shows them.
+
+**They appear only once every player has holed out** (or the tournament is set to
+`finished`). Showing them mid-round is actively wrong: net score is strokes so far
+minus the *full* handicap, so whoever has played fewest holes sits top and BB lands
+on the group furthest along. Countback is also off for unfinished rounds, so ties —
+and a missing seventh place — are common until the cards are in.
+
+- Second to last is the next *distinct* rank above the last one, so a tie at the
+  bottom gives BB to everyone sharing that rank rather than to nobody.
+- No-shows and players with no card are excluded from both awards.
+- A tie at sixth sends the field straight to eighth — there is then no seventh
+  place at all and **Lucky 7 goes unclaimed**. It takes identical handicaps *and*
+  identical strokes on all 18 holes, so it is close to impossible in practice.
+- Decided in `logic/gjRankings.js` (`awardsVisible` plus an `awards` array per
+  player), so the rankings page and the scores leaderboard cannot disagree.
+
 ---
 
 ## Editing the Course Without Losing Scores

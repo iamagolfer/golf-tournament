@@ -24,11 +24,14 @@ const DEFAULT_CHAMPION_CHAIN = ['pk'];
 const DEFAULT_OTHERS_CHAIN = ['back9', 'hole_countback'];
 
 // Side awards on the net leaderboard: Lucky 7 for seventh place, BB for second
-// to last. They stay hidden until the first player is within two holes of
-// finishing — early enough to follow over the closing holes, but not while the
-// order is still churning. After that they move with any score correction.
+// to last. They stay hidden until every player has holed out.
+//
+// Mid-round they would be worse than useless: net score is strokes so far minus
+// the full handicap, so whoever has played fewest holes sits top, and BB would
+// land on the group furthest along. Countback is also skipped for unfinished
+// rounds, so ties — and a missing seventh place — are common until the cards are
+// in. Once everyone is done the order is final and countback separates them.
 const LUCKY_SEVEN_RANK = 7;
-const AWARD_REVEAL_HOLES_LEFT = 2;
 
 // null means "no score", which can never win a comparison
 function diff(a, b) {
@@ -309,7 +312,7 @@ function buildGjRankings(db, tournamentId) {
   // distinct rank above the last one, so a tie at the bottom hands the award to
   // everyone sharing that rank rather than to nobody.
   const awardsVisible = tournament.status === 'finished' ||
-    active.some(p => p.holesPlayed > 0 && p.totalHoles - p.holesPlayed <= AWARD_REVEAL_HOLES_LEFT);
+    (active.length > 0 && active.every(p => p.isComplete));
   let netWithAwards = netRankings;
   if (awardsVisible) {
     const placed = netRankings.filter(p => !p.isNoShow && p.netScore !== null && p.rank !== null && p.rank !== undefined);
