@@ -98,6 +98,26 @@ export function medal(rank) {
   return rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : null
 }
 
+// Side awards on the net leaderboard. The engine decides who holds them and
+// when they become visible; this only draws what it sends.
+const AWARDS = {
+  lucky7: { label: '🍀 Lucky 7 獎', cls: 'bg-amber-100 text-amber-900 border-amber-400' },
+  bb:     { label: '🎱 BB 獎',      cls: 'bg-sky-100 text-sky-900 border-sky-400' },
+}
+
+export function AwardBadges({ player }) {
+  if (!player.awards?.length) return null
+  return (
+    <>
+      {player.awards.map(a => AWARDS[a] && (
+        <span key={a} className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${AWARDS[a].cls}`}>
+          {AWARDS[a].label}
+        </span>
+      ))}
+    </>
+  )
+}
+
 // Badges shown when a tie was resolved (or is still waiting on the playoff).
 // A player in the middle of a three-way tie both lost to the player above and
 // beat the player below, so both badges show — ↑ first (the player above),

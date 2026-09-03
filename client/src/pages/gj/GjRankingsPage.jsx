@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { gjApi } from '../../api'
-import { GJ, GjHeader, GjNav, PlayerName, cellClass, toParDisplay, holeLabel, medal, TiebreakBadge } from './gjTheme'
+import { GJ, GjHeader, GjNav, PlayerName, cellClass, toParDisplay, holeLabel, medal, TiebreakBadge, AwardBadges } from './gjTheme'
 
 export default function GjRankingsPage() {
   document.title = '綠夾克盃 — 排名'
@@ -102,6 +102,7 @@ export default function GjRankingsPage() {
                     <div className="flex items-center gap-1.5 flex-wrap">
                       <PlayerName player={p} showWildcard={showWildcard} />
                       {tab === 'net' && <TiebreakBadge player={p} />}
+                      {tab === 'net' && <AwardBadges player={p} />}
                     </div>
                     <div className="text-xs text-gray-400 mt-0.5">
                       差點 {p.handicap}

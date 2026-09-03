@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { gjApi } from '../../api'
-import { GJ, GjHeader, GjNav, PlayerName, cellClass, toParDisplay, holeLabel, medal, TiebreakBadge } from './gjTheme'
+import { GJ, GjHeader, GjNav, PlayerName, cellClass, toParDisplay, holeLabel, medal, TiebreakBadge, AwardBadges } from './gjTheme'
 
 export default function GjScoresPage() {
   document.title = '綠夾克盃 — 輸入成績'
@@ -281,6 +281,7 @@ export default function GjScoresPage() {
                       <div className="flex items-center gap-1.5 flex-wrap">
                         <PlayerName player={p} showWildcard={showWildcard} />
                         {lbView === 'net' && <TiebreakBadge player={p} />}
+                        {lbView === 'net' && <AwardBadges player={p} />}
                       </div>
                       <div className="text-xs text-gray-400">
                         差點 {p.handicap}

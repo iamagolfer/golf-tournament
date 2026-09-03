@@ -23,6 +23,13 @@ const TIEBREAK_RULES = {
 const DEFAULT_CHAMPION_CHAIN = ['pk'];
 const DEFAULT_OTHERS_CHAIN = ['back9', 'hole_countback'];
 
+// Side awards on the net leaderboard: Lucky 7 for seventh place, BB for second
+// to last. They stay hidden until the first player is within two holes of
+// finishing — early enough to follow over the closing holes, but not while the
+// order is still churning. After that they move with any score correction.
+const LUCKY_SEVEN_RANK = 7;
+const AWARD_REVEAL_HOLES_LEFT = 2;
+
 // null means "no score", which can never win a comparison
 function diff(a, b) {
   if (a === null && b === null) return 0;
@@ -298,11 +305,31 @@ function buildGjRankings(db, tournamentId) {
 
   const awaitingPlayoff = netRankings.some(p => p.awaitingPlayoff);
 
+  // Lucky 7 / BB, on the net leaderboard only. Second to last is the next
+  // distinct rank above the last one, so a tie at the bottom hands the award to
+  // everyone sharing that rank rather than to nobody.
+  const awardsVisible = tournament.status === 'finished' ||
+    active.some(p => p.holesPlayed > 0 && p.totalHoles - p.holesPlayed <= AWARD_REVEAL_HOLES_LEFT);
+  let netWithAwards = netRankings;
+  if (awardsVisible) {
+    const placed = netRankings.filter(p => !p.isNoShow && p.netScore !== null && p.rank !== null && p.rank !== undefined);
+    const ranks = [...new Set(placed.map(p => p.rank))].sort((a, b) => a - b);
+    const secondLastRank = ranks.length >= 2 ? ranks[ranks.length - 2] : null;
+    netWithAwards = netRankings.map(p => {
+      if (p.isNoShow || p.netScore === null || p.rank === null || p.rank === undefined) return p;
+      const awards = [];
+      if (p.rank === LUCKY_SEVEN_RANK) awards.push('lucky7');
+      if (secondLastRank !== null && p.rank === secondLastRank) awards.push('bb');
+      return awards.length ? { ...p, awards } : p;
+    });
+  }
+
   return {
     tournament,
     holes: holesInPlayOrder,
     parTotal,
-    netRankings,
+    netRankings: netWithAwards,
+    awardsVisible,
     grossRankings,
     championChain,
     othersChain,
