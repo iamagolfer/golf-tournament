@@ -42,6 +42,7 @@ export default function GjPlayersManager() {
   const [bulk, setBulk] = useState('')
   const [showBulk, setShowBulk] = useState(false)
   const [status, setStatus] = useState(null)
+  const [adding, setAdding] = useState(null)
 
   useEffect(() => { load() }, [])
   const load = () => Promise.all([gjApi.get('/players'), gjApi.get('/tournament')])
@@ -55,6 +56,18 @@ export default function GjPlayersManager() {
     await load()
     setEditing(null)
   }, '已更新 ✓')
+
+  const blankPlayer = { chinese_name: '', english_name: '', handicap: '', wildcard: 0, tee: 'white' }
+
+  const addOne = () => {
+    if (!adding.chinese_name.trim() && !adding.english_name.trim()) { alert('請至少填寫中文名或英文名'); return }
+    if (!Number.isFinite(Number(adding.handicap)) || adding.handicap === '') { alert('請填寫差點'); return }
+    run(async () => {
+      await gjApi.post('/players', { ...adding, handicap: Number(adding.handicap) })
+      await load()
+      setAdding(null)
+    }, '已新增選手 ✓')
+  }
 
   // The server refuses this once play starts, so the button only shows during
   // setup — a player who drops out mid-round is marked 未到 instead.
@@ -153,6 +166,46 @@ export default function GjPlayersManager() {
           ))}
           {players.length === 0 && <p className="py-6 text-center text-gray-400 text-sm">尚無選手</p>}
         </div>
+
+        {/* Adding one player leaves everyone else's scores and groups untouched,
+            unlike the bulk import below. Setup only, matching the server. */}
+        {status === 'setup' && (adding ? (
+          <div className="mt-3 pt-3 border-t border-gray-100 space-y-2">
+            <p className="text-sm font-bold text-gray-700">新增選手</p>
+            <div className="grid grid-cols-2 gap-2">
+              <input className="border border-gray-300 rounded px-2 py-2 text-sm" placeholder="中文名（可空白）"
+                value={adding.chinese_name} onChange={e => setAdding({ ...adding, chinese_name: e.target.value })} />
+              <input className="border border-gray-300 rounded px-2 py-2 text-sm" placeholder="英文名"
+                value={adding.english_name} onChange={e => setAdding({ ...adding, english_name: e.target.value })} />
+            </div>
+            <div className="flex gap-2 items-center">
+              <label className="text-sm text-gray-600">差點</label>
+              <input type="number" inputMode="numeric" className="w-20 border border-gray-300 rounded px-2 py-2 text-sm"
+                value={adding.handicap} onChange={e => setAdding({ ...adding, handicap: e.target.value })} />
+              <button onClick={() => setAdding({ ...adding, tee: adding.tee === 'red' ? 'white' : 'red' })}
+                className={`px-3 py-2 rounded text-sm font-medium ${adding.tee === 'red' ? 'bg-red-100 text-red-700 border border-red-300' : 'bg-gray-100 text-gray-700 border border-gray-300'}`}>
+                {adding.tee === 'red' ? '紅 Tee' : '白 Tee'}
+              </button>
+              <button onClick={() => setAdding({ ...adding, wildcard: adding.wildcard ? 0 : 1 })}
+                className={`px-3 py-2 rounded text-sm font-medium ${adding.wildcard ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-gray-100 text-gray-500 border border-gray-300'}`}>
+                {adding.wildcard ? '外卡' : '非外卡'}
+              </button>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={addOne} disabled={saving}
+                className="flex-1 bg-emerald-800 text-white py-2 rounded text-sm font-bold disabled:opacity-50">
+                新增為第 {players.length + 1} 位
+              </button>
+              <button onClick={() => setAdding(null)}
+                className="px-4 bg-gray-200 text-gray-700 py-2 rounded text-sm">取消</button>
+            </div>
+          </div>
+        ) : (
+          <button onClick={() => setAdding({ ...blankPlayer })}
+            className="mt-3 w-full border border-dashed border-emerald-400 text-emerald-800 py-2.5 rounded-lg text-sm font-medium hover:bg-emerald-50">
+            ＋ 新增一位選手
+          </button>
+        ))}
       </Card>
 
       <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-4">

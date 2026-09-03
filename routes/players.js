@@ -53,6 +53,41 @@ module.exports = (db) => {
     res.json({ success: true });
   });
 
+  // Admin: add one player, leaving everyone else's scores and groups alone
+  // (setup phase only). The bulk PUT above replaces the whole roster and wipes
+  // every score with it, which is far too blunt when one more person turns up.
+  router.post('/', requireAdmin, (req, res) => {
+    const t = getTournament(db, req);
+    if (!t) return res.status(400).json({ error: 'No tournament' });
+    if (t.status !== 'setup') {
+      return res.status(400).json({ error: '只能在賽前設定階段新增球員\nCan only add players during setup' });
+    }
+
+    const zh = String(req.body?.chinese_name || '').trim();
+    const en = String(req.body?.english_name || '').trim();
+    if (!zh && !en) {
+      return res.status(400).json({ error: '請至少填寫中文名或英文名\nA name is required' });
+    }
+    const handicap = Number(req.body?.handicap);
+    if (!Number.isFinite(handicap)) {
+      return res.status(400).json({ error: '差點必須是數字\nHandicap must be a number' });
+    }
+
+    const maxNo = db.prepare('SELECT MAX(player_number) AS n FROM players WHERE tournament_id=?').get(t.id);
+    const playerNumber = (maxNo?.n || 0) + 1;
+    const pin = /^\d{4}$/.test(String(req.body?.pin || ''))
+      ? String(req.body.pin)
+      : String(1000 + Math.floor(Math.random() * 9000));
+
+    const info = db.prepare(
+      'INSERT INTO players (tournament_id, player_number, chinese_name, english_name, handicap, pin, wildcard, tee) VALUES (?,?,?,?,?,?,?,?)'
+    ).run(t.id, playerNumber, zh, en, handicap, pin, req.body?.wildcard ? 1 : 0,
+      req.body?.tee === 'red' ? 'red' : 'white');
+
+    db.prepare('UPDATE tournament SET total_players = total_players + 1 WHERE id=?').run(t.id);
+    res.json({ success: true, id: info.lastInsertRowid, player_number: playerNumber });
+  });
+
   // Admin: update a single player's PIN
   router.put('/:id/pin', requireAdmin, (req, res) => {
     const { pin } = req.body;
