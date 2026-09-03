@@ -36,7 +36,7 @@ export function GjHeader({ title, subtitle, tournamentName }) {
 export function GjNav({ current }) {
   const links = [
     { path: '/greenjacket',          label: '賽事資料' },
-    { path: '/greenjacket/scores',   label: '輸入成績' },
+    { path: '/greenjacket/scores',   label: '輸入即時成績' },
     { path: '/greenjacket/rankings', label: '排名' },
   ]
   return (

@@ -3,7 +3,7 @@ import { gjApi } from '../../api'
 import { GJ, GjHeader, GjNav, PlayerName, cellClass, toParDisplay, holeLabel, medal, TiebreakBadge, AwardBadges } from './gjTheme'
 
 export default function GjScoresPage() {
-  document.title = '綠夾克盃 — 輸入成績'
+  document.title = '綠夾克盃 — 輸入即時成績'
   const [tournament, setTournament] = useState(null)
   const [groups, setGroups] = useState([])
   const [players, setPlayers] = useState([])

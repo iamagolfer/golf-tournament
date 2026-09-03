@@ -257,7 +257,7 @@ export default function GjDashboard() {
         <div className="grid grid-cols-3 gap-2 text-sm">
           {[
             { label: '賽事資料', path: '/greenjacket' },
-            { label: '輸入成績', path: '/greenjacket/scores' },
+            { label: '輸入即時成績', path: '/greenjacket/scores' },
             { label: '排名', path: '/greenjacket/rankings' },
           ].map(l => (
             <a key={l.path} href={l.path} target="_blank" rel="noreferrer"
