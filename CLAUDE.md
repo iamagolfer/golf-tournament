@@ -92,6 +92,27 @@ Copy it first and point `DB_PATH` at the copy, and **verify the copy is actually
 being used** before writing (a mis-set `DB_PATH` silently falls back to the real file).
 `node logic/gjRankings.test.js` does this correctly: it copies, runs, and deletes.
 
+### Pre-tournament rehearsal — run both before every Green Jacket
+```powershell
+node logic/gjRehearsal.test.js        # ranking logic, ~60 checks
+node logic/gjRehearsal.http.test.js   # end to end, starts its own server, ~57 checks
+```
+Both copy `db/golf.sqlite` to a throwaway file, abort if `DB_PATH` did not take
+effect, and delete the copy when done. The HTTP one spawns `server.js` on a spare
+port itself, so there is nothing to start or stop by hand.
+
+**Neither is tied to a roster or a course.** Players, handicaps, hole count, pars
+and section layout are read from the database and the test rounds are generated
+to fit — so both still work next year with a different field, and after hole 15
+reopens. Scenarios needing a specific shape (two players on the same handicap, a
+back nine of 7+ holes) skip themselves with a printed reason rather than failing.
+
+The HTTP test covers the game-day concurrency case: every phone submitting at
+once, hole-by-hole waves, two phones editing the same hole, and the admin acting
+while scores are coming in. The server handles 400 concurrent score writes
+without dropping one (measured); a single Node client firing 270 requests in one
+burst is what falls over, not the server.
+
 ---
 
 ## File Structure
@@ -114,7 +135,9 @@ golf-app/
 ├── logic/
 │   ├── rankings.js        ← 戒指盃 engine (net score, tiebreakers, horse picks)
 │   ├── gjRankings.js      ← 綠夾克 engine (net stroke play, configurable tiebreakers)
-│   └── gjRankings.test.js ← Scenario tests — `node logic/gjRankings.test.js`
+│   ├── gjRankings.test.js ← Scenario tests — `node logic/gjRankings.test.js`
+│   ├── gjRehearsal.test.js      ← Game-day rehearsal, ranking logic (roster-agnostic)
+│   └── gjRehearsal.http.test.js ← Game-day rehearsal, end to end + concurrency
 └── client/
     ├── package.json       ← vite in dependencies (NOT devDependencies) — Railway fix
     ├── .npmrc             ← production=false (forces full npm install on Railway)
