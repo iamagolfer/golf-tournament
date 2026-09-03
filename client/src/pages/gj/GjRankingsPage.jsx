@@ -57,7 +57,7 @@ export default function GjRankingsPage() {
           <button onClick={() => setTab('net')}
             className={`flex-1 px-3 py-2.5 rounded-lg text-sm font-medium transition
               ${tab === 'net' ? GJ.tabActive : 'bg-white text-gray-600'}`}>
-            🏅 淨桿排名
+            🏅 綠夾克淨桿排名
           </button>
           <button onClick={() => setTab('gross')}
             className={`flex-1 px-3 py-2.5 rounded-lg text-sm font-medium transition

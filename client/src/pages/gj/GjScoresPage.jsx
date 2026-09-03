@@ -250,13 +250,15 @@ export default function GjScoresPage() {
             </div>
 
             <div className="flex gap-2 mb-2">
+              {/* Long label — text-xs and tight leading keep both tabs on one
+                  line at 375px instead of one wrapping and both growing tall */}
               <button onClick={() => setLbView('net')}
-                className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition
+                className={`flex-1 px-2 py-2 rounded-lg text-xs leading-tight font-medium transition
                   ${lbView === 'net' ? GJ.tabActive : 'bg-white text-gray-600'}`}>
-                🏅 即時淨桿排名（差點）
+                🏅 即時綠夾克淨桿排名（差點）
               </button>
               <button onClick={() => setLbView('gross')}
-                className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition
+                className={`flex-1 px-2 py-2 rounded-lg text-xs leading-tight font-medium transition
                   ${lbView === 'gross' ? GJ.tabActive : 'bg-white text-gray-600'}`}>
                 ⛳ 即時總桿排名
               </button>
