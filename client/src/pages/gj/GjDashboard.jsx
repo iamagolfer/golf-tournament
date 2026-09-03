@@ -29,6 +29,9 @@ export default function GjDashboard() {
   const [scoreCount, setScoreCount] = useState(0)
   const [showTools, setShowTools] = useState(false)
   const [busy, setBusy] = useState('')
+  const [holesRef, setHolesRef] = useState([])
+  const [exactText, setExactText] = useState('')
+  const [exactStatus, setExactStatus] = useState('')
 
   useEffect(() => { load() }, [])
 
@@ -71,6 +74,49 @@ export default function GjDashboard() {
         }))
         await gjApi.post('/scores/batch', { playerId: p.id, scores })
       }
+      await load()
+    } finally { setBusy('') }
+  }
+
+  async function loadHolesRef() {
+    if (holesRef.length) return holesRef
+    const t = await gjApi.get('/tournament')
+    const holes = t.holes || []
+    setHolesRef(holes)
+    return holes
+  }
+
+  // Pre-fill the textarea with everyone at par — same handicap players will
+  // already tie exactly, so Albert just edits a hole or two to peel the tie
+  // apart at whichever tiebreak level (back9 / countback) he wants to test.
+  async function handleExactTemplate() {
+    const holes = await loadHolesRef()
+    if (!holes.length) { setExactStatus('尚未設定球場'); return }
+    const lines = players.map(p => `${p.player_number} ${holes.map(h => h.par).join(',')}`)
+    setExactText(lines.join('\n'))
+    setExactStatus('')
+  }
+
+  async function handleApplyExact() {
+    const holes = await loadHolesRef()
+    if (!holes.length) { setExactStatus('尚未設定球場'); return }
+    setBusy('exact'); setExactStatus('')
+    let ok = 0, fail = 0
+    try {
+      const lines = exactText.trim().split('\n').map(l => l.trim()).filter(Boolean)
+      for (const line of lines) {
+        const parts = line.split(/[\s,]+/).filter(Boolean)
+        const no = parseInt(parts[0])
+        const strokesArr = parts.slice(1).map(Number)
+        const player = players.find(p => p.player_number === no)
+        if (!player || strokesArr.length !== holes.length || strokesArr.some(s => isNaN(s) || s < 1 || s > 20)) {
+          fail++; continue
+        }
+        const scores = holes.map((h, i) => ({ holeId: h.id, strokes: strokesArr[i] }))
+        await gjApi.post('/scores/batch', { playerId: player.id, scores })
+        ok++
+      }
+      setExactStatus(`完成: ${ok} 位套用${fail ? `，${fail} 行失敗/略過` : ''}`)
       await load()
     } finally { setBusy('') }
   }
@@ -236,16 +282,48 @@ export default function GjDashboard() {
             </p>
             <button onClick={fillTestScores} disabled={!!busy}
               className="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-2.5 rounded-lg text-sm font-medium disabled:opacity-50">
-              {busy === 'fill' ? '填入中...' : '批次填入測試成績（全部 18 洞）'}
+              {busy === 'fill' ? '填入中...' : '① 隨機成績（快速看整體排名）'}
             </button>
-            <button onClick={clearScores} disabled={!!busy}
-              className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2.5 rounded-lg text-sm font-medium disabled:opacity-50">
-              {busy === 'clear' ? '清除中...' : '清除所有成績'}
-            </button>
-            <button onClick={softReset} disabled={saving}
-              className="w-full bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 py-2.5 rounded-lg text-sm font-medium disabled:opacity-50">
-              重置：清除成績與分組（保留選手與球場）
-            </button>
+
+            <div className="border-t border-gray-100 pt-3 space-y-2">
+              <p className="text-xs text-gray-500">
+                ② 精確成績（測 tiebreaker / countback / 同差點）— 每行「編號 洞1,洞2...洞{holesRef.length || 18}」，
+                按下方按鈕先套 par 範本，同差點的人會自動同分，改幾個數字就能測試各層級的同分判定。
+              </p>
+              <button onClick={handleExactTemplate} disabled={!!busy}
+                className="w-full bg-white border border-emerald-300 text-emerald-800 py-2 rounded-lg text-xs font-medium hover:bg-emerald-50 disabled:opacity-50">
+                套入 Par 範本（{players.length} 位選手）
+              </button>
+              {holesRef.length > 0 && (
+                <p className="text-xs text-gray-400">
+                  洞序：{holesRef.map(h => h.hole_label ?? h.hole_number).join(' → ')}
+                </p>
+              )}
+              <textarea value={exactText} onChange={e => setExactText(e.target.value)}
+                placeholder={'1 4,4,3,5,5,4,4,3,5,4,5,4,3,4,3,5,4,3\n2 4,4,3,5,5,4,4,3,5,4,5,4,3,4,3,5,4,3'}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs font-mono min-h-[140px] focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-y"
+              />
+              <button onClick={handleApplyExact} disabled={!!busy || !exactText.trim()}
+                className="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-2.5 rounded-lg text-sm font-medium disabled:opacity-50">
+                {busy === 'exact' ? '套用中...' : '套用精確成績'}
+              </button>
+              {exactStatus && (
+                <div className="text-xs text-center font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-lg">
+                  ✓ {exactStatus}
+                </div>
+              )}
+            </div>
+
+            <div className="border-t border-gray-100 pt-3 space-y-2">
+              <button onClick={clearScores} disabled={!!busy}
+                className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2.5 rounded-lg text-sm font-medium disabled:opacity-50">
+                {busy === 'clear' ? '清除中...' : '清除所有成績'}
+              </button>
+              <button onClick={softReset} disabled={saving}
+                className="w-full bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 py-2.5 rounded-lg text-sm font-medium disabled:opacity-50">
+                重置：清除成績與分組（保留選手與球場）
+              </button>
+            </div>
           </div>
         )}
       </div>
