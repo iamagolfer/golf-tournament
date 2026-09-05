@@ -223,6 +223,71 @@ const mk = () => {
   r = await gjAdmin2('POST', '/api/players/from-roster?t=greenjacket', { clubPlayerIds: [rosterNow[5].id] });
   ck('比賽開始後不能再加入', r.status === 400, 'status=' + r.status);
 
+  H('K:依成績建議差點');
+  const { handicapSuggestion } = require('./roster');
+  const round = (gross, parTotal = 72) => ({ archived: true, isNoShow: false, grossScore: gross, parTotal });
+  ck('沒有成績時不給建議', handicapSuggestion([]) === null);
+  ck('未完賽/未到不列入', handicapSuggestion([
+    { archived: true, isNoShow: true, grossScore: 90, parTotal: 72 },
+    { archived: false, grossScore: 90, parTotal: 72 },
+  ]) === null);
+
+  const oneRound = handicapSuggestion([round(90)]);
+  ck('一場也給得出數字', oneRound.suggested === 18, JSON.stringify(oneRound));
+  ck('但標示參考性低', oneRound.confidence === 'low', oneRound.confidence);
+
+  // 88, 92, 96, 100 over par 72 → +16 +20 +24 +28, average 22, better half 18
+  const four = handicapSuggestion([round(88), round(92), round(96), round(100)]);
+  ck('平均算得對', four.average === 22, String(four.average));
+  ck('最佳那場算得對', four.best === 16, String(four.best));
+  ck('建議值取較好的一半（比平均嚴格）', four.suggested === 18 && four.suggested < four.average,
+    JSON.stringify(four));
+  ck('四場以上參考性高', four.confidence === 'high', four.confidence);
+
+  ck('只看最近 5 場', handicapSuggestion([
+    round(80), round(80), round(80), round(80), round(80), round(120),
+  ]).best === 8);
+  ck('球場少一洞時用當年的 Par 算',
+    handicapSuggestion([round(85, 70)]).suggested === 15,
+    JSON.stringify(handicapSuggestion([round(85, 70)])));
+
+  const jjPage = (await admin('GET', '/api/roster/' + jj.id)).body;
+  ck('球員頁帶出建議值', !!jjPage.suggestion && Number.isFinite(jjPage.suggestion.suggested),
+    JSON.stringify(jjPage.suggestion));
+  console.log(`   ${[jjPage.player.chinese_name, jjPage.player.english_name].filter(Boolean).join(" ")} 目前 ${jjPage.player.handicap} · 建議 ${jjPage.suggestion.suggested}` +
+    `（${jjPage.suggestion.basedOn} 場,平均 +${jjPage.suggestion.average},最佳 +${jjPage.suggestion.best}）`);
+
+  H('L:封存後回報冠軍,供調降差點');
+  await gjAdmin2('PUT', '/api/tournament/status?t=greenjacket', { status: 'setup' });
+  const field = (await admin('GET', '/api/players?t=greenjacket')).body.players;
+  const gjT = (await admin('GET', '/api/tournament?t=greenjacket')).body;
+  for (const [i, p] of field.entries()) {
+    const arr = gjT.holes.map(h => h.par); let d = 2 + i * 3;
+    for (let k = 0; d > 0; k = (k + 1) % arr.length) { arr[k]++; d--; }
+    await admin('POST', '/api/scores/batch?t=greenjacket',
+      { playerId: p.id, scores: gjT.holes.map((h, k) => ({ holeId: h.id, strokes: arr[k] })) });
+  }
+  await gjAdmin2('PUT', '/api/tournament/status?t=greenjacket', { status: 'finished' });
+  r = await gjAdmin2('POST', '/api/archives/from-tournament?t=greenjacket', {});
+  ck('封存回傳冠軍', !!r.body.champion, JSON.stringify(r.body).slice(0, 140));
+  const champ = r.body.champion;
+  ck('冠軍接得回球隊名單', !!champ.clubPlayerId, JSON.stringify(champ));
+  ck('帶出目前的球隊差點', Number.isFinite(champ.clubHandicap), JSON.stringify(champ));
+  ck('也帶出當時打球用的差點', Number.isFinite(champ.handicapPlayed));
+  console.log(`   🏆 ${champ.name} 淨${champ.netScore} · 當時差點 ${champ.handicapPlayed}` +
+    ` · 球隊名單差點 ${champ.clubHandicap}`);
+
+  r = await admin('PUT', `/api/roster/${champ.clubPlayerId}/handicap`,
+    { handicap: champ.clubHandicap - 2, reason: `${r.body.year || '2026'} 年冠軍` });
+  ck('照提示調降差點', r.status === 200 && r.body.to === champ.clubHandicap - 2,
+    JSON.stringify(r.body));
+  const cutLog = (await admin('GET', '/api/roster/' + champ.clubPlayerId)).body.handicapLog;
+  ck('原因寫進異動紀錄', cutLog[0].reason.includes('冠軍'), cutLog[0].reason);
+  const stillPlayed = (await admin('GET', '/api/roster/' + champ.clubPlayerId)).body.rounds
+    .find(x => x.archived && x.slug === 'greenjacket');
+  ck('調降後那場成績仍用當時的差點', stillPlayed.handicap === champ.handicapPlayed,
+    `${stillPlayed.handicap} vs ${champ.handicapPlayed}`);
+
   H('I:J.J. 這種寫法在建立名單時就會被視為同一人');
   const { identityKey } = require('./roster');
   ck('J.J. 與 JJ 視為同一個人',

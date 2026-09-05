@@ -17,12 +17,36 @@ export default function ChampionsManager({ api, title = '歷屆冠軍', backTo, 
     .catch(() => setArchives([]))
 
   const [archiveNote, setArchiveNote] = useState('')
+  // Winning gets your handicap cut, and by the time anyone remembers, the round
+  // is weeks gone. Offer it while the result is still on screen.
+  const [champCut, setChampCut] = useState(null)
+
   const archiveTournament = () => run(async () => {
-    setArchiveNote('')
+    setArchiveNote(''); setChampCut(null)
     const r = await api.post('/archives/from-tournament', {})
     setArchiveNote(`${r.year} 年已封存:${r.players} 位選手 · ${r.holes} 洞 · ${r.scores} 筆逐洞成績`)
+    if (r.champion?.clubPlayerId) {
+      setChampCut({
+        ...r.champion,
+        year: r.year,
+        value: String(Math.max(0, r.champion.clubHandicap - 2)),
+        reason: `${r.year} 年冠軍`,
+      })
+    }
     await loadArchives()
   }, '已封存 ✓')
+
+  const applyChampionCut = () => {
+    const next = Number(champCut.value)
+    if (!Number.isFinite(next)) { alert('請填寫差點'); return }
+    if (next === champCut.clubHandicap) { alert('差點沒有變動'); return }
+    if (!champCut.reason.trim()) { alert('請填寫調整原因'); return }
+    run(async () => {
+      await api.put(`/roster/${champCut.clubPlayerId}/handicap`,
+        { handicap: next, reason: champCut.reason })
+      setChampCut(null)
+    }, '冠軍差點已調整 ✓')
+  }
 
   const blank = () => ({ id: null, year: '', course: '', champion_name: '', results: [] })
 
@@ -175,6 +199,39 @@ export default function ChampionsManager({ api, title = '歷屆冠軍', backTo, 
               <p className="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 rounded px-2 py-1.5 text-center mt-2">
                 ✓ {archiveNote}
               </p>
+            )}
+
+            {champCut && (
+              <div className="mt-2 bg-amber-50 border border-amber-300 rounded-lg px-3 py-3">
+                <p className="text-sm font-bold text-amber-950 mb-1">
+                  🏆 {champCut.year} 年冠軍 {champCut.name}
+                </p>
+                <p className="text-xs text-amber-800 mb-2">
+                  淨桿 {champCut.netScore} · 總桿 {champCut.grossScore} ·
+                  當時差點 {champCut.handicapPlayed}。要調降球隊名單上的差點嗎？
+                </p>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm text-amber-900">{champCut.clubHandicap} →</span>
+                  <input type="number" inputMode="numeric"
+                    className="w-20 border border-amber-300 rounded px-2 py-1.5 text-sm text-center font-bold"
+                    value={champCut.value}
+                    onChange={e => setChampCut({ ...champCut, value: e.target.value })} />
+                </div>
+                <input className="w-full border border-amber-300 rounded px-2 py-1.5 text-sm mb-2"
+                  placeholder="調整原因" maxLength={200}
+                  value={champCut.reason}
+                  onChange={e => setChampCut({ ...champCut, reason: e.target.value })} />
+                <div className="flex gap-2">
+                  <button onClick={applyChampionCut} disabled={saving}
+                    className="flex-1 bg-amber-500 text-amber-950 py-2 rounded text-sm font-bold disabled:opacity-50">
+                    調整差點
+                  </button>
+                  <button onClick={() => setChampCut(null)}
+                    className="px-4 bg-white border border-amber-300 text-amber-800 py-2 rounded text-sm">
+                    這次不調
+                  </button>
+                </div>
+              </div>
             )}
             {archives.length > 0 && (
               <p className="text-xs text-emerald-700 text-center mt-1.5">

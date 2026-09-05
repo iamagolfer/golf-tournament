@@ -2,6 +2,7 @@ const express = require('express');
 const { requireAnyAdmin } = require('../lib/tournamentContext');
 const {
   collectCandidates, roundsFor, statsFor, matchesClubPlayer, nameFormsOf, aliasesOf,
+  handicapSuggestion,
 } = require('../logic/roster');
 
 const STATUSES = ['regular', 'wildcard', 'inactive'];
@@ -39,6 +40,7 @@ module.exports = (db) => {
       player: { ...member, aliasList: aliasesOf(member) },
       rounds,
       stats: statsFor(rounds),
+      suggestion: handicapSuggestion(rounds),
       handicapLog: db.prepare(
         'SELECT * FROM handicap_log WHERE club_player_id=? ORDER BY changed_at DESC, id DESC'
       ).all(member.id),

@@ -214,7 +214,45 @@ function statsFor(rounds) {
   };
 }
 
+// A handicap read off what someone has actually shot.
+//
+// Never applied on its own — the club sets handicaps by hand, and this exists to
+// tell the organiser what the scores say. It matters most for a guest, whose
+// first handicap is whatever they told us: after two or three rounds the numbers
+// say whether 24 was honest.
+//
+// The club plays net = gross − handicap with no course or slope rating, so the
+// only honest measure is strokes over the par actually played. Averaging every
+// round would set a handicap you beat half the time, which is too generous for a
+// prize; the better half is the usual competition footing, so that is the
+// suggestion, with the plain average and the best round shown next to it.
+const HANDICAP_ROUNDS = 5;
+
+function handicapSuggestion(rounds) {
+  const diffs = rounds
+    .filter(r => r.archived && !r.isNoShow &&
+      Number.isFinite(r.grossScore) && Number.isFinite(r.parTotal))
+    .slice(0, HANDICAP_ROUNDS)
+    .map(r => r.grossScore - r.parTotal);
+
+  if (!diffs.length) return null;
+
+  const mean = (list) => list.reduce((a, b) => a + b, 0) / list.length;
+  const sorted = [...diffs].sort((a, b) => a - b);
+  const betterHalf = sorted.slice(0, Math.max(1, Math.ceil(sorted.length / 2)));
+
+  return {
+    basedOn: diffs.length,
+    average: Math.round(mean(diffs)),
+    best: sorted[0],
+    suggested: Math.round(mean(betterHalf)),
+    // One round is a single day, not a handicap. Say so rather than implying
+    // the number means as much as it does after four.
+    confidence: diffs.length >= 4 ? 'high' : diffs.length >= 2 ? 'medium' : 'low',
+  };
+}
+
 module.exports = {
   identityKey, displayName, matchesClubPlayer, aliasesOf, nameFormsOf,
-  collectCandidates, roundsFor, statsFor,
+  collectCandidates, roundsFor, statsFor, handicapSuggestion,
 };

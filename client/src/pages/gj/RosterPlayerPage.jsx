@@ -77,8 +77,18 @@ export default function RosterPlayerPage() {
   if (!data) {
     return <div className="min-h-screen flex items-center justify-center text-emerald-900">載入中...</div>
   }
-  const { player, rounds, stats, handicapLog } = data
+  const { player, rounds, stats, handicapLog, suggestion } = data
   const played = rounds.filter(r => r.archived)
+  const CONFIDENCE = {
+    high:   { label: '參考性高', cls: 'text-emerald-700' },
+    medium: { label: '參考性普通', cls: 'text-amber-700' },
+    low:    { label: '只有一場,參考性低', cls: 'text-gray-500' },
+  }
+  const useSuggestion = () => setHcp({
+    open: true,
+    value: String(suggestion.suggested),
+    reason: `依 ${suggestion.basedOn} 場成績建議（平均 +${suggestion.average}、最佳 +${suggestion.best}）`,
+  })
 
   return (
     <GjAdminShell title={nameOf(player)} subtitle={STATUS[player.status]?.label} showBack backTo="/admin/roster">
@@ -191,6 +201,39 @@ export default function RosterPlayerPage() {
             調整
           </button>
         </div>
+
+        {/* What the scores say, next to what the club has decided. Never applied
+            on its own — it exists to tell the organiser whether a guest's
+            self-reported handicap held up. */}
+        {suggestion && (
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            <div className="flex items-center gap-3">
+              <div className="flex-1 text-xs text-gray-500">
+                <span className="text-gray-700 font-medium">依成績建議 </span>
+                <span className="text-lg font-bold text-emerald-900 align-middle">{suggestion.suggested}</span>
+                <span className={`ml-1.5 ${CONFIDENCE[suggestion.confidence].cls}`}>
+                  {CONFIDENCE[suggestion.confidence].label}
+                </span>
+                <span className="block mt-0.5">
+                  {suggestion.basedOn} 場 · 平均高於 Par {suggestion.average} 桿 · 最佳 {suggestion.best} 桿
+                  {suggestion.suggested !== player.handicap && (
+                    <b className="text-gray-700">
+                      {suggestion.suggested < player.handicap
+                        ? `　目前 ${player.handicap} 偏寬鬆`
+                        : `　目前 ${player.handicap} 偏嚴格`}
+                    </b>
+                  )}
+                </span>
+              </div>
+              {suggestion.suggested !== player.handicap && (
+                <button onClick={useSuggestion}
+                  className="bg-white border border-emerald-700 text-emerald-800 text-xs font-bold px-3 py-2 rounded-lg flex-shrink-0">
+                  採用
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {hcp.open && (
           <div className="mt-3 pt-3 border-t border-gray-100 space-y-2">

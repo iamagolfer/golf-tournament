@@ -490,6 +490,27 @@ The handicap is **copied, not referenced**: adjusting it inside a tournament
 affects that round alone, and a later club-level change never reaches back into
 a round already played. Both directions are covered by `logic/roster.test.js`.
 
+### Handicap suggestion — a number, never an action
+`handicapSuggestion` in `logic/roster.js` reads a handicap off what someone has
+actually shot, and is shown beside the club's own figure on the player page. It
+is **never applied automatically**; handicaps are set by hand, and this exists to
+tell the organiser whether a guest's self-reported number held up.
+
+There is no course or slope rating, so the measure is strokes over the par
+actually played (`gross − parTotal`), across the **last 5 archived rounds**.
+Averaging every round sets a handicap you beat half the time, which is too
+generous for a prize, so the suggestion is the mean of the **better half** —
+roughly competition footing — with the plain average and the best round shown
+next to it. Fewer than four rounds is labelled as thin evidence rather than
+quietly presented as fact.
+
+### Champion handicap cut
+Archiving returns `champion` — the net winner, matched back to the club roster —
+so 歷屆冠軍 can offer the cut while the result is still on screen, defaulting to
+two strokes with the reason pre-filled. The admin confirms; nothing is automatic.
+Cutting the club handicap never touches the round just archived, which keeps the
+handicap it was played off.
+
 ### Still to do — the Ring Cup's own player page
 `POST /api/players/from-roster` is tournament-scoped and already works for the
 Ring Cup; only the button is missing. The Green Jacket's 選手管理 adds people one

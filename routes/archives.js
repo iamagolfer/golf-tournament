@@ -2,6 +2,7 @@ const express = require('express');
 const { resolveSlug, requireAdmin, getTournament, GREENJACKET } = require('../lib/tournamentContext');
 const { calculateRankings } = require('../logic/rankings');
 const { buildGjRankings } = require('../logic/gjRankings');
+const { matchesClubPlayer } = require('../logic/roster');
 
 // A frozen copy of one year's tournament.
 //
@@ -99,6 +100,37 @@ function buildSnapshot(db, req) {
   };
 }
 
+// The net winner — the same player the champions history records — matched back
+// to the club roster so their handicap can be adjusted straight away.
+function championOf(db, snapshot) {
+  const winner = (snapshot.netRankings || [])
+    .find(p => !p.isNoShow && p.netScore !== null && p.netScore !== undefined && p.rank === 1);
+  if (!winner) return null;
+
+  const name = [winner.chinese_name, winner.english_name].filter(Boolean).join(' ').trim();
+  const info = {
+    name: name || winner.displayName || '',
+    netScore: winner.netScore,
+    grossScore: winner.grossScore,
+    handicapPlayed: winner.handicap,
+    clubPlayerId: null,
+    clubHandicap: null,
+  };
+
+  let member = null;
+  if (winner.club_player_id) {
+    member = db.prepare('SELECT * FROM club_players WHERE id=?').get(winner.club_player_id);
+  }
+  if (!member) {
+    member = db.prepare('SELECT * FROM club_players').all().find(m => matchesClubPlayer(winner, m));
+  }
+  if (member) {
+    info.clubPlayerId = member.id;
+    info.clubHandicap = member.handicap;
+  }
+  return info;
+}
+
 module.exports = (db) => {
   const router = express.Router();
 
@@ -141,6 +173,10 @@ module.exports = (db) => {
         players: snapshot.players.length,
         holes: snapshot.holes.length,
         scores: snapshot.scores.length,
+        // Winning the cup gets your handicap cut, and that is easy to forget by
+        // the time anyone thinks about it again. Hand back who won so the admin
+        // page can offer it while the round is still fresh.
+        champion: championOf(db, snapshot),
       });
     } catch (e) {
       res.status(400).json({ error: e.message });
