@@ -274,24 +274,19 @@ export default function GjScoresPage() {
               </button>
             </div>
 
-            <div className="flex gap-2 mb-2">
-              {/* Long label — text-xs and tight leading keep both tabs on one
-                  line at 375px instead of one wrapping and both growing tall */}
-              <button onClick={() => setLbView('net')}
-                className={`flex-1 px-2 py-2 rounded-lg text-xs leading-tight font-medium transition
-                  ${lbView === 'net' ? GJ.tabActive : 'bg-white text-gray-600'}`}>
-                🏅 即時綠夾克淨桿排名（差點）
-              </button>
-              <button onClick={() => setLbView('gross')}
-                className={`flex-1 px-2 py-2 rounded-lg text-xs leading-tight font-medium transition
-                  ${lbView === 'gross' ? GJ.tabActive : 'bg-white text-gray-600'}`}>
-                ⛳ 即時總桿排名
-              </button>
-              <button onClick={() => setLbView('budget')}
-                className={`flex-1 px-2 py-2 rounded-lg text-xs leading-tight font-medium transition
-                  ${lbView === 'budget' ? GJ.tabActive : 'bg-white text-gray-600'}`}>
-                📉 差點額度
-              </button>
+            {/* text-xs with tight leading keeps all three on one line at 375px */}
+            <div className="flex gap-1.5 mb-2">
+              {[
+                { key: 'net', label: '🏅 即時淨桿' },
+                { key: 'budget', label: '📉 即時差點額度' },
+                { key: 'gross', label: '⛳ 即時總桿' },
+              ].map(t => (
+                <button key={t.key} onClick={() => setLbView(t.key)}
+                  className={`flex-1 px-2 py-2 rounded-lg text-xs leading-tight font-medium transition
+                    ${lbView === t.key ? GJ.tabActive : 'bg-white text-gray-600'}`}>
+                  {t.label}
+                </button>
+              ))}
             </div>
 
             {lbView === 'budget' && (
