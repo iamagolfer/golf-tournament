@@ -107,7 +107,29 @@ export default function GjScoresPage() {
   const activeGroup = groups.find(g => g.id === activeGroupId) || null
   const groupPlayers = activeGroup ? players.filter(p => p.group_id === activeGroup.id) : []
   const status = tournament?.status || 'setup'
-  const leaderboard = lbView === 'net' ? netRankings : grossRankings
+  // The 額度 view: everyone on one board by net score right now, unfinished
+  // rounds included. Net starts at minus your handicap and climbs as you spend
+  // strokes, so a player watches their own number rise and slide down the board
+  // — the Ring Cup reading of the same arithmetic. The 淨桿 tab deliberately
+  // does the opposite and keeps finished rounds on top; both are wanted.
+  const budgetBoard = (() => {
+    const rows = netRankings.filter(p => !p.isNoShow);
+    const scored = rows.filter(p => p.netScore !== null && p.netScore !== undefined)
+      .sort((a, b) => a.netScore - b.netScore);
+    const pending = rows.filter(p => p.netScore === null || p.netScore === undefined);
+    // Same net right now means the same position — nothing is decided yet
+    let lastNet = null, lastRank = 0;
+    const ranked = scored.map((p, i) => {
+      const rank = p.netScore === lastNet ? lastRank : i + 1;
+      lastNet = p.netScore; lastRank = rank;
+      return { ...p, budgetRank: rank };
+    });
+    return [...ranked, ...pending.map(p => ({ ...p, budgetRank: null }))];
+  })();
+
+  const leaderboard = lbView === 'net' ? netRankings
+    : lbView === 'gross' ? grossRankings
+      : budgetBoard;
 
   return (
     <div className={`min-h-screen ${GJ.pageBg}`}>
@@ -265,14 +287,28 @@ export default function GjScoresPage() {
                   ${lbView === 'gross' ? GJ.tabActive : 'bg-white text-gray-600'}`}>
                 ⛳ 即時總桿排名
               </button>
+              <button onClick={() => setLbView('budget')}
+                className={`flex-1 px-2 py-2 rounded-lg text-xs leading-tight font-medium transition
+                  ${lbView === 'budget' ? GJ.tabActive : 'bg-white text-gray-600'}`}>
+                📉 差點額度
+              </button>
             </div>
+
+            {lbView === 'budget' && (
+              <p className="text-xs text-gray-500 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-2">
+                淨桿 = 目前總桿 − <b>全額差點</b>。開局是 −差點,桿數花越多數字越大、
+                名次越往下掉。<b>未打完的人也一起排</b>,所以這裡的名次不是最終成績。
+              </p>
+            )}
 
             <div className="bg-white rounded-xl shadow-sm divide-y divide-gray-100">
               {leaderboard.length === 0 && (
                 <p className="px-4 py-6 text-center text-gray-400 text-sm">尚無成績</p>
               )}
               {leaderboard.map(p => {
-                const rank = lbView === 'net' ? p.rank : p.grossRank
+                const rank = lbView === 'net' ? p.rank
+                  : lbView === 'gross' ? p.grossRank
+                    : p.budgetRank
                 return (
                   <div key={p.id} className="flex items-center gap-3 px-3 py-2.5">
                     <div className="w-9 text-center flex-shrink-0">
@@ -296,7 +332,19 @@ export default function GjScoresPage() {
                     </div>
                     <div className="text-right flex-shrink-0">
                       {p.grossScore === null ? (
-                        <span className="text-gray-300 text-sm">-</span>
+                        <span className="text-gray-300 text-sm">
+                          {lbView === 'budget' ? `−${p.handicap}` : '-'}
+                        </span>
+                      ) : lbView === 'budget' ? (
+                        <>
+                          {/* Below zero is handicap still in hand */}
+                          <div className={`font-bold ${p.netScore < 0 ? 'text-emerald-900' : 'text-gray-500'}`}>
+                            {p.netScore > 0 ? `+${p.netScore}` : p.netScore}
+                          </div>
+                          <div className="text-xs text-gray-400">
+                            {p.grossScore} − {p.handicap}
+                          </div>
+                        </>
                       ) : lbView === 'net' ? (
                         <>
                           {/* Provisional while the round is unfinished */}
@@ -317,7 +365,9 @@ export default function GjScoresPage() {
               })}
             </div>
             <p className="text-xs text-gray-400 text-center mt-2 mb-6">
-              完賽者排在未完賽者之前 · 每 10 分鐘自動更新
+              {lbView === 'budget'
+                ? '所有人一起排,含未打完的 · 每 10 分鐘自動更新'
+                : '完賽者排在未完賽者之前 · 每 10 分鐘自動更新'}
             </p>
           </div>
         </div>
