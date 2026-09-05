@@ -174,6 +174,55 @@ const mk = () => {
   r = await admin('POST', `/api/roster/${jj.id}/merge`, { fromId: jj.id });
   ck('不能跟自己合併', r.status === 400, 'status=' + r.status);
 
+  H('J:新賽事從球隊名單加入');
+  const gjAdmin2 = mk();
+  await gjAdmin2('POST', '/api/auth/login', { username: 'admin', password: 'iam1976', scope: 'greenjacket' });
+  await gjAdmin2('PUT', '/api/tournament/status?t=greenjacket', { status: 'setup' });
+  // Empty the tournament's list one by one — the bulk PUT refuses a count that
+  // does not match total_players, and deleting is the safe path anyway
+  for (const p of (await admin('GET', '/api/players?t=greenjacket')).body.players) {
+    await gjAdmin2('DELETE', `/api/players/${p.id}?t=greenjacket`);
+  }
+  ck('（前置）比賽名單已清空',
+    (await admin('GET', '/api/players?t=greenjacket')).body.players.length === 0);
+  const rosterNow = (await admin('GET', '/api/roster')).body.roster;
+  const picks = rosterNow.slice(0, 4);
+  r = await gjAdmin2('POST', '/api/players/from-roster?t=greenjacket',
+    { clubPlayerIds: picks.map(m => m.id) });
+  ck('加入成功', r.status === 200 && r.body.added.length === picks.length,
+    JSON.stringify(r.body).slice(0, 160));
+  let entered = (await admin('GET', '/api/players?t=greenjacket')).body.players;
+  ck('比賽名單就是勾選的人', entered.length === picks.length, String(entered.length));
+  ck('差點帶入球隊名單的值',
+    picks.every(m => entered.some(p => p.handicap === m.handicap &&
+      (p.english_name || p.chinese_name) === (m.english_name || m.chinese_name))));
+  ck('編號從 1 開始連號',
+    JSON.stringify(entered.map(p => p.player_number).sort((a, b) => a - b)) ===
+    JSON.stringify(picks.map((_, i) => i + 1)));
+  ck('外卡狀態跟著帶過來',
+    entered.filter(p => p.wildcard).length === picks.filter(m => m.status === 'wildcard').length);
+  ck('接回球隊名單（club_player_id）', entered.every(p => !!p.club_player_id));
+
+  r = await gjAdmin2('POST', '/api/players/from-roster?t=greenjacket',
+    { clubPlayerIds: picks.map(m => m.id) });
+  ck('重複加入會被略過,不會有分身', r.body.added.length === 0 && r.body.skipped.length === picks.length,
+    JSON.stringify(r.body).slice(0, 120));
+
+  // A tournament handicap is that round's own
+  const one = entered[0];
+  await gjAdmin2('PUT', `/api/players/${one.id}/details?t=greenjacket`,
+    { ...one, handicap: one.handicap + 5 });
+  const club = (await admin('GET', '/api/roster/' + one.club_player_id)).body.player;
+  ck('在比賽裡改差點不會動到球隊名單', club.handicap === one.handicap,
+    `${club.handicap} vs ${one.handicap}`);
+  entered = (await admin('GET', '/api/players?t=greenjacket')).body.players;
+  ck('比賽裡的差點確實改了',
+    entered.find(p => p.id === one.id).handicap === one.handicap + 5);
+
+  await gjAdmin2('PUT', '/api/tournament/status?t=greenjacket', { status: 'playing' });
+  r = await gjAdmin2('POST', '/api/players/from-roster?t=greenjacket', { clubPlayerIds: [rosterNow[5].id] });
+  ck('比賽開始後不能再加入', r.status === 400, 'status=' + r.status);
+
   H('I:J.J. 這種寫法在建立名單時就會被視為同一人');
   const { identityKey } = require('./roster');
   ck('J.J. 與 JJ 視為同一個人',

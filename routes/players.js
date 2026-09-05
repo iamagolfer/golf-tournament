@@ -1,5 +1,6 @@
 const express = require('express');
 const { getTournament, requireAdmin } = require('../lib/tournamentContext');
+const { matchesClubPlayer } = require('../logic/roster');
 
 
 module.exports = (db) => {
@@ -9,7 +10,8 @@ module.exports = (db) => {
   router.get('/', (req, res) => {
     const t = getTournament(db, req);
     if (!t) return res.json({ players: [], groups: [], picks: [] });
-    const players = db.prepare('SELECT id, tournament_id, player_number, chinese_name, english_name, handicap, group_id, no_show, wildcard, tee FROM players WHERE tournament_id=? ORDER BY player_number').all(t.id);
+    // Columns are listed rather than SELECT * so the PIN never leaves the server
+    const players = db.prepare('SELECT id, tournament_id, player_number, chinese_name, english_name, handicap, group_id, no_show, wildcard, tee, club_player_id FROM players WHERE tournament_id=? ORDER BY player_number').all(t.id);
     const groups = db.prepare('SELECT * FROM groups WHERE tournament_id=? ORDER BY group_order').all(t.id);
     let picks = [];
     if (t.status === 'revealed' || t.status === 'finished') {
@@ -86,6 +88,52 @@ module.exports = (db) => {
 
     db.prepare('UPDATE tournament SET total_players = total_players + 1 WHERE id=?').run(t.id);
     res.json({ success: true, id: info.lastInsertRowid, player_number: playerNumber });
+  });
+
+  // Admin: enter people from the club roster into this tournament (setup only).
+  // Only ever adds — the roster is where the people live, but a tournament's own
+  // entry list, and the scores hanging off it, are never replaced from here.
+  //
+  // The handicap is copied, not referenced: adjusting it inside the tournament
+  // affects that round alone, and a later club-level change never reaches back
+  // into a round already played.
+  router.post('/from-roster', requireAdmin, (req, res) => {
+    const t = getTournament(db, req);
+    if (!t) return res.status(400).json({ error: 'No tournament' });
+    if (t.status !== 'setup') {
+      return res.status(400).json({ error: '只能在賽前設定階段加入球員\nCan only add players during setup' });
+    }
+    const ids = Array.isArray(req.body?.clubPlayerIds) ? req.body.clubPlayerIds : null;
+    if (!ids) return res.status(400).json({ error: 'Invalid clubPlayerIds' });
+
+    const existing = db.prepare('SELECT * FROM players WHERE tournament_id=?').all(t.id);
+    const insert = db.prepare(
+      'INSERT INTO players (tournament_id, player_number, chinese_name, english_name, handicap, pin, wildcard, tee, club_player_id) VALUES (?,?,?,?,?,?,?,?,?)'
+    );
+    let next = existing.reduce((max, p) => Math.max(max, p.player_number || 0), 0);
+    const added = [], skipped = [];
+
+    for (const id of ids) {
+      const member = db.prepare('SELECT * FROM club_players WHERE id=?').get(id);
+      if (!member) { skipped.push({ id, why: '找不到球員' }); continue; }
+      const already = existing.some(p =>
+        p.club_player_id === member.id || matchesClubPlayer(p, member));
+      if (already) { skipped.push({ id, name: member.english_name, why: '已經在名單上' }); continue; }
+
+      next += 1;
+      const pin = String(1000 + Math.floor(Math.random() * 9000));
+      const r = insert.run(t.id, next, member.chinese_name || '', member.english_name || '',
+        member.handicap, pin, member.status === 'wildcard' ? 1 : 0,
+        member.tee === 'red' ? 'red' : 'white', member.id);
+      existing.push({ id: Number(r.lastInsertRowid), club_player_id: member.id,
+        chinese_name: member.chinese_name, english_name: member.english_name, player_number: next });
+      added.push({ id: Number(r.lastInsertRowid), name: [member.chinese_name, member.english_name].filter(Boolean).join(' ') });
+    }
+
+    if (added.length) {
+      db.prepare('UPDATE tournament SET total_players = total_players + ? WHERE id=?').run(added.length, t.id);
+    }
+    res.json({ success: true, added, skipped });
   });
 
   // Admin: update a single player's PIN

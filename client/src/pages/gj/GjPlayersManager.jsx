@@ -43,6 +43,37 @@ export default function GjPlayersManager() {
   const [showBulk, setShowBulk] = useState(false)
   const [status, setStatus] = useState(null)
   const [adding, setAdding] = useState(null)
+  const [fromRoster, setFromRoster] = useState(null)
+
+  // Entering people from the club roster. Only ever adds — the tournament's own
+  // list and the scores hanging off it are never replaced from here.
+  const openRoster = () => run(async () => {
+    const d = await gjApi.get('/roster')
+    const here = new Set(players.map(p => p.club_player_id).filter(Boolean))
+    const names = new Set(players.map(p => (p.english_name || p.chinese_name || '').toLowerCase()))
+    setFromRoster((d.roster || [])
+      .filter(m => m.status !== 'inactive')
+      .map(m => ({
+        ...m,
+        already: here.has(m.id) ||
+          names.has((m.english_name || m.chinese_name || '').toLowerCase()),
+        chosen: false,
+      })))
+  }, '選擇要加入的球員')
+
+  const addFromRoster = () => {
+    const chosen = fromRoster.filter(m => m.chosen && !m.already)
+    if (!chosen.length) { alert('請先勾選球員'); return }
+    run(async () => {
+      const r = await gjApi.post('/players/from-roster', { clubPlayerIds: chosen.map(m => m.id) })
+      await load()
+      setFromRoster(null)
+      if (r.skipped?.length) {
+        alert(`已加入 ${r.added.length} 位。\n略過 ${r.skipped.length} 位:` +
+          r.skipped.map(s => `${s.name || s.id}（${s.why}）`).join('、'))
+      }
+    }, '已從球隊名單加入 ✓')
+  }
 
   useEffect(() => { load() }, [])
   const load = () => Promise.all([gjApi.get('/players'), gjApi.get('/tournament')])
@@ -169,6 +200,50 @@ export default function GjPlayersManager() {
 
         {/* Adding one player leaves everyone else's scores and groups untouched,
             unlike the bulk import below. Setup only, matching the server. */}
+        {/* From the club roster — the usual way to fill a new tournament */}
+        {status === 'setup' && (fromRoster ? (
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            <p className="text-sm font-bold text-gray-700 mb-1">從球隊名單加入</p>
+            <p className="text-xs text-gray-400 mb-2">
+              差點會帶入球隊名單上的數字,加入後可以在這裡單獨微調,<b>不會改到球隊名單</b>。
+            </p>
+            <div className="divide-y divide-gray-100 max-h-80 overflow-y-auto">
+              {fromRoster.map((m, i) => (
+                <label key={m.id}
+                  className={`flex items-center gap-2 py-2 ${m.already ? 'opacity-40' : 'cursor-pointer'}`}>
+                  <input type="checkbox" className="w-4 h-4" checked={m.chosen} disabled={m.already}
+                    onChange={e => setFromRoster(list => list.map((x, j) =>
+                      j === i ? { ...x, chosen: e.target.checked } : x))} />
+                  <span className="flex-1 min-w-0">
+                    <span className="text-sm text-gray-900">
+                      {[m.chinese_name, m.english_name].filter(Boolean).join(' ')}
+                    </span>
+                    {m.status === 'wildcard' && (
+                      <span className="ml-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300">外卡</span>
+                    )}
+                    <span className="block text-xs text-gray-400">
+                      差點 {m.handicap} · {m.roundsPlayed} 場{m.already ? ' · 已在名單上' : ''}
+                    </span>
+                  </span>
+                </label>
+              ))}
+            </div>
+            <div className="flex gap-2 mt-3">
+              <button onClick={addFromRoster} disabled={saving}
+                className="flex-1 bg-emerald-800 text-white py-2.5 rounded-lg text-sm font-bold disabled:opacity-50">
+                加入勾選的 {fromRoster.filter(m => m.chosen && !m.already).length} 位
+              </button>
+              <button onClick={() => setFromRoster(null)}
+                className="px-4 bg-gray-200 text-gray-700 py-2.5 rounded-lg text-sm">取消</button>
+            </div>
+          </div>
+        ) : !adding && (
+          <button onClick={openRoster} disabled={saving}
+            className="mt-3 w-full bg-white border-2 border-emerald-700 text-emerald-800 py-2.5 rounded-lg text-sm font-bold disabled:opacity-50">
+            🧑‍🤝‍🧑 從球隊名單加入
+          </button>
+        ))}
+
         {status === 'setup' && (adding ? (
           <div className="mt-3 pt-3 border-t border-gray-100 space-y-2">
             <p className="text-sm font-bold text-gray-700">新增選手</p>

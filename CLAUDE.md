@@ -479,6 +479,24 @@ and `/admin/roster/:id`, linked from both dashboards.
 
 Career stats count **archived rounds only**, so nothing moves mid-round.
 
+### Filling a tournament from the roster
+`POST /api/players/from-roster?t=<slug>` with `{ clubPlayerIds }` enters people
+into a tournament — admin, **setup only, and it only ever adds**. The bulk
+`PUT /api/players` that replaces the whole list and wipes every score is still
+there, but nothing in the roster flow uses it. Anyone already entered is skipped
+rather than duplicated.
+
+The handicap is **copied, not referenced**: adjusting it inside a tournament
+affects that round alone, and a later club-level change never reaches back into
+a round already played. Both directions are covered by `logic/roster.test.js`.
+
+### Merging two records of one person
+Names are compared with punctuation and spacing stripped, so `J.J.`, `JJ` and
+`j j` are one person. For records already split, `POST /api/roster/:id/merge`
+with `{ fromId }` moves the absorbed record's rounds and handicap history across
+and **keeps its name as an alias** — archived years are frozen with whatever name
+was used that year, so the alias is the only way those rounds are still found.
+
 ## Editing the Course Without Losing Scores
 `PUT /api/tournament/course` **reconciles in place** — it updates existing hole
 rows rather than deleting and re-inserting them. Scores are keyed on `hole_id`,
