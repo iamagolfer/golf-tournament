@@ -325,7 +325,15 @@ export default function GjScoresPage() {
                       </div>
                       <div className="text-xs text-gray-400">
                         差點 {p.handicap}
-                        {p.holesPlayed > 0 && ` · 打完 ${p.holesPlayed}/${p.totalHoles} 洞`}
+                        {/* The budget view reads like the Ring Cup: how many holes,
+                            and how many strokes over par they cost so far */}
+                        {lbView === 'budget' ? (
+                          p.holesPlayed > 0 && (
+                            <span className="text-gray-500"> · {p.holesPlayed}洞花{p.toPar > 0 ? `+${p.toPar}` : p.toPar}桿</span>
+                          )
+                        ) : (
+                          p.holesPlayed > 0 && ` · 打完 ${p.holesPlayed}/${p.totalHoles} 洞`
+                        )}
                         {p.inProgress && <span className="text-amber-600 font-medium"> · 進行中</span>}
                       </div>
                     </div>
@@ -336,13 +344,12 @@ export default function GjScoresPage() {
                         </span>
                       ) : lbView === 'budget' ? (
                         <>
-                          {/* Below zero is handicap still in hand */}
+                          {/* Starts at minus the handicap and climbs from there.
+                              Still below zero means budget in hand. */}
                           <div className={`font-bold ${p.netScore < 0 ? 'text-emerald-900' : 'text-gray-500'}`}>
-                            {p.netScore > 0 ? `+${p.netScore}` : p.netScore}
+                            淨桿{p.netScore > 0 ? `+${p.netScore}` : p.netScore}
                           </div>
-                          <div className="text-xs text-gray-400">
-                            {p.grossScore} − {p.handicap}
-                          </div>
+                          <div className="text-xs text-gray-400">總桿{p.grossScore}</div>
                         </>
                       ) : lbView === 'net' ? (
                         <>
