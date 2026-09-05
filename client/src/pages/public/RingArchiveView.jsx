@@ -7,14 +7,16 @@ import { api } from '../../api'
 // everything comes from the frozen snapshot, so it cannot be edited by accident
 // and cannot drift when the ranking rules change.
 //
-// Two views, because only two of them are competitions: handicap-adjusted net
-// with ranking points, and the combined total once each player's horse is added.
-// Gross is worth knowing but nobody wins on it, so it reads as a number on every
-// row rather than taking a tab of its own.
+// Three views, because the Ring Cup is three ways of reading the same round.
+// Net leads: the champion recorded in the history is the net winner. Then the
+// final total once each player's horse is added, then raw strokes last — worth
+// seeing, but nobody competes on it. Gross also reads as a number on every row
+// so it is there without switching tabs.
 
 const TABS = [
   { key: 'net', label: '淨桿排名' },
   { key: 'final', label: '最終排名🐴' },
+  { key: 'gross', label: '總桿排名' },
 ]
 
 function cellClass(rel) {
@@ -32,13 +34,14 @@ const medal = (rank) => (rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 
 export default function RingArchiveView({ year }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
-  const [tab, setTab] = useState('final')
+  // Opens on net: the champion recorded in the history is the net winner
+  const [tab, setTab] = useState('net')
   const [openPlayer, setOpenPlayer] = useState(null)
 
   useEffect(() => {
     let cancelled = false
     api.get(`/archives/${year}`)
-      .then(d => { if (!cancelled) { setData(d); if (!d.finalRankings?.length) setTab('net') } })
+      .then(d => { if (!cancelled) setData(d) })
       .catch(e => { if (!cancelled) setError(e.message || '讀取失敗') })
     return () => { cancelled = true }
   }, [year])
@@ -48,7 +51,9 @@ export default function RingArchiveView({ year }) {
 
   const holes = data.holes || []
   const hasFinal = (data.finalRankings || []).length > 0
-  const rows = tab === 'final' ? (data.finalRankings || []) : (data.netRankings || [])
+  const rows = tab === 'gross' ? (data.grossRankings || [])
+    : tab === 'final' ? (data.finalRankings || [])
+      : (data.netRankings || [])
 
   const groupsById = Object.fromEntries((data.groups || []).map(g => [g.id, g]))
   const scored = (data.netRankings || []).filter(p => !p.isNoShow && p.netScore !== null)
@@ -93,7 +98,7 @@ export default function RingArchiveView({ year }) {
             <p className="px-4 py-6 text-center text-gray-400 text-sm">沒有成績</p>
           )}
           {rows.map((p, idx) => {
-            const rank = p.rank
+            const rank = tab === 'gross' ? p.grossRank : p.rank
             const isOpen = openPlayer === `${tab}_${p.id}`
             const hasScores = p.grossScore !== null && p.grossScore !== undefined
             const group = groupsById[p.group_id]
@@ -113,7 +118,7 @@ export default function RingArchiveView({ year }) {
                     ) : (
                       <span className="text-base font-bold text-green-800">{medal(rank) || rank}</span>
                     )}
-                    {!p.isNoShow && (
+                    {tab !== 'gross' && !p.isNoShow && (
                       <div className="text-[10px] text-gray-400">
                         {tab === 'final' ? `${p.totalPoints ?? 0}分` : `${p.rankingPoints ?? 0}分`}
                       </div>
@@ -138,6 +143,11 @@ export default function RingArchiveView({ year }) {
                   <div className="text-right flex-shrink-0">
                     {!hasScores ? (
                       <span className="text-gray-300">-</span>
+                    ) : tab === 'gross' ? (
+                      <>
+                        <div className="text-base font-bold text-green-800">{p.grossScore}</div>
+                        <div className="text-[10px] text-gray-400">總桿</div>
+                      </>
                     ) : tab === 'net' ? (
                       <>
                         <div className="text-base font-bold text-green-800">{p.netScore}</div>
