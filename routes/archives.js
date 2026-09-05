@@ -15,10 +15,27 @@ const SNAPSHOT_VERSION = 1;
 // PINs authenticate horse picking and must not travel with a public snapshot
 const stripPin = ({ pin, ...rest }) => rest;
 
+// Archiving is for a year that is over. Refusing anything earlier keeps a
+// half-played round out of the history — and, for the Ring Cup, stops the
+// snapshot publishing horse picks that are still meant to be secret: the
+// rankings route hides them until they are revealed, but this builds from the
+// engine directly and would otherwise walk straight past that.
+const FINISHED_STATUSES = {
+  ring: ['revealed', 'finished'],
+  greenjacket: ['finished'],
+};
+
 function buildSnapshot(db, req) {
   const slug = resolveSlug(req);
   const t = getTournament(db, req);
   if (!t) throw new Error('找不到賽事');
+
+  const allowed = FINISHED_STATUSES[slug] || ['finished'];
+  if (!allowed.includes(t.status)) {
+    throw new Error(slug === GREENJACKET
+      ? '請先把比賽狀態切成「已結束」再封存'
+      : '請先把比賽狀態切成「選馬已公布」或「比賽結束」再封存,否則選馬結果不會被記錄');
+  }
 
   const sections = db.prepare(
     'SELECT * FROM sections WHERE tournament_id=? AND (active IS NULL OR active=1) ORDER BY section_order'
