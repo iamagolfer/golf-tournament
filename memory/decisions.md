@@ -16,6 +16,18 @@
 **Bottom 6 buy dinner**
 - Group tradition; hardcoded as `N - 6` cutoff; red highlight on final rankings
 
+**Handicaps are set strictly, on purpose**
+- Confirmed by Albert 2026-09-05: the club would rather a handicap be too tight
+  than too loose. A guest arriving on a generous self-reported number and taking
+  the cup off the regulars is the outcome being guarded against.
+- So the suggestion in `logic/roster.js` uses the mean of the **better half** of
+  the last five rounds, not the plain average. An average sets a handicap the
+  player beats half the time — fine for a friendly, too soft for a prize.
+- Same reason champions get cut after winning, and why a new guest's number is
+  entered lower than they claim until a few rounds prove it.
+- If it ever needs to be tighter still, the knob is in `handicapSuggestion`:
+  taking the best round alone is the strict end of the range.
+
 ---
 
 ## UI / UX
