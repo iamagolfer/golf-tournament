@@ -29,6 +29,8 @@ module.exports = (db) => {
           othersChain: results.othersChain,
           awaitingPlayoff: results.awaitingPlayoff,
           playoffWinnerId: results.playoffWinnerId,
+          awardsVisible: results.awardsVisible,
+          awardConfig: results.awardConfig,
           showWildcard: tournament.show_wildcard !== 0,
           N: results.N,
           status,

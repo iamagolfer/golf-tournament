@@ -30,6 +30,7 @@ import GjRulesEditor from './pages/gj/GjRulesEditor'
 import GjPlayersManager from './pages/gj/GjPlayersManager'
 import GjGroupsManager from './pages/gj/GjGroupsManager'
 import GjTiebreakSettings from './pages/gj/GjTiebreakSettings'
+import GjAwardsSettings from './pages/gj/GjAwardsSettings'
 import ChampionsManager from './pages/gj/ChampionsManager'
 
 function ProtectedRoute({ allowed, children }) {
@@ -100,6 +101,7 @@ export default function App() {
       {gjRoute('/admin/gj/players', <GjPlayersManager />)}
       {gjRoute('/admin/gj/groups', <GjGroupsManager />)}
       {gjRoute('/admin/gj/tiebreak', <GjTiebreakSettings />)}
+      {gjRoute('/admin/gj/awards', <GjAwardsSettings />)}
       {gjRoute('/admin/gj/champions',
         <ChampionsManager api={gjApi} title="綠夾克盃 歷屆冠軍" backTo="/admin/gj/dashboard" />)}
 

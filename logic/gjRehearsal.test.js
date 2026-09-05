@@ -126,6 +126,9 @@ const row = (p) => {
 };
 const dump = (r, n) => r.netRankings.slice(0, n ?? 999).forEach(p => console.log(row(p)));
 const rank = () => buildGjRankings(db, gj.id);
+// Which awards a player holds is checked by type, so renaming one in the admin
+// panel does not break the test
+const has = (p, type) => (p?.awards || []).some(a => a.type === type);
 
 // Two players with different handicaps, and two with the same — needed by a
 // couple of scenarios, and absent in some fields.
@@ -443,15 +446,15 @@ else {
   players.forEach((p, i) => setRound(p, full[i]));
   r = rank();
   check('最後一洞填完 → 獎項出現', r.awardsVisible === true);
-  const lucky = r.netRankings.filter(p => p.awards?.includes('lucky7'));
-  const bb = r.netRankings.filter(p => p.awards?.includes('bb'));
+  const lucky = r.netRankings.filter(p => has(p, 'rank_at'));
+  const bb = r.netRankings.filter(p => has(p, 'rank_from_last'));
   dump(r, players.length);
   check('Lucky 7 獎給第 7 名', lucky.length === 1 && lucky[0].rank === 7,
     lucky.map(p => `${name(p)}#${p.rank}`).join(','));
   check('BB 獎給倒數第二名', bb.length === 1 && bb[0].rank === players.length - 1,
     bb.map(p => `${name(p)}#${p.rank}`).join(','));
   check('最後一名沒有 BB 獎',
-    !r.netRankings.find(p => p.rank === players.length)?.awards?.includes('bb'));
+    !has(r.netRankings.find(p => p.rank === players.length), 'rank_from_last'));
   check('總桿排名不帶獎項', r.grossRankings.every(p => !p.awards));
 
   // A correction after the fact moves the award to whoever now holds 7th
@@ -459,12 +462,12 @@ else {
   db.prepare('DELETE FROM scores WHERE player_id=?').run(wasSeventh.id);
   setRound(players.find(p => p.id === wasSeventh.id), roundOf(grossFor(wasSeventh, 60)));
   r = rank();
-  const nowLucky = r.netRankings.find(p => p.awards?.includes('lucky7'));
+  const nowLucky = r.netRankings.find(p => has(p, 'rank_at'));
   check('改成績後 Lucky 7 跟著換人', nowLucky && nowLucky.id !== wasSeventh.id,
     `現在是 ${name(nowLucky || {})}`);
   check('Lucky 7 永遠掛在當下的第 7 名身上', nowLucky?.rank === 7, `rank=${nowLucky?.rank}`);
   check('原本的第 7 名衝到前段後就沒有獎',
-    !r.netRankings.find(p => p.id === wasSeventh.id)?.awards?.includes('lucky7'));
+    !has(r.netRankings.find(p => p.id === wasSeventh.id), 'rank_at'));
 
   // A tie at sixth pushes the next player to eighth — nobody is seventh
   if (!sameHcp) skip('同分跳過第 7 名', '沒有兩位選手差點相同,排不出無法拆解的並列');
@@ -481,7 +484,7 @@ else {
     check('兩人並列第 6,名次直接跳到第 8',
       rankList.filter(x => x === 6).length === 2 && !rankList.includes(7), rankList.join(','));
     check('沒有第 7 名時,Lucky 7 就從缺',
-      r.netRankings.every(p => !p.awards?.includes('lucky7')));
+      r.netRankings.every(p => !has(p, 'rank_at')));
   }
 
   // No-shows never take an award
@@ -491,7 +494,7 @@ else {
   setNoShow(out, 1);
   players.filter(p => p !== out).forEach((p, i) => setRound(p, roundOf(grossFor(p, 70 + i * 2))));
   r = rank();
-  const bb2 = r.netRankings.filter(p => p.awards?.includes('bb'));
+  const bb2 = r.netRankings.filter(p => has(p, 'rank_from_last'));
   check('未到者不會拿 BB 獎', bb2.every(p => !p.isNoShow) && bb2.length === 1,
     bb2.map(p => name(p)).join(','));
   check('BB 獎給實際下場的倒數第二名', bb2[0].rank === players.length - 2,

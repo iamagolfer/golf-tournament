@@ -97,6 +97,7 @@ being used** before writing (a mis-set `DB_PATH` silently falls back to the real
 node logic/gjRehearsal.test.js        # ranking logic, ~60 checks
 node logic/gjRehearsal.http.test.js   # end to end, starts its own server, ~59 checks
 node logic/gjArchive.test.js          # archived years vs a changed course, ~25 checks
+node logic/gjAwards.test.js           # side-award rules, no server needed, ~36 checks
 ```
 All three copy `db/golf.sqlite` to a throwaway file, abort if `DB_PATH` did not take
 effect, and delete the copy when done. The two HTTP ones spawn `server.js` on a spare
@@ -147,7 +148,9 @@ golf-app/
 │   ├── gjRankings.test.js ← Scenario tests — `node logic/gjRankings.test.js`
 │   ├── gjRehearsal.test.js      ← Game-day rehearsal, ranking logic (roster-agnostic)
 │   ├── gjRehearsal.http.test.js ← Game-day rehearsal, end to end + concurrency
-│   └── gjArchive.test.js        ← Archived years survive course edits + a new season
+│   ├── gjArchive.test.js        ← Archived years survive course edits + a new season
+│   ├── gjAwards.js              ← Side-award types (Lucky 7, BB, 跳號, 大坡, 老鷹小鳥)
+│   └── gjAwards.test.js         ← Who wins each award, and the edge cases
 └── client/
     ├── package.json       ← vite in dependencies (NOT devDependencies) — Railway fix
     ├── .npmrc             ← production=false (forces full npm install on Railway)

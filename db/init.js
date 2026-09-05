@@ -129,6 +129,8 @@ function initDb() {
   addColumn("ALTER TABLE tournament ADD COLUMN show_wildcard INTEGER DEFAULT 1");
   addColumn("ALTER TABLE tournament ADD COLUMN tiebreak_champion TEXT DEFAULT ''");
   addColumn("ALTER TABLE tournament ADD COLUMN tiebreak_others TEXT DEFAULT ''");
+  // Which side awards run this year (JSON) — see logic/gjAwards.js
+  addColumn("ALTER TABLE tournament ADD COLUMN awards TEXT DEFAULT ''");
   // Hole label — hole_number is INTEGER so it cannot hold "10A"
   addColumn("ALTER TABLE holes ADD COLUMN hole_label TEXT DEFAULT ''");
   // Second tee yardage (men play white, ladies play red)

@@ -1,6 +1,7 @@
 const express = require('express');
 const { getTournament, requireAdmin } = require('../lib/tournamentContext');
 const { TIEBREAK_RULES } = require('../logic/gjRankings');
+const { sanitizeAwards, parseAwards, AWARD_TYPES } = require('../logic/gjAwards');
 
 
 module.exports = (db) => {
@@ -16,7 +17,23 @@ module.exports = (db) => {
       const sh = db.prepare('SELECT * FROM holes WHERE section_id=? ORDER BY hole_number').all(sec.id);
       holes.push(...sh.map(h => ({ ...h, sectionName: sec.name, sectionOrder: sec.section_order })));
     }
-    res.json({ tournament: t, sections, holes });
+    // The stored value may be blank on a tournament never configured, so hand
+    // back the resolved list the rankings will actually use, plus the menu of
+    // types the settings page draws itself from.
+    res.json({
+      tournament: t,
+      sections,
+      holes,
+      awards: parseAwards(t.awards),
+      awardTypes: Object.entries(AWARD_TYPES).map(([type, spec]) => ({
+        type,
+        label: spec.label,
+        hint: spec.hint,
+        emoji: spec.emoji,
+        defaultName: spec.defaultName,
+        params: spec.params,
+      })),
+    });
   });
 
   // Admin: update basic info
@@ -182,6 +199,17 @@ module.exports = (db) => {
     db.prepare('UPDATE tournament SET tiebreak_champion=?, tiebreak_others=? WHERE id=?')
       .run(JSON.stringify(c), JSON.stringify(o), t.id);
     res.json({ success: true, champion: c, others: o });
+  });
+
+  // Admin chooses which side awards run this year. Which prizes are handed out
+  // changes from season to season, so it is configuration rather than code.
+  router.put('/awards', requireAdmin, (req, res) => {
+    const clean = sanitizeAwards(req.body?.awards);
+    if (!clean) return res.status(400).json({ error: 'Invalid awards config' });
+    const t = getTournament(db, req);
+    if (!t) return res.status(400).json({ error: 'No tournament found' });
+    db.prepare('UPDATE tournament SET awards=? WHERE id=?').run(JSON.stringify(clean), t.id);
+    res.json({ success: true, awards: clean });
   });
 
   // Admin toggles whether the wildcard badge is visible on public pages

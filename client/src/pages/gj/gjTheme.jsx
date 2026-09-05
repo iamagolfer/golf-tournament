@@ -98,22 +98,42 @@ export function medal(rank) {
   return rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : null
 }
 
-// Side awards on the net leaderboard. The engine decides who holds them and
-// when they become visible; this only draws what it sends.
-const AWARDS = {
-  lucky7: { label: '🍀 Lucky 7 獎', cls: 'bg-amber-100 text-amber-900 border-amber-400' },
-  bb:     { label: '🎱 BB 獎',      cls: 'bg-sky-100 text-sky-900 border-sky-400' },
+// Side awards on the net leaderboard. Which ones run is set per year in the
+// admin panel; the engine decides who holds them and when they become visible,
+// and this only draws what it sends.
+//
+// Colour follows the award type so the same prize looks the same every year even
+// after it is renamed.
+const AWARD_STYLE = {
+  rank_at:        'bg-amber-100 text-amber-900 border-amber-400',
+  rank_from_last: 'bg-sky-100 text-sky-900 border-sky-400',
+  rank_every:     'bg-violet-100 text-violet-900 border-violet-400',
+  big_swing:      'bg-orange-100 text-orange-900 border-orange-400',
+  best_scoring:   'bg-lime-100 text-lime-900 border-lime-500',
+}
+const FALLBACK_STYLE = 'bg-gray-100 text-gray-700 border-gray-300'
+
+// 2026 was archived before awards became configurable, and those snapshots are
+// frozen — they carry plain strings where later years carry objects.
+const LEGACY = {
+  lucky7: { name: 'Lucky 7 獎', emoji: '🍀', type: 'rank_at' },
+  bb:     { name: 'BB 獎',      emoji: '🎱', type: 'rank_from_last' },
 }
 
 export function AwardBadges({ player }) {
   if (!player.awards?.length) return null
   return (
     <>
-      {player.awards.map(a => AWARDS[a] && (
-        <span key={a} className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${AWARDS[a].cls}`}>
-          {AWARDS[a].label}
-        </span>
-      ))}
+      {player.awards.map((raw, i) => {
+        const a = typeof raw === 'string' ? LEGACY[raw] : raw
+        if (!a?.name) return null
+        return (
+          <span key={`${a.type}_${i}`}
+            className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${AWARD_STYLE[a.type] || FALLBACK_STYLE}`}>
+            {a.emoji ? `${a.emoji} ` : ''}{a.name}
+          </span>
+        )
+      })}
     </>
   )
 }

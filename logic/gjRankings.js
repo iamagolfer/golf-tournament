@@ -23,15 +23,15 @@ const TIEBREAK_RULES = {
 const DEFAULT_CHAMPION_CHAIN = ['pk'];
 const DEFAULT_OTHERS_CHAIN = ['back9', 'hole_countback'];
 
-// Side awards on the net leaderboard: Lucky 7 for seventh place, BB for second
-// to last. They stay hidden until every player has holed out.
+// Side awards live in logic/gjAwards.js — which ones run is set by the organiser
+// each year. They stay hidden until every player has holed out.
 //
 // Mid-round they would be worse than useless: net score is strokes so far minus
-// the full handicap, so whoever has played fewest holes sits top, and BB would
-// land on the group furthest along. Countback is also skipped for unfinished
-// rounds, so ties — and a missing seventh place — are common until the cards are
-// in. Once everyone is done the order is final and countback separates them.
-const LUCKY_SEVEN_RANK = 7;
+// the full handicap, so whoever has played fewest holes sits top, and a
+// last-place award would land on the group furthest along. Countback is also
+// skipped for unfinished rounds, so ties are common until the cards are in.
+// Once everyone is done the order is final and countback separates them.
+const { parseAwards, computeAwards } = require('./gjAwards');
 
 // null means "no score", which can never win a comparison
 function diff(a, b) {
@@ -308,23 +308,16 @@ function buildGjRankings(db, tournamentId) {
 
   const awaitingPlayoff = netRankings.some(p => p.awaitingPlayoff);
 
-  // Lucky 7 / BB, on the net leaderboard only. Second to last is the next
-  // distinct rank above the last one, so a tie at the bottom hands the award to
-  // everyone sharing that rank rather than to nobody.
+  // Side awards, on the net leaderboard only
+  const awardConfig = parseAwards(tournament.awards);
   const awardsVisible = tournament.status === 'finished' ||
     (active.length > 0 && active.every(p => p.isComplete));
   let netWithAwards = netRankings;
   if (awardsVisible) {
-    const placed = netRankings.filter(p => !p.isNoShow && p.netScore !== null && p.rank !== null && p.rank !== undefined);
-    const ranks = [...new Set(placed.map(p => p.rank))].sort((a, b) => a - b);
-    const secondLastRank = ranks.length >= 2 ? ranks[ranks.length - 2] : null;
-    netWithAwards = netRankings.map(p => {
-      if (p.isNoShow || p.netScore === null || p.rank === null || p.rank === undefined) return p;
-      const awards = [];
-      if (p.rank === LUCKY_SEVEN_RANK) awards.push('lucky7');
-      if (secondLastRank !== null && p.rank === secondLastRank) awards.push('bb');
-      return awards.length ? { ...p, awards } : p;
-    });
+    const won = computeAwards(netRankings, holesInPlayOrder, awardConfig);
+    if (won.size) {
+      netWithAwards = netRankings.map(p => (won.has(p.id) ? { ...p, awards: won.get(p.id) } : p));
+    }
   }
 
   return {
@@ -333,6 +326,7 @@ function buildGjRankings(db, tournamentId) {
     parTotal,
     netRankings: netWithAwards,
     awardsVisible,
+    awardConfig,
     grossRankings,
     championChain,
     othersChain,
