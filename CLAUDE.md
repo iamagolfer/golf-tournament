@@ -98,6 +98,7 @@ node logic/gjRehearsal.test.js        # ranking logic, ~60 checks
 node logic/gjRehearsal.http.test.js   # end to end, starts its own server, ~59 checks
 node logic/gjArchive.test.js          # archived years vs a changed course, ~25 checks
 node logic/gjAwards.test.js           # side-award rules, no server needed, ~36 checks
+node logic/roster.test.js             # club roster identity + handicap history, ~37 checks
 ```
 All three copy `db/golf.sqlite` to a throwaway file, abort if `DB_PATH` did not take
 effect, and delete the copy when done. The two HTTP ones spawn `server.js` on a spare
@@ -150,7 +151,9 @@ golf-app/
 │   ├── gjRehearsal.http.test.js ← Game-day rehearsal, end to end + concurrency
 │   ├── gjArchive.test.js        ← Archived years survive course edits + a new season
 │   ├── gjAwards.js              ← Side-award types (Lucky 7, BB, 跳號, 大坡, 老鷹小鳥)
-│   └── gjAwards.test.js         ← Who wins each award, and the edge cases
+│   ├── gjAwards.test.js         ← Who wins each award, and the edge cases
+│   ├── roster.js                ← Club roster: identity matching, rounds, career stats
+│   └── roster.test.js           ← Roster end to end against the 2026 archives
 └── client/
     ├── package.json       ← vite in dependencies (NOT devDependencies) — Railway fix
     ├── .npmrc             ← production=false (forces full npm install on Railway)
@@ -444,6 +447,37 @@ scores that were never archived, and nothing can bring them back.
 renames the last hole, re-rates a par, drops a hole, runs a fresh season on the
 changed course and archives that too, then checks the first year is byte for byte
 what it was.
+
+## The Club Roster (球隊名單)
+`club_players` is the one record of a person — names, current handicap, status
+(`regular` / `wildcard` / `inactive`), default tee. A tournament entry points at
+it via `players.club_player_id` but **copies the handicap it is played off**, so
+changing a handicap here never rewrites a round already played. That invariant is
+the point of the whole table and `logic/roster.test.js` checks it directly.
+
+`handicap_log` records every change with a required reason — cutting the
+champion's handicap is a club decision people argue about later, so it is
+written down. `PUT /api/roster/:id` deliberately cannot change the handicap;
+`PUT /api/roster/:id/handicap` is the only way in and rejects an empty reason.
+
+### Identity is matched on the English name
+The two tournaments were filled in differently: the Ring Cup has 林楮君 William,
+the Green Jacket just William. Matching on the full name finds **zero** of the
+ten people who play both; the English name finds all of them, with the Chinese
+name as a fallback for anyone who has none. `logic/roster.js` holds that logic —
+`matchesClubPlayer` is used for live rows and for archive snapshots alike, since
+snapshots were frozen before `club_player_id` existed and cannot be rewritten.
+
+`GET /api/roster/import/preview` gathers every distinct person out of the live
+tournaments and every archive, merging names across sources and taking the most
+recent handicap. It is always previewed before import — merging two people into
+one is not something to discover afterwards.
+
+Routes are under `/api/roster`, guarded by `requireAnyAdmin`: the roster spans
+both tournaments, so either admin session may manage it. Pages: `/admin/roster`
+and `/admin/roster/:id`, linked from both dashboards.
+
+Career stats count **archived rounds only**, so nothing moves mid-round.
 
 ## Editing the Course Without Losing Scores
 `PUT /api/tournament/course` **reconciles in place** — it updates existing hole

@@ -31,6 +31,8 @@ import GjPlayersManager from './pages/gj/GjPlayersManager'
 import GjGroupsManager from './pages/gj/GjGroupsManager'
 import GjTiebreakSettings from './pages/gj/GjTiebreakSettings'
 import GjAwardsSettings from './pages/gj/GjAwardsSettings'
+import RosterPage from './pages/gj/RosterPage'
+import RosterPlayerPage from './pages/gj/RosterPlayerPage'
 import ChampionsManager from './pages/gj/ChampionsManager'
 
 function ProtectedRoute({ allowed, children }) {
@@ -57,6 +59,12 @@ export default function App() {
   )
   const ringRoute = (path, element) => (
     <Route path={path} element={<ProtectedRoute allowed={auth.ring}>{element}</ProtectedRoute>} />
+  )
+  // The club roster belongs to neither tournament — either admin session opens it
+  const clubRoute = (path, element) => (
+    <Route path={path} element={
+      <ProtectedRoute allowed={auth.ring || auth.greenjacket}>{element}</ProtectedRoute>
+    } />
   )
 
   return checking ? (
@@ -102,6 +110,10 @@ export default function App() {
       {gjRoute('/admin/gj/groups', <GjGroupsManager />)}
       {gjRoute('/admin/gj/tiebreak', <GjTiebreakSettings />)}
       {gjRoute('/admin/gj/awards', <GjAwardsSettings />)}
+
+      {/* ---- Admin: club roster, shared by both tournaments ---- */}
+      {clubRoute('/admin/roster', <RosterPage />)}
+      {clubRoute('/admin/roster/:id', <RosterPlayerPage />)}
       {gjRoute('/admin/gj/champions',
         <ChampionsManager api={gjApi} title="綠夾克盃 歷屆冠軍" backTo="/admin/gj/dashboard" />)}
 

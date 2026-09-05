@@ -100,6 +100,37 @@ function initDb() {
       FOREIGN KEY (champion_id) REFERENCES champions(id)
     );
 
+    -- The club's people. Until now a player existed only inside one tournament,
+    -- so the same person was an unrelated row in each — and the Green Jacket had
+    -- only English names while the Ring Cup had both. This is the one record of
+    -- a person: their names, their current handicap, whether they are a regular
+    -- or a guest.
+    --
+    -- A tournament entry copies the handicap it is played off, so changing it
+    -- here never rewrites a round already played.
+    CREATE TABLE IF NOT EXISTS club_players (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      chinese_name TEXT DEFAULT '',
+      english_name TEXT DEFAULT '',
+      handicap INTEGER NOT NULL DEFAULT 0,
+      status TEXT NOT NULL DEFAULT 'regular',   -- regular | wildcard | inactive
+      tee TEXT DEFAULT 'white',
+      notes TEXT DEFAULT '',
+      created_at TEXT NOT NULL
+    );
+
+    -- Every handicap change, with the reason. Cutting the champion's handicap is
+    -- a club decision people remember and argue about, so it is written down.
+    CREATE TABLE IF NOT EXISTS handicap_log (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      club_player_id INTEGER NOT NULL,
+      from_handicap INTEGER,
+      to_handicap INTEGER NOT NULL,
+      reason TEXT NOT NULL,
+      changed_at TEXT NOT NULL,
+      FOREIGN KEY (club_player_id) REFERENCES club_players(id)
+    );
+
     -- A finished year, frozen. The live tables are reused every season, so once
     -- the roster is re-imported the hole-by-hole record of a past round is gone.
     -- This keeps the whole thing — course, players, groups, every stroke, and
@@ -131,6 +162,8 @@ function initDb() {
   addColumn("ALTER TABLE tournament ADD COLUMN tiebreak_others TEXT DEFAULT ''");
   // Which side awards run this year (JSON) — see logic/gjAwards.js
   addColumn("ALTER TABLE tournament ADD COLUMN awards TEXT DEFAULT ''");
+  // Which person in the club roster this tournament entry is
+  addColumn('ALTER TABLE players ADD COLUMN club_player_id INTEGER');
   // Hole label — hole_number is INTEGER so it cannot hold "10A"
   addColumn("ALTER TABLE holes ADD COLUMN hole_label TEXT DEFAULT ''");
   // Second tee yardage (men play white, ladies play red)

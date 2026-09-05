@@ -16,6 +16,7 @@ const PAGES = [
   { path: '/admin/gj/groups',     icon: '👥', label: '分組設定',   desc: '分組、未到選手' },
   { path: '/admin/gj/tiebreak',   icon: '⚖️', label: '同分判定',   desc: '排名優先順序設定' },
   { path: '/admin/gj/awards',     icon: '🏅', label: '獎項設定',   desc: 'Lucky 7、BB、大坡獎…' },
+  { path: '/admin/roster',        icon: '🧑‍🤝‍🧑', label: '球隊名單',   desc: '球員資料、差點紀錄、生涯成績' },
   { path: '/admin/gj/champions',  icon: '🏆', label: '歷屆冠軍',   desc: '新增、修改、刪除' },
   { path: '/admin/gj/rules',      icon: '📖', label: '賽事規則',   desc: '規則摘要與詳細規則' },
 ]

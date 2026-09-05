@@ -25,6 +25,7 @@ const ADMIN_LINKS = [
   { path: '/admin/players',    icon: '👥', zh: '球員名單', en: 'Player List' },
   { path: '/admin/groups',     icon: '🏆', zh: '分組 & 開賽', en: 'Groups & Start Game' },
   { path: '/admin/champions',  icon: '🥇', zh: '歷屆冠軍', en: 'Past Champions' },
+  { path: '/admin/roster',     icon: '🧑‍🤝‍🧑', zh: '球隊名單', en: 'Club Roster' },
 ]
 
 // PIN formula: abs(handicap), first digit + (h-1 zero-padded to 2 digits) + last digit
