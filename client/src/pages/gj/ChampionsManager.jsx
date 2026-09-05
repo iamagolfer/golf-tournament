@@ -21,7 +21,15 @@ export default function ChampionsManager({ api, title = '歷屆冠軍', backTo, 
         year: editing.year,
         course: editing.course,
         champion_name: editing.champion_name,
-        results: editing.results.filter(r => r.player_name.trim()),
+        results: editing.results
+          .filter(r => r.player_name.trim())
+          .map(r => ({
+            player_name: r.player_name,
+            score: r.score,
+            gross: r.gross,
+            handicap: r.handicap,
+            net: r.net,
+          })),
       }
       if (editing.id) await api.put(`/champions/${editing.id}`, body)
       else await api.post('/champions', body)
@@ -87,20 +95,33 @@ export default function ChampionsManager({ api, title = '歷屆冠軍', backTo, 
             <label className="block text-xs text-gray-600 mb-1">當年成績（可留空）</label>
             <div className="space-y-1.5">
               {editing.results.map((r, i) => (
-                <div key={i} className="flex gap-1.5 items-center">
-                  <span className="w-6 text-right text-xs text-gray-400">{i + 1}.</span>
-                  <input className="flex-1 border border-gray-300 rounded px-2 py-1.5 text-sm"
-                    value={r.player_name} onChange={e => setResult(i, 'player_name', e.target.value)}
-                    placeholder="選手" />
-                  <input className="w-24 border border-gray-300 rounded px-2 py-1.5 text-sm"
-                    value={r.score} onChange={e => setResult(i, 'score', e.target.value)}
-                    placeholder="+4" />
+                <div key={i} className="flex gap-1.5 items-start">
+                  <span className="w-6 text-right text-xs text-gray-400 pt-2">{i + 1}.</span>
+                  <div className="flex-1 space-y-1">
+                    <div className="flex gap-1.5">
+                      <input className="flex-1 border border-gray-300 rounded px-2 py-1.5 text-sm"
+                        value={r.player_name} onChange={e => setResult(i, 'player_name', e.target.value)}
+                        placeholder="選手" />
+                      <input className="w-20 border border-gray-300 rounded px-2 py-1.5 text-sm"
+                        value={r.score} onChange={e => setResult(i, 'score', e.target.value)}
+                        placeholder="+4" />
+                    </div>
+                    {/* Optional — old years were typed in with only a to-par figure */}
+                    <div className="flex gap-1.5">
+                      {[['gross', '總桿'], ['handicap', '差點'], ['net', '淨桿']].map(([key, label]) => (
+                        <input key={key} type="number" inputMode="numeric"
+                          className="flex-1 min-w-0 border border-gray-200 rounded px-2 py-1 text-xs"
+                          value={r[key] ?? ''} onChange={e => setResult(i, key, e.target.value)}
+                          placeholder={label} />
+                      ))}
+                    </div>
+                  </div>
                   <button onClick={() => setEditing({ ...editing, results: editing.results.filter((_, j) => j !== i) })}
                     className="w-8 h-8 rounded bg-white border border-red-200 text-red-600 text-sm">✕</button>
                 </div>
               ))}
             </div>
-            <button onClick={() => setEditing({ ...editing, results: [...editing.results, { player_name: '', score: '' }] })}
+            <button onClick={() => setEditing({ ...editing, results: [...editing.results, { player_name: '', score: '', gross: '', handicap: '', net: '' }] })}
               className="mt-2 text-sm text-emerald-800 underline">+ 加一位選手</button>
           </div>
 

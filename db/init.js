@@ -122,6 +122,11 @@ function initDb() {
   // Player extras
   addColumn("ALTER TABLE players ADD COLUMN wildcard INTEGER DEFAULT 0");
   addColumn("ALTER TABLE players ADD COLUMN tee TEXT DEFAULT 'white'");
+  // Champion results kept only a signed to-par string, which says nothing about
+  // how the player got there. These are NULL for years typed in by hand.
+  addColumn("ALTER TABLE champion_results ADD COLUMN gross INTEGER");
+  addColumn("ALTER TABLE champion_results ADD COLUMN handicap INTEGER");
+  addColumn("ALTER TABLE champion_results ADD COLUMN net INTEGER");
 
   // ---- Ensure the Ring Cup tournament exists and is tagged ----
   let ring = db.prepare('SELECT id FROM tournament WHERE slug=?').get(RING);

@@ -130,11 +130,17 @@ function buildFromTournament(db, req) {
   const scored = ranked.filter(p => !p.isNoShow && p.netScore !== null && p.netScore !== undefined);
   if (!scored.length) throw new Error('這個賽事還沒有成績');
 
+  const played = (p) => !p.isNoShow && p.netScore !== null && p.netScore !== undefined;
   const results = ranked.map(p => ({
     player_name: fullName(p),
     score: p.isNoShow ? 'DQ (No Show)'
-         : (p.netScore === null || p.netScore === undefined) ? '未完成'
+         : !played(p) ? '未完成'
          : formatScore(p.netScore - parTotal),
+    // Kept alongside the to-par figure so the history shows how the score was
+    // reached, not just the headline number
+    gross: played(p) ? p.grossScore : null,
+    handicap: played(p) ? p.handicap : null,
+    net: played(p) ? p.netScore : null,
   }));
 
   const winner = scored[0];
@@ -149,8 +155,12 @@ function buildFromTournament(db, req) {
 
 function saveResults(db, championId, results) {
   if (!Array.isArray(results)) return;
-  const ins = db.prepare('INSERT INTO champion_results (champion_id, position, player_name, score) VALUES (?,?,?,?)');
+  const ins = db.prepare(
+    'INSERT INTO champion_results (champion_id, position, player_name, score, gross, handicap, net) VALUES (?,?,?,?,?,?,?)'
+  );
+  const num = (v) => (v === '' || v === null || v === undefined || !Number.isFinite(Number(v)) ? null : Number(v));
   results
     .filter(r => r && r.player_name)
-    .forEach((r, i) => ins.run(championId, i + 1, r.player_name, r.score || ''));
+    .forEach((r, i) => ins.run(championId, i + 1, r.player_name, r.score || '',
+      num(r.gross), num(r.handicap), num(r.net)));
 }

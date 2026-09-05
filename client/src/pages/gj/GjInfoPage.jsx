@@ -87,10 +87,18 @@ export default function GjInfoPage() {
                   {openYear === c.id && c.results.length > 0 && (
                     <div className="px-4 pb-3 space-y-0.5">
                       {c.results.map(r => (
-                        <div key={r.id} className="flex items-center justify-between text-sm px-2 py-1 rounded odd:bg-gray-50">
+                        <div key={r.id} className="flex items-start text-sm px-2 py-1 rounded odd:bg-gray-50">
                           <span className="text-gray-400 w-5 text-right mr-2">{r.position}.</span>
-                          <span className="flex-1 text-gray-800">{r.player_name}</span>
-                          <span className="text-gray-600 font-medium">{r.score}</span>
+                          <span className="flex-1 min-w-0">
+                            <span className="text-gray-800">{r.player_name}</span>
+                            {/* Years typed in by hand have no breakdown to show */}
+                            {r.net !== null && r.net !== undefined && (
+                              <span className="block text-xs text-gray-400">
+                                總桿 {r.gross} · 差點 {r.handicap} · 淨桿 {r.net}
+                              </span>
+                            )}
+                          </span>
+                          <span className="text-gray-600 font-medium ml-2">{r.score}</span>
                         </div>
                       ))}
                     </div>
