@@ -359,12 +359,19 @@ Available rule ids (`logic/gjRankings.js` → `TIEBREAK_RULES`):
 - **Finished rounds rank above rounds in progress**, so a nine-hole total never
   appears to beat an eighteen-hole one. Partial net scores render as "暫 N" in grey.
 
-The scores page carries a third leaderboard tab, **📉 差點額度**, which is the
-Ring Cup reading of the same numbers: everyone on one board by net right now,
-unfinished rounds included, starting at minus your handicap and climbing as you
-spend strokes. Replayed against the 2026 round it puts the big handicaps on top
-at three holes and converges on the true net order once everyone is in. The 淨桿
-tab keeps the opposite behaviour; having both was the point.
+The scores page carries a third leaderboard tab, **📉 即時差點額度**, everyone on
+one board with unfinished rounds included:
+
+```
+額度淨桿 = 目前總桿 − 差點 − 全場 Par
+```
+
+A player's budget for the day is par plus their handicap, so the figure starts at
+minus that whole number and climbs by one per stroke spent — finish level and it
+reads 0. Replayed against 2026: Jeff opens on −98, the field sits around −65 after
+five holes, and Jason's winning 88 off 14 lands on **+2**, the same +2 the
+champions history records. The 淨桿 tab deliberately does the opposite and holds
+unfinished rounds below finished ones; having both was the point.
 
 ⚠️ **The Ring Cup does the opposite on purpose.** Three holes in it shows
 `總桿 15 − 27 = 淨桿 -12` with the biggest handicaps on top, because there it is

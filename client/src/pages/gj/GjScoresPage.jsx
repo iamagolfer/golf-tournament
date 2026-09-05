@@ -20,6 +20,7 @@ export default function GjScoresPage() {
   const [netRankings, setNetRankings] = useState([])
   const [grossRankings, setGrossRankings] = useState([])
   const [showWildcard, setShowWildcard] = useState(true)
+  const [parTotal, setParTotal] = useState(0)
   const savedScoresRef = useRef({})
 
   useEffect(() => { loadData() }, [])
@@ -61,6 +62,7 @@ export default function GjScoresPage() {
     setNetRankings(r.netRankings || [])
     setGrossRankings(r.grossRankings || [])
     setShowWildcard(r.showWildcard !== false)
+    setParTotal(r.parTotal ?? 0)
   }
 
   function handleChange(playerId, holeId, value) {
@@ -111,21 +113,31 @@ export default function GjScoresPage() {
   const activeGroup = groups.find(g => g.id === activeGroupId) || null
   const groupPlayers = activeGroup ? players.filter(p => p.group_id === activeGroup.id) : []
   const status = tournament?.status || 'setup'
-  // The 額度 view: everyone on one board by net score right now, unfinished
-  // rounds included. Net starts at minus your handicap and climbs as you spend
-  // strokes, so a player watches their own number rise and slide down the board
-  // — the Ring Cup reading of the same arithmetic. The 淨桿 tab deliberately
-  // does the opposite and keeps finished rounds on top; both are wanted.
+  // The 額度 view: everyone on one board, unfinished rounds included, showing
+  // how a round is tracking against the strokes it is allowed.
+  //
+  //   額度淨桿 = 目前總桿 − 差點 − 全場 Par
+  //
+  // Your budget for the day is par plus your handicap, so this starts at minus
+  // that whole number and climbs by one for every stroke spent. Finish level and
+  // it reads 0; Jason's winning 88 off 14 on a par 72 lands on +2 — the same +2
+  // the champions history records. The 淨桿 tab deliberately does the opposite
+  // and holds unfinished rounds below finished ones; both are wanted.
+  const budgetOf = (p) =>
+    (p.grossScore === null || p.grossScore === undefined)
+      ? -(parTotal + p.handicap)          // nothing spent yet — the starting line
+      : p.grossScore - p.handicap - parTotal;
+
   const budgetBoard = (() => {
-    const rows = netRankings.filter(p => !p.isNoShow);
-    const scored = rows.filter(p => p.netScore !== null && p.netScore !== undefined)
-      .sort((a, b) => a.netScore - b.netScore);
-    const pending = rows.filter(p => p.netScore === null || p.netScore === undefined);
-    // Same net right now means the same position — nothing is decided yet
-    let lastNet = null, lastRank = 0;
+    const rows = netRankings.filter(p => !p.isNoShow).map(p => ({ ...p, budget: budgetOf(p) }));
+    const scored = rows.filter(p => p.grossScore !== null && p.grossScore !== undefined)
+      .sort((a, b) => a.budget - b.budget);
+    const pending = rows.filter(p => p.grossScore === null || p.grossScore === undefined);
+    // The same figure right now means the same position — nothing is decided yet
+    let last = null, lastRank = 0;
     const ranked = scored.map((p, i) => {
-      const rank = p.netScore === lastNet ? lastRank : i + 1;
-      lastNet = p.netScore; lastRank = rank;
+      const rank = p.budget === last ? lastRank : i + 1;
+      last = p.budget; lastRank = rank;
       return { ...p, budgetRank: rank };
     });
     return [...ranked, ...pending.map(p => ({ ...p, budgetRank: null }))];
@@ -295,8 +307,9 @@ export default function GjScoresPage() {
 
             {lbView === 'budget' && (
               <p className="text-xs text-gray-500 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-2">
-                淨桿 = 目前總桿 − <b>全額差點</b>。開局是 −差點,桿數花越多數字越大、
-                名次越往下掉。<b>未打完的人也一起排</b>,所以這裡的名次不是最終成績。
+                淨桿 = 目前總桿 − 差點 − 全場 Par。你今天的額度是 <b>Par + 差點</b>,
+                開局從 −額度 起算,每打一桿加 1,打完剛好用完就是 0。
+                <b>未打完的人也一起排</b>,所以這裡的名次不是最終成績。
               </p>
             )}
 
@@ -338,19 +351,18 @@ export default function GjScoresPage() {
                       </div>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      {p.grossScore === null ? (
-                        <span className="text-gray-300 text-sm">
-                          {lbView === 'budget' ? `−${p.handicap}` : '-'}
-                        </span>
-                      ) : lbView === 'budget' ? (
+                      {lbView === 'budget' ? (
                         <>
-                          {/* Starts at minus the handicap and climbs from there.
-                              Still below zero means budget in hand. */}
-                          <div className={`font-bold ${p.netScore < 0 ? 'text-emerald-900' : 'text-gray-500'}`}>
-                            淨桿{p.netScore > 0 ? `+${p.netScore}` : p.netScore}
+                          {/* Below zero is budget still in hand */}
+                          <div className={`font-bold ${p.budget < 0 ? 'text-emerald-900' : 'text-gray-500'}`}>
+                            淨桿{p.budget > 0 ? `+${p.budget}` : p.budget}
                           </div>
-                          <div className="text-xs text-gray-400">總桿{p.grossScore}</div>
+                          <div className="text-xs text-gray-400">
+                            {p.grossScore === null ? `額度 ${parTotal + p.handicap}` : `總桿${p.grossScore}`}
+                          </div>
                         </>
+                      ) : p.grossScore === null ? (
+                        <span className="text-gray-300 text-sm">-</span>
                       ) : lbView === 'net' ? (
                         <>
                           {/* Provisional while the round is unfinished */}
