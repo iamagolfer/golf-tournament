@@ -305,14 +305,6 @@ export default function GjScoresPage() {
               ))}
             </div>
 
-            {lbView === 'budget' && (
-              <p className="text-xs text-gray-500 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-2">
-                淨桿 = 目前總桿 − 差點 − 全場 Par。你今天的額度是 <b>Par + 差點</b>,
-                開局從 −額度 起算,每打一桿加 1,打完剛好用完就是 0。
-                <b>未打完的人也一起排</b>,所以這裡的名次不是最終成績。
-              </p>
-            )}
-
             <div className="bg-white rounded-xl shadow-sm divide-y divide-gray-100">
               {leaderboard.length === 0 && (
                 <p className="px-4 py-6 text-center text-gray-400 text-sm">尚無成績</p>
