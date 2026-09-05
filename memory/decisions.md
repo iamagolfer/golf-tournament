@@ -16,6 +16,21 @@
 **Bottom 6 buy dinner**
 - Group tradition; hardcoded as `N - 6` cutoff; red highlight on final rankings
 
+**戒指盃 mid-round net scores are negative on purpose — do NOT "fix" this**
+- Confirmed by Albert 2026-09-05. Three holes in, the Ring Cup leaderboard reads
+  `總桿 15 − 27 = 淨桿 -12`, and the biggest handicaps sit on top. That looks
+  broken. It is not.
+- The intent is a stroke budget, the way a FedEx Cup run burns down: you start
+  the day effectively at minus your handicap and climb as you spend strokes.
+  Players watch their own number rise and drop down the board. Seeing where you
+  sit against a handicap you have not spent yet is the point.
+- **The Green Jacket deliberately does the opposite** — finished rounds rank
+  above unfinished ones, provisional net shows as grey `暫 N` with `13/18 洞`.
+  That tournament is judged purely on the final net score, so a nine-hole total
+  outranking an eighteen-hole one is just wrong there.
+- Two tournaments, two readings of the same arithmetic, both intentional. Anyone
+  proposing to unify them should read this first.
+
 **Handicaps are set strictly, on purpose**
 - Confirmed by Albert 2026-09-05: the club would rather a handicap be too tight
   than too loose. A guest arriving on a generous self-reported number and taking

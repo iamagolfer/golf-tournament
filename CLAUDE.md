@@ -359,6 +359,12 @@ Available rule ids (`logic/gjRankings.js` → `TIEBREAK_RULES`):
 - **Finished rounds rank above rounds in progress**, so a nine-hole total never
   appears to beat an eighteen-hole one. Partial net scores render as "暫 N" in grey.
 
+⚠️ **The Ring Cup does the opposite on purpose.** Three holes in it shows
+`總桿 15 − 27 = 淨桿 -12` with the biggest handicaps on top, because there it is
+read as a stroke budget — you start at minus your handicap and climb as you spend
+strokes, FedEx Cup style. Confirmed intentional; do not "fix" it or unify the two.
+See `memory/decisions.md`.
+
 Run `node logic/gjRankings.test.js` to exercise all of this — it covers champion
 ties, back-nine decisions, hole countback on 10A, playoff overrides, USGA chains,
 and unfinished rounds, against a throwaway copy of the database.
