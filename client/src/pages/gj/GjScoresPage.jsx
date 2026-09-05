@@ -329,7 +329,7 @@ export default function GjScoresPage() {
                             and how many strokes over par they cost so far */}
                         {lbView === 'budget' ? (
                           p.holesPlayed > 0 && (
-                            <span className="text-gray-500"> · {p.holesPlayed}洞花{p.toPar > 0 ? `+${p.toPar}` : p.toPar}桿</span>
+                            <span className="text-gray-500"> · {p.holesPlayed}洞花{p.toPar}桿</span>
                           )
                         ) : (
                           p.holesPlayed > 0 && ` · 打完 ${p.holesPlayed}/${p.totalHoles} 洞`
