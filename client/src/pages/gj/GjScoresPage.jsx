@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { gjApi } from '../../api'
+import { useStickyState } from '../../stickyState'
 import { GJ, GjHeader, GjNav, PlayerName, cellClass, toParDisplay, holeLabel, medal, TiebreakBadge, AwardBadges } from './gjTheme'
 
 export default function GjScoresPage() {
@@ -10,11 +11,12 @@ export default function GjScoresPage() {
   const [holes, setHoles] = useState([])
   const [sections, setSections] = useState([])
   const [scores, setScores] = useState({})
-  const [activeGroupId, setActiveGroupId] = useState(null)
+  const [activeGroupId, setActiveGroupId] = useStickyState('gj.scores.groupId', null)
   const [cellSaving, setCellSaving] = useState({})
   const [cellError, setCellError] = useState({})
   const [cellSaved, setCellSaved] = useState({})
-  const [lbView, setLbView] = useState('net')
+  // Kept across reloads — people pull-to-refresh on the course
+  const [lbView, setLbView] = useStickyState('gj.scores.lbView', 'net')
   const [netRankings, setNetRankings] = useState([])
   const [grossRankings, setGrossRankings] = useState([])
   const [showWildcard, setShowWildcard] = useState(true)
@@ -44,7 +46,9 @@ export default function GjScoresPage() {
     setHoles(t.holes || [])
     setGroups(p.groups || [])
     setPlayers(p.players || [])
-    setActiveGroupId(prev => prev ?? (p.groups?.[0]?.id || null))
+    // A remembered group may no longer exist — the roster is rebuilt each season
+    const groupIds = (p.groups || []).map(g => g.id)
+    setActiveGroupId(prev => (groupIds.includes(prev) ? prev : (groupIds[0] ?? null)))
     setScores(map)
     applyRankings(r)
   }

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../../api'
+import { useStickyState } from '../../stickyState'
 
 function cellClass(rel) {
   if (rel === null || rel === undefined) return 'bg-gray-100 text-gray-400'
@@ -50,11 +51,12 @@ export default function ScoresPage() {
   const [sections, setSections]         = useState([])
   const [scores, setScores]             = useState({})
   const [status, setStatus]             = useState('setup')
-  const [activeGroupId, setActiveGroupId] = useState(null)
+  // Kept across reloads — people pull-to-refresh on the course
+  const [activeGroupId, setActiveGroupId] = useStickyState('ring.scores.groupId', null)
   const [cellSaving, setCellSaving]     = useState({})
   const [cellError, setCellError]       = useState({})
   const [cellSaved, setCellSaved]       = useState({})
-  const [lbView, setLbView]             = useState('net')
+  const [lbView, setLbView]             = useStickyState('ring.scores.lbView', 'net')
   const [finalRankings, setFinalRankings] = useState([])
   const [picksRevealed, setPicksRevealed] = useState(false)
   const [rankingsN, setRankingsN]         = useState(0)
@@ -89,7 +91,9 @@ export default function ScoresPage() {
     setGroups(freshGroups)
     setPlayers(freshPlayers)
     setStatus(t.tournament?.status || 'setup')
-    setActiveGroupId(prev => prev ?? (freshGroups[0]?.id || null))
+    // A remembered group may no longer exist — the roster is rebuilt each season
+    const groupIds = freshGroups.map(g => g.id)
+    setActiveGroupId(prev => (groupIds.includes(prev) ? prev : (groupIds[0] ?? null)))
     setScores(freshScoreMap)
     setFinalRankings(r.finalRankings || [])
     setPicksRevealed(r.picksRevealed || false)

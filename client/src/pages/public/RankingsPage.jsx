@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../../api'
+import { useStickyState } from '../../stickyState'
 
 const RANK_MEDAL = { 1: '🥇', 2: '🥈', 3: '🥉' }
 
@@ -41,7 +42,10 @@ function ScoreBar({ player, N }) {
 export default function RankingsPage() {
   document.title = '最終排名'
   const [data, setData] = useState(null)
-  const [activeTab, setActiveTab] = useState('gross')
+  // null means the reader has not chosen a tab, so the page may pick for them.
+  // Once they tap one it is remembered — including across a reload, and against
+  // the auto-refresh, which used to drag them back to 最終排名 every 8 minutes.
+  const [tabChoice, setTabChoice] = useStickyState('ring.rankings.tab', null)
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState(null)
 
@@ -50,7 +54,6 @@ export default function RankingsPage() {
       const r = await api.get('/rankings')
       setData(r)
       setLastUpdated(new Date())
-      if (r.status === 'revealed' || r.status === 'finished') setActiveTab('final')
     } catch (e) {}
     finally { setLoading(false) }
   }
@@ -73,6 +76,12 @@ export default function RankingsPage() {
   )
 
   const { strokeRankings, grossRankings, finalRankings, N, picksRevealed, status } = data
+
+  // The reader's choice wins; otherwise the final table once picks are out, and
+  // stroke play before that. A stored 'final' is ignored until it exists.
+  const activeTab = (tabChoice === 'final' && !picksRevealed) ? 'gross'
+    : tabChoice || (picksRevealed ? 'final' : 'gross')
+  const setActiveTab = setTabChoice
   const dinnerCutoff = N - 6
 
   return (

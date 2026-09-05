@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { gjApi } from '../../api'
+import { useStickyState } from '../../stickyState'
 import { GJ, GjHeader, GjNav, PlayerName, cellClass, toParDisplay, holeLabel, medal, TiebreakBadge, AwardBadges } from './gjTheme'
 
 export default function GjRankingsPage() {
   document.title = '綠夾克盃 — 排名'
   const [data, setData] = useState(null)
-  const [tab, setTab] = useState('net')
+  // Kept across reloads, so a pull-to-refresh does not lose the reader's tab
+  const [tab, setTab] = useStickyState('gj.rankings.tab', 'net')
   const [openPlayer, setOpenPlayer] = useState(null)
   const [refreshing, setRefreshing] = useState(false)
 
