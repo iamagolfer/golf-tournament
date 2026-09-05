@@ -7,12 +7,12 @@ import { api } from '../../api'
 // everything comes from the frozen snapshot, so it cannot be edited by accident
 // and cannot drift when the ranking rules change.
 //
-// Unlike the Green Jacket this has three views, because the Ring Cup is three
-// competitions at once: raw strokes, handicap-adjusted net with ranking points,
-// and the combined total once each player's horse is added.
+// Two views, because only two of them are competitions: handicap-adjusted net
+// with ranking points, and the combined total once each player's horse is added.
+// Gross is worth knowing but nobody wins on it, so it reads as a number on every
+// row rather than taking a tab of its own.
 
 const TABS = [
-  { key: 'gross', label: '總桿排名' },
   { key: 'net', label: '淨桿排名' },
   { key: 'final', label: '最終排名🐴' },
 ]
@@ -48,9 +48,7 @@ export default function RingArchiveView({ year }) {
 
   const holes = data.holes || []
   const hasFinal = (data.finalRankings || []).length > 0
-  const rows = tab === 'gross' ? (data.grossRankings || [])
-    : tab === 'final' ? (data.finalRankings || [])
-      : (data.netRankings || [])
+  const rows = tab === 'final' ? (data.finalRankings || []) : (data.netRankings || [])
 
   const groupsById = Object.fromEntries((data.groups || []).map(g => [g.id, g]))
   const scored = (data.netRankings || []).filter(p => !p.isNoShow && p.netScore !== null)
@@ -95,7 +93,7 @@ export default function RingArchiveView({ year }) {
             <p className="px-4 py-6 text-center text-gray-400 text-sm">沒有成績</p>
           )}
           {rows.map((p, idx) => {
-            const rank = tab === 'gross' ? p.grossRank : p.rank
+            const rank = p.rank
             const isOpen = openPlayer === `${tab}_${p.id}`
             const hasScores = p.grossScore !== null && p.grossScore !== undefined
             const group = groupsById[p.group_id]
@@ -115,7 +113,7 @@ export default function RingArchiveView({ year }) {
                     ) : (
                       <span className="text-base font-bold text-green-800">{medal(rank) || rank}</span>
                     )}
-                    {tab !== 'gross' && !p.isNoShow && (
+                    {!p.isNoShow && (
                       <div className="text-[10px] text-gray-400">
                         {tab === 'final' ? `${p.totalPoints ?? 0}分` : `${p.rankingPoints ?? 0}分`}
                       </div>
@@ -129,6 +127,7 @@ export default function RingArchiveView({ year }) {
                     </div>
                     <div className="text-xs text-gray-400">
                       差點 {p.handicap}
+                      {hasScores && ` · 總桿 ${p.grossScore}`}
                       {group ? ` · ${group.name}` : ''}
                       {tab === 'final' && p.pickedPlayerName && (
                         <span className="text-green-700"> · 🐴 {p.pickedPlayerName}</span>
@@ -139,12 +138,10 @@ export default function RingArchiveView({ year }) {
                   <div className="text-right flex-shrink-0">
                     {!hasScores ? (
                       <span className="text-gray-300">-</span>
-                    ) : tab === 'gross' ? (
-                      <div className="text-base font-bold text-green-800">{p.grossScore}</div>
                     ) : tab === 'net' ? (
                       <>
                         <div className="text-base font-bold text-green-800">{p.netScore}</div>
-                        <div className="text-[10px] text-gray-400">總桿 {p.grossScore}</div>
+                        <div className="text-[10px] text-gray-400">淨桿</div>
                       </>
                     ) : (
                       <>
