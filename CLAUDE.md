@@ -659,6 +659,34 @@ default and only offers bulk import behind a warning.
 
 ---
 
+## Traps that have caught us more than once
+Each of these cost a round trip. Read before touching the same shape of code.
+
+**A route that lists its columns will one day list the wrong ones.**
+`GET /api/players` names its columns so the PIN stays server-side — and therefore
+silently omitted `club_player_id` when that was added, leaving the client unable
+to tell who was already linked. `GET /api/rankings` had the opposite failure: the
+ranking engines spread the *whole* player row, so it published every PIN on a
+public endpoint until `withoutPins` was added. **Adding a column? Check every
+route that names columns, and every route that spreads engine output.**
+
+**Nest an expandable inside another, or it will not collapse with it.**
+The champion year's full scorecard was rendered as a *sibling* of the year's
+expanded block, so 收起 folded the leaderboard and left the hole-by-hole card
+open. Written identically in both tournaments' champion lists, and both had to be
+fixed. Render the inner section inside the outer's condition **and** clear its
+state when the outer closes.
+
+**Champions entries and archives are snapshots, not live views.**
+2026's Ring Cup entry kept `新豐球場-戒指選秀盃` long after the tournament's
+`course_name` was tidied to `新豐球場`, because the entry copied it at import.
+That is the intended behaviour — it is what keeps history stable — but it means
+correcting a tournament never reaches back. Fix the entry itself, or re-import.
+
+**"The tab keeps resetting" usually means a browser reload, not a bug in the
+refresh button.** On the course people pull-to-refresh out of habit. React state
+is gone; only `localStorage` survives. See `client/src/stickyState.js`.
+
 ## Known Issues & Fixes History
 1. `better-sqlite3` failed to compile (missing Windows SDK) → switched to `node:sqlite` built-in
 2. `vite not found` on Railway → moved vite to `dependencies`, added `client/.npmrc` (`production=false`)
