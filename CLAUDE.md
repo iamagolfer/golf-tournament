@@ -95,15 +95,16 @@ being used** before writing (a mis-set `DB_PATH` silently falls back to the real
 ### Pre-tournament rehearsal — run both before every Green Jacket
 ```powershell
 node logic/gjRehearsal.test.js        # ranking logic, ~60 checks
-node logic/gjRehearsal.http.test.js   # end to end, starts its own server, ~57 checks
+node logic/gjRehearsal.http.test.js   # end to end, starts its own server, ~59 checks
+node logic/gjArchive.test.js          # archived years vs a changed course, ~25 checks
 ```
-Both copy `db/golf.sqlite` to a throwaway file, abort if `DB_PATH` did not take
-effect, and delete the copy when done. The HTTP one spawns `server.js` on a spare
+All three copy `db/golf.sqlite` to a throwaway file, abort if `DB_PATH` did not take
+effect, and delete the copy when done. The two HTTP ones spawn `server.js` on a spare
 port itself, so there is nothing to start or stop by hand.
 
-**Neither is tied to a roster or a course.** Players, handicaps, hole count, pars
+**None of them is tied to a roster or a course.** Players, handicaps, hole count, pars
 and section layout are read from the database and the test rounds are generated
-to fit — so both still work next year with a different field, and after hole 15
+to fit — so they still work next year with a different field, and after hole 15
 reopens. Scenarios needing a specific shape (two players on the same handicap, a
 back nine of 7+ holes) skip themselves with a printed reason rather than failing.
 
@@ -145,7 +146,8 @@ golf-app/
 │   ├── gjRankings.js      ← 綠夾克 engine (net stroke play, configurable tiebreakers)
 │   ├── gjRankings.test.js ← Scenario tests — `node logic/gjRankings.test.js`
 │   ├── gjRehearsal.test.js      ← Game-day rehearsal, ranking logic (roster-agnostic)
-│   └── gjRehearsal.http.test.js ← Game-day rehearsal, end to end + concurrency
+│   ├── gjRehearsal.http.test.js ← Game-day rehearsal, end to end + concurrency
+│   └── gjArchive.test.js        ← Archived years survive course edits + a new season
 └── client/
     ├── package.json       ← vite in dependencies (NOT devDependencies) — Railway fix
     ├── .npmrc             ← production=false (forces full npm install on Railway)
@@ -404,6 +406,24 @@ no save, no refresh, and no live data, so it cannot be edited by accident.
 Years typed in by hand (2023–2025) have no snapshot and show no link.
 
 ⚠️ **Before re-importing the roster for a new season, archive the old one first.**
+
+### The course changes every year — the order of operations matters
+再興 is under renovation, so each season can bring a renamed hole (10A standing in
+for 15), a re-rated par, or a hole dropped from play. `PUT /api/tournament/course`
+**rewrites the same hole rows in place and deletes the scores of any hole removed**,
+so setting up a new season edits the very rows last season's scores hang off.
+
+Archived years are immune: the snapshot stores hole labels, pars and strokes as
+values and never joins back to the live tables. Two seasons can hold different
+courses, different pars and different hole counts side by side.
+
+**The one rule: 封存 first, then edit the course.** Editing first can delete
+scores that were never archived, and nothing can bring them back.
+
+`node logic/gjArchive.test.js` proves this end to end — it archives a year,
+renames the last hole, re-rates a par, drops a hole, runs a fresh season on the
+changed course and archives that too, then checks the first year is byte for byte
+what it was.
 
 ## Editing the Course Without Losing Scores
 `PUT /api/tournament/course` **reconciles in place** — it updates existing hole
