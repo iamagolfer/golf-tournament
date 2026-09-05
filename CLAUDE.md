@@ -375,6 +375,36 @@ and a missing seventh place — are common until the cards are in.
 
 ---
 
+## Archiving a Finished Year (綠夾克 / 戒指盃 both)
+The live tables hold **one season at a time** — `PUT /api/players` wipes every
+score, and that is how each new year starts. So a finished round has to be frozen
+before the next one is set up, or its hole-by-hole record is gone for good.
+
+**Admin → 歷屆冠軍 → 🔒 封存本次完整成績** writes a JSON snapshot into `archives`
+(`slug`, `year`, `created_at`, `data`, unique on slug+year): course and pars,
+players with handicaps and groups, every stroke, and the net/gross rankings
+**as computed at that moment**. Pages render from the snapshot and never
+recompute, so changing the ranking rules later cannot rewrite a past year.
+PINs are stripped on the way in. Re-running replaces that year — do that after
+correcting a mis-typed score.
+
+| Route | |
+|---|---|
+| `GET /api/archives?t=<slug>` | public — which years can be opened |
+| `GET /api/archives/:year?t=<slug>` | public — the frozen snapshot |
+| `POST /api/archives/from-tournament?t=<slug>` | admin — freeze the current tournament |
+| `DELETE /api/archives/:year?t=<slug>` | admin |
+
+`/greenjacket` shows a **📋 查看完整成績（逐洞・分組）** link on any champion year
+that has a snapshot, expanding `GjArchiveView` — the two leaderboard tabs, each
+row opening to that player's hole-by-hole card plus their group and playing
+partners. It is a separate component from the scores page on purpose: no inputs,
+no save, no refresh, and no live data, so it cannot be edited by accident.
+
+Years typed in by hand (2023–2025) have no snapshot and show no link.
+
+⚠️ **Before re-importing the roster for a new season, archive the old one first.**
+
 ## Editing the Course Without Losing Scores
 `PUT /api/tournament/course` **reconciles in place** — it updates existing hole
 rows rather than deleting and re-inserting them. Scores are keyed on `hole_id`,

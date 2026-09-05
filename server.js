@@ -27,6 +27,7 @@ app.use('/api/players', require('./routes/players')(db));
 app.use('/api/scores', require('./routes/scores')(db));
 app.use('/api/rankings', require('./routes/rankings')(db));
 app.use('/api/champions', require('./routes/champions')(db));
+app.use('/api/archives', require('./routes/archives')(db));
 
 // Serve the built frontend whenever it exists, so 'npm start' works locally
 // without NODE_ENV. Vite's dev server runs on its own port and is unaffected.

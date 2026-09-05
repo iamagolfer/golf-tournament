@@ -99,6 +99,20 @@ function initDb() {
       score TEXT DEFAULT '',
       FOREIGN KEY (champion_id) REFERENCES champions(id)
     );
+
+    -- A finished year, frozen. The live tables are reused every season, so once
+    -- the roster is re-imported the hole-by-hole record of a past round is gone.
+    -- This keeps the whole thing — course, players, groups, every stroke, and
+    -- the rankings exactly as they stood — in one JSON blob that later code
+    -- changes cannot alter.
+    CREATE TABLE IF NOT EXISTS archives (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      slug TEXT NOT NULL,
+      year TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      data TEXT NOT NULL,
+      UNIQUE(slug, year)
+    );
   `);
 
   // ---- Safe column migrations (each wrapped so re-runs are no-ops) ----

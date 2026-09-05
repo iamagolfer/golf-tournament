@@ -8,9 +8,21 @@ export default function ChampionsManager({ api, title = '歷屆冠軍', backTo, 
   const { saving, run, banner } = useSaver()
   const [champions, setChampions] = useState([])
   const [editing, setEditing] = useState(null)
+  const [archives, setArchives] = useState([])
 
-  useEffect(() => { load() }, [])
+  useEffect(() => { load(); loadArchives() }, [])
   const load = () => api.get('/champions').then(d => setChampions(d.champions || []))
+  const loadArchives = () => api.get('/archives')
+    .then(d => setArchives(d.archives || []))
+    .catch(() => setArchives([]))
+
+  const [archiveNote, setArchiveNote] = useState('')
+  const archiveTournament = () => run(async () => {
+    setArchiveNote('')
+    const r = await api.post('/archives/from-tournament', {})
+    setArchiveNote(`${r.year} 年已封存:${r.players} 位選手 · ${r.holes} 洞 · ${r.scores} 筆逐洞成績`)
+    await loadArchives()
+  }, '已封存 ✓')
 
   const blank = () => ({ id: null, year: '', course: '', champion_name: '', results: [] })
 
@@ -147,6 +159,29 @@ export default function ChampionsManager({ api, title = '歷屆冠軍', backTo, 
           <p className="text-xs text-gray-400 text-center">
             自動帶入今年的冠軍與全部選手成績，可再手動調整後儲存
           </p>
+
+          {/* Separate from the champions entry above: that stores a leaderboard,
+              this freezes the whole round so it can be reopened years later. */}
+          <div className="border-t border-gray-200 pt-3 mt-1">
+            <button onClick={archiveTournament} disabled={saving}
+              className="w-full bg-white border-2 border-emerald-700 text-emerald-800 font-bold py-3 rounded-lg disabled:opacity-50">
+              🔒 封存本次完整成績
+            </button>
+            <p className="text-xs text-gray-400 text-center mt-1.5">
+              把逐洞成績、分組、排名整份凍結起來，公開頁的那一年就能展開查看。
+              <b>明年重設名單前一定要先按這個。</b>
+            </p>
+            {archiveNote && (
+              <p className="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 rounded px-2 py-1.5 text-center mt-2">
+                ✓ {archiveNote}
+              </p>
+            )}
+            {archives.length > 0 && (
+              <p className="text-xs text-emerald-700 text-center mt-1.5">
+                已封存:{archives.map(a => a.year).join('、')}
+              </p>
+            )}
+          </div>
         </div>
       )}
 

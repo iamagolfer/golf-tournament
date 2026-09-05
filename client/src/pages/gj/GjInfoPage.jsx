@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { gjApi } from '../../api'
 import { GJ, GjNav, holeLabel } from './gjTheme'
+import GjArchiveView from './GjArchiveView'
 
 export default function GjInfoPage() {
   document.title = '綠夾克盃'
@@ -8,10 +9,15 @@ export default function GjInfoPage() {
   const [sections, setSections] = useState([])
   const [holes, setHoles] = useState([])
   const [champions, setChampions] = useState([])
+  const [archivedYears, setArchivedYears] = useState([])
+  const [openArchive, setOpenArchive] = useState(null)
   const [showHoles, setShowHoles] = useState(false)
   const [openYear, setOpenYear] = useState(null)
 
   useEffect(() => {
+    gjApi.get('/archives')
+      .then(a => setArchivedYears((a.archives || []).map(x => x.year)))
+      .catch(() => setArchivedYears([]))
     Promise.all([gjApi.get('/tournament'), gjApi.get('/champions')])
       .then(([t, c]) => {
         setTournament(t.tournament)
@@ -101,8 +107,17 @@ export default function GjInfoPage() {
                           <span className="text-gray-600 font-medium ml-2">{r.score}</span>
                         </div>
                       ))}
+                      {/* Only years archived while their scores were still live */}
+                      {archivedYears.includes(c.year) && (
+                        <button
+                          onClick={() => setOpenArchive(openArchive === c.year ? null : c.year)}
+                          className="mt-2 text-xs text-emerald-800 underline">
+                          {openArchive === c.year ? '收合完整成績' : '📋 查看完整成績（逐洞・分組）'}
+                        </button>
+                      )}
                     </div>
                   )}
+                  {openArchive === c.year && <GjArchiveView year={c.year} />}
                 </div>
               ))}
             </div>
