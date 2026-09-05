@@ -80,7 +80,12 @@ export default function GjInfoPage() {
               {champions.map(c => (
                 <div key={c.id}>
                   <button
-                    onClick={() => setOpenYear(openYear === c.id ? null : c.id)}
+                    onClick={() => {
+                      const closing = openYear === c.id
+                      setOpenYear(closing ? null : c.id)
+                      // Collapsing the year takes the full scorecard with it
+                      if (closing) setOpenArchive(null)
+                    }}
                     disabled={!c.results.length}
                     className="w-full flex items-center gap-3 px-4 py-3 text-left disabled:cursor-default">
                     <span className="text-amber-600 font-bold w-12 flex-shrink-0">{c.year}</span>
@@ -117,7 +122,7 @@ export default function GjInfoPage() {
                       )}
                     </div>
                   )}
-                  {openArchive === c.year && <GjArchiveView year={c.year} />}
+                  {openYear === c.id && openArchive === c.year && <GjArchiveView year={c.year} />}
                 </div>
               ))}
             </div>

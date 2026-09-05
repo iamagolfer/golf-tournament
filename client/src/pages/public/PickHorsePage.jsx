@@ -130,7 +130,12 @@ export default function PickHorsePage() {
               {history.map(h => (
                 <div key={h.id}>
                   <button
-                    onClick={() => setOpenYear(openYear === h.id ? null : h.id)}
+                    onClick={() => {
+                      const closing = openYear === h.id
+                      setOpenYear(closing ? null : h.id)
+                      // Collapsing the year takes the full scorecard with it
+                      if (closing) setOpenArchive(null)
+                    }}
                     disabled={!h.results.length}
                     className="w-full flex items-center gap-2 px-4 py-2.5 text-left disabled:cursor-default">
                     <span className="text-yellow-600 font-bold w-10 flex-shrink-0">{h.year}</span>
@@ -172,7 +177,7 @@ export default function PickHorsePage() {
                       )}
                     </div>
                   )}
-                  {openArchive === h.year && <RingArchiveView year={h.year} />}
+                  {openYear === h.id && openArchive === h.year && <RingArchiveView year={h.year} />}
                 </div>
               ))}
             </div>
