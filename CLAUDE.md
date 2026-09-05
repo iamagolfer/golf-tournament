@@ -397,13 +397,30 @@ correcting a mis-typed score.
 | `POST /api/archives/from-tournament?t=<slug>` | admin — freeze the current tournament |
 | `DELETE /api/archives/:year?t=<slug>` | admin |
 
-`/greenjacket` shows a **📋 查看完整成績（逐洞・分組）** link on any champion year
-that has a snapshot, expanding `GjArchiveView` — the two leaderboard tabs, each
-row opening to that player's hole-by-hole card plus their group and playing
-partners. It is a separate component from the scores page on purpose: no inputs,
-no save, no refresh, and no live data, so it cannot be edited by accident.
+**Archiving requires the tournament to be over** — `finished` for the Green
+Jacket, `revealed` or `finished` for the Ring Cup. That second rule is not
+cosmetic: the rankings route hides horse picks until they are revealed, but the
+snapshot is built from the ranking engine directly and would otherwise publish
+live picks on a public endpoint.
 
-Years typed in by hand (2023–2025) have no snapshot and show no link.
+### Where each tournament shows it
+Both champions lists are **one row per year, opened on demand**. Stacking every
+year's full leaderboard grew the section by a whole field each season.
+
+| | Page | Component | Tabs |
+|---|---|---|---|
+| 綠夾克 | `/greenjacket` (賽事資料) | `GjArchiveView` | 淨桿 / 總桿 |
+| 戒指盃 | `/pick` (選馬頁 — history is useful while choosing a horse) | `RingArchiveView` | 總桿 / 淨桿 / 最終🐴 |
+
+A year with a snapshot gains a **📋 查看完整成績** link. Each row opens to that
+player's hole-by-hole card plus their group and playing partners; the Ring Cup
+view also carries ranking points, who each player picked as their horse, and the
+bottom-six dinner cutoff. Both are separate components from the scores pages on
+purpose: no inputs, no save, no refresh, and no live data, so neither can be
+edited by accident.
+
+Years typed in by hand (綠夾克 2023–2025, 戒指盃 2022–2025) have no snapshot, so
+they expand to the leaderboard only and show no link.
 
 ⚠️ **Before re-importing the roster for a new season, archive the old one first.**
 

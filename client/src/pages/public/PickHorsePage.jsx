@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../../api'
+import RingArchiveView from './RingArchiveView'
 
 export default function PickHorsePage() {
   document.title = '選馬'
@@ -19,7 +20,10 @@ export default function PickHorsePage() {
   useEffect(() => { loadData() }, [])
   // Past champions moved out of this file and into the database so the admin
   // can edit them without a rebuild.
-  useEffect(() => { api.get('/champions').then(d => setHistory(d.champions || [])).catch(() => {}) }, [])
+  useEffect(() => {
+    api.get('/champions').then(d => setHistory(d.champions || [])).catch(() => {})
+    api.get('/archives').then(a => setArchivedYears((a.archives || []).map(x => x.year))).catch(() => {})
+  }, [])
 
   async function loadData() {
     const [t, p] = await Promise.all([api.get('/tournament'), api.get('/players')])
@@ -84,6 +88,9 @@ export default function PickHorsePage() {
   const pickedCount = picks.length
   const [showHistory, setShowHistory] = useState(false)
   const [history, setHistory] = useState([])
+  const [openYear, setOpenYear] = useState(null)
+  const [archivedYears, setArchivedYears] = useState([])
+  const [openArchive, setOpenArchive] = useState(null)
 
 
   return (
@@ -113,36 +120,59 @@ export default function PickHorsePage() {
             <span className="font-bold text-gray-800">{showHistory ? '🏆收起歷屆冠軍及成績🏆' : '🏆展開歷屆冠軍及成績🏆'}</span>
             <span className="text-gray-400">{showHistory ? '▲' : '▼'}</span>
           </button>
+          {/* One row per year, opened on demand. Stacking every year's full
+              leaderboard made this section grow by 13 rows each season. */}
           {showHistory && (
-            <div className="px-4 pb-4 space-y-4">
-              {/* Champions summary */}
-              <div className="bg-yellow-50 rounded-lg p-3 space-y-1">
-                {history.map(h => (
-                  <div key={h.id} className="flex items-center gap-2 text-sm">
-                    <span className="text-yellow-600 font-bold w-10">{h.year}</span>
-                    <span className="text-gray-600">{h.course}</span>
-                    <span className="ml-auto font-medium text-gray-800">🥇 {h.champion_name}</span>
-                  </div>
-                ))}
-              </div>
-              {/* Per-year results */}
-              {history.filter(h => h.results.length > 0).map(h => (
+            <div className="border-t border-gray-100 divide-y divide-gray-100">
+              {history.length === 0 && (
+                <p className="px-4 py-4 text-sm text-gray-400 text-center">尚未建立</p>
+              )}
+              {history.map(h => (
                 <div key={h.id}>
-                  <div className="text-sm font-bold text-green-800 mb-1">{h.year} {h.course} 成績</div>
-                  <div className="space-y-0.5">
-                    {h.results.map((r, i) => (
-                      <div key={i} className="flex items-center justify-between text-sm px-2 py-1 rounded
-                        odd:bg-gray-50 even:bg-white">
-                        <span className="text-gray-500 w-5 text-right mr-2">{i + 1}.</span>
-                        <span className="flex-1 text-gray-800">{r.player_name}</span>
-                        <span className={`font-medium tabular-nums ${
-                          r.score.startsWith('-') ? 'text-red-600' :
-                          r.score === '0' ? 'text-gray-600' :
-                          r.score.startsWith('+') ? 'text-blue-600' : 'text-gray-400'
-                        }`}>{r.score}</span>
-                      </div>
-                    ))}
-                  </div>
+                  <button
+                    onClick={() => setOpenYear(openYear === h.id ? null : h.id)}
+                    disabled={!h.results.length}
+                    className="w-full flex items-center gap-2 px-4 py-2.5 text-left disabled:cursor-default">
+                    <span className="text-yellow-600 font-bold w-10 flex-shrink-0">{h.year}</span>
+                    <span className="text-gray-500 text-sm flex-1 truncate">{h.course}</span>
+                    <span className="font-medium text-gray-800 text-sm">🥇 {h.champion_name}</span>
+                    {h.results.length > 0 && (
+                      <span className="text-gray-400 text-xs">{openYear === h.id ? '▲' : '▼'}</span>
+                    )}
+                  </button>
+
+                  {openYear === h.id && h.results.length > 0 && (
+                    <div className="px-4 pb-3 space-y-0.5">
+                      {h.results.map((r, i) => (
+                        <div key={i} className="flex items-start text-sm px-2 py-1 rounded odd:bg-gray-50">
+                          <span className="text-gray-500 w-5 text-right mr-2">{i + 1}.</span>
+                          <span className="flex-1 min-w-0">
+                            <span className="text-gray-800">{r.player_name}</span>
+                            {/* Years typed in by hand have no breakdown to show */}
+                            {r.net !== null && r.net !== undefined && (
+                              <span className="block text-xs text-gray-400">
+                                總桿 {r.gross} · 差點 {r.handicap} · 淨桿 {r.net}
+                              </span>
+                            )}
+                          </span>
+                          <span className={`font-medium tabular-nums ml-2 ${
+                            r.score.startsWith('-') ? 'text-red-600' :
+                            r.score === '0' ? 'text-gray-600' :
+                            r.score.startsWith('+') ? 'text-blue-600' : 'text-gray-400'
+                          }`}>{r.score}</span>
+                        </div>
+                      ))}
+                      {/* Only years archived while their scores were still live */}
+                      {archivedYears.includes(h.year) && (
+                        <button
+                          onClick={() => setOpenArchive(openArchive === h.year ? null : h.year)}
+                          className="mt-2 text-xs text-green-800 underline">
+                          {openArchive === h.year ? '收合完整成績' : '📋 查看完整成績（逐洞・分組・選馬）'}
+                        </button>
+                      )}
+                    </div>
+                  )}
+                  {openArchive === h.year && <RingArchiveView year={h.year} />}
                 </div>
               ))}
             </div>
