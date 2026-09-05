@@ -67,15 +67,40 @@ App lives at `golf-app/`. Railway auto-deploys from GitHub `main` branch.
 
 ---
 
-## Past Champions (HISTORY array in PickHorsePage.jsx)
+## Past Champions — in the database, edited from the admin panel
+No longer a `HISTORY` array in `PickHorsePage.jsx`; that was migrated into the
+`champions` / `champion_results` tables. Add a year from **後台 → 歷屆冠軍 →
+📥 從本次比賽成績匯入**, which builds the entry from the finished leaderboard.
+The Ring Cup champion recorded is the **net** winner, not the final (horse) winner.
+
+### 戒指盃 Ring Cup
 | Year | Course | Champion |
 |------|--------|---------|
 | 2022 | 新豐球場 | 林家榮 Jason |
 | 2023 | 楊梅球場 | 林褚君 William |
 | 2024 | 台北球場 | 陳威龍 Daniel |
 | 2025 | 新豐球場 | 林褚君 William |
+| 2026 | 新豐球場 | 洪豪聰 Leon — 淨桿 73 / 總桿 100 |
 
-To add next year: append entry to `HISTORY` array in `client/src/pages/public/PickHorsePage.jsx` and rebuild.
+2026: 13 entered, 11 played (林健裕 and 黃建富 marked 未到). Final (with horse)
+went to 林聰敏 on 20 points — 10 of his own plus 10 from the horse he picked.
+
+### 綠夾克盃 Green Jacket
+| Year | Course | Champion |
+|------|--------|---------|
+| 2023 | 再興 | Jimmy |
+| 2024 | 再興 | Johnny |
+| 2025 | 再興 | JJ |
+| 2026 | 再興 | **Jason** — 淨桿 74 / 總桿 88 |
+
+2026 was the first Green Jacket run on this app: 14 players, 4 groups, 18 holes
+(10A standing in for the closed 15th), Par 72, played 2026-09-04.
+
+### Full scorecards
+2026 onward is archived — every stroke, group and ranking frozen at the moment
+the round ended, openable from 📋 查看完整成績 on the public pages. Earlier years
+were typed in by hand and have the leaderboard only, no hole-by-hole. Offline
+copies of every snapshot live in `db/archives/` (see the README there).
 
 ---
 

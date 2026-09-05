@@ -1,0 +1,8101 @@
+{
+  "year": "2026",
+  "created_at": "2026-09-05 06:18:56",
+  "version": 1,
+  "slug": "ring",
+  "tournament": {
+    "name": "戒指盃",
+    "course_name": "新豐球場-戒指選秀盃",
+    "date": "2026-06-05",
+    "tee_time": "11:00",
+    "status": "finished"
+  },
+  "parTotal": 72,
+  "holes": [
+    {
+      "id": 46,
+      "label": "1",
+      "par": 4,
+      "yards": 379,
+      "yards_red": 0,
+      "section_id": 6,
+      "section_name": "東區",
+      "section_order": 1
+    },
+    {
+      "id": 47,
+      "label": "2",
+      "par": 3,
+      "yards": 156,
+      "yards_red": 0,
+      "section_id": 6,
+      "section_name": "東區",
+      "section_order": 1
+    },
+    {
+      "id": 48,
+      "label": "3",
+      "par": 4,
+      "yards": 351,
+      "yards_red": 0,
+      "section_id": 6,
+      "section_name": "東區",
+      "section_order": 1
+    },
+    {
+      "id": 49,
+      "label": "4",
+      "par": 4,
+      "yards": 330,
+      "yards_red": 0,
+      "section_id": 6,
+      "section_name": "東區",
+      "section_order": 1
+    },
+    {
+      "id": 50,
+      "label": "5",
+      "par": 5,
+      "yards": 534,
+      "yards_red": 0,
+      "section_id": 6,
+      "section_name": "東區",
+      "section_order": 1
+    },
+    {
+      "id": 51,
+      "label": "6",
+      "par": 4,
+      "yards": 432,
+      "yards_red": 0,
+      "section_id": 6,
+      "section_name": "東區",
+      "section_order": 1
+    },
+    {
+      "id": 52,
+      "label": "7",
+      "par": 4,
+      "yards": 399,
+      "yards_red": 0,
+      "section_id": 6,
+      "section_name": "東區",
+      "section_order": 1
+    },
+    {
+      "id": 53,
+      "label": "8",
+      "par": 3,
+      "yards": 148,
+      "yards_red": 0,
+      "section_id": 6,
+      "section_name": "東區",
+      "section_order": 1
+    },
+    {
+      "id": 54,
+      "label": "9",
+      "par": 5,
+      "yards": 521,
+      "yards_red": 0,
+      "section_id": 6,
+      "section_name": "東區",
+      "section_order": 1
+    },
+    {
+      "id": 55,
+      "label": "1",
+      "par": 4,
+      "yards": 403,
+      "yards_red": 0,
+      "section_id": 7,
+      "section_name": "西區",
+      "section_order": 2
+    },
+    {
+      "id": 56,
+      "label": "2",
+      "par": 4,
+      "yards": 420,
+      "yards_red": 0,
+      "section_id": 7,
+      "section_name": "西區",
+      "section_order": 2
+    },
+    {
+      "id": 57,
+      "label": "3",
+      "par": 3,
+      "yards": 165,
+      "yards_red": 0,
+      "section_id": 7,
+      "section_name": "西區",
+      "section_order": 2
+    },
+    {
+      "id": 58,
+      "label": "4",
+      "par": 4,
+      "yards": 361,
+      "yards_red": 0,
+      "section_id": 7,
+      "section_name": "西區",
+      "section_order": 2
+    },
+    {
+      "id": 59,
+      "label": "5",
+      "par": 5,
+      "yards": 524,
+      "yards_red": 0,
+      "section_id": 7,
+      "section_name": "西區",
+      "section_order": 2
+    },
+    {
+      "id": 60,
+      "label": "6",
+      "par": 3,
+      "yards": 180,
+      "yards_red": 0,
+      "section_id": 7,
+      "section_name": "西區",
+      "section_order": 2
+    },
+    {
+      "id": 61,
+      "label": "7",
+      "par": 4,
+      "yards": 358,
+      "yards_red": 0,
+      "section_id": 7,
+      "section_name": "西區",
+      "section_order": 2
+    },
+    {
+      "id": 62,
+      "label": "8",
+      "par": 4,
+      "yards": 399,
+      "yards_red": 0,
+      "section_id": 7,
+      "section_name": "西區",
+      "section_order": 2
+    },
+    {
+      "id": 63,
+      "label": "9",
+      "par": 5,
+      "yards": 548,
+      "yards_red": 0,
+      "section_id": 7,
+      "section_name": "西區",
+      "section_order": 2
+    }
+  ],
+  "sections": [
+    {
+      "id": 6,
+      "name": "東區",
+      "section_order": 1
+    },
+    {
+      "id": 7,
+      "name": "西區",
+      "section_order": 2
+    }
+  ],
+  "groups": [
+    {
+      "id": 81,
+      "name": "Daniel組",
+      "group_order": 1
+    },
+    {
+      "id": 82,
+      "name": "Johnny組",
+      "group_order": 2
+    },
+    {
+      "id": 83,
+      "name": "Eddie組",
+      "group_order": 3
+    },
+    {
+      "id": 84,
+      "name": "",
+      "group_order": 4
+    }
+  ],
+  "players": [
+    {
+      "id": 1,
+      "player_number": 1,
+      "chinese_name": "林楮君",
+      "english_name": "William",
+      "handicap": 11,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 2,
+      "player_number": 2,
+      "chinese_name": "陳威龍",
+      "english_name": "Daniel",
+      "handicap": 16,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 3,
+      "player_number": 3,
+      "chinese_name": "林家榮",
+      "english_name": "Jason",
+      "handicap": 14,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 4,
+      "player_number": 4,
+      "chinese_name": "簡旭宏",
+      "english_name": "Eddie",
+      "handicap": 20,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 5,
+      "player_number": 5,
+      "chinese_name": "陳義榮",
+      "english_name": "Benny",
+      "handicap": 14,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 6,
+      "player_number": 6,
+      "chinese_name": "陳維立",
+      "english_name": "Albert",
+      "handicap": 5,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 7,
+      "player_number": 7,
+      "chinese_name": "林聰敏",
+      "english_name": "Johnny",
+      "handicap": 2,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 8,
+      "player_number": 8,
+      "chinese_name": "王裕為",
+      "english_name": "Casper",
+      "handicap": 24,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 9,
+      "player_number": 9,
+      "chinese_name": "林健裕",
+      "english_name": "Jimmy",
+      "handicap": 13,
+      "group_id": null,
+      "no_show": 1,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 10,
+      "player_number": 10,
+      "chinese_name": "林全馳",
+      "english_name": "AD",
+      "handicap": 23,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 11,
+      "player_number": 11,
+      "chinese_name": "王伯軒",
+      "english_name": "JJ",
+      "handicap": 14,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 12,
+      "player_number": 12,
+      "chinese_name": "黃建富",
+      "english_name": "Jeff",
+      "handicap": 26,
+      "group_id": null,
+      "no_show": 1,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 13,
+      "player_number": 13,
+      "chinese_name": "洪豪聰",
+      "english_name": "Leon",
+      "handicap": 27,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    }
+  ],
+  "scores": [
+    {
+      "player_id": 1,
+      "hole_id": 46,
+      "strokes": 7
+    },
+    {
+      "player_id": 1,
+      "hole_id": 47,
+      "strokes": 6
+    },
+    {
+      "player_id": 1,
+      "hole_id": 48,
+      "strokes": 5
+    },
+    {
+      "player_id": 1,
+      "hole_id": 49,
+      "strokes": 4
+    },
+    {
+      "player_id": 1,
+      "hole_id": 50,
+      "strokes": 6
+    },
+    {
+      "player_id": 1,
+      "hole_id": 51,
+      "strokes": 6
+    },
+    {
+      "player_id": 1,
+      "hole_id": 52,
+      "strokes": 9
+    },
+    {
+      "player_id": 1,
+      "hole_id": 53,
+      "strokes": 4
+    },
+    {
+      "player_id": 1,
+      "hole_id": 54,
+      "strokes": 7
+    },
+    {
+      "player_id": 1,
+      "hole_id": 55,
+      "strokes": 6
+    },
+    {
+      "player_id": 1,
+      "hole_id": 56,
+      "strokes": 5
+    },
+    {
+      "player_id": 1,
+      "hole_id": 57,
+      "strokes": 6
+    },
+    {
+      "player_id": 1,
+      "hole_id": 58,
+      "strokes": 6
+    },
+    {
+      "player_id": 1,
+      "hole_id": 59,
+      "strokes": 5
+    },
+    {
+      "player_id": 1,
+      "hole_id": 60,
+      "strokes": 7
+    },
+    {
+      "player_id": 1,
+      "hole_id": 61,
+      "strokes": 6
+    },
+    {
+      "player_id": 1,
+      "hole_id": 62,
+      "strokes": 6
+    },
+    {
+      "player_id": 1,
+      "hole_id": 63,
+      "strokes": 7
+    },
+    {
+      "player_id": 2,
+      "hole_id": 46,
+      "strokes": 5
+    },
+    {
+      "player_id": 2,
+      "hole_id": 47,
+      "strokes": 3
+    },
+    {
+      "player_id": 2,
+      "hole_id": 48,
+      "strokes": 6
+    },
+    {
+      "player_id": 2,
+      "hole_id": 49,
+      "strokes": 5
+    },
+    {
+      "player_id": 2,
+      "hole_id": 50,
+      "strokes": 10
+    },
+    {
+      "player_id": 2,
+      "hole_id": 51,
+      "strokes": 6
+    },
+    {
+      "player_id": 2,
+      "hole_id": 52,
+      "strokes": 4
+    },
+    {
+      "player_id": 2,
+      "hole_id": 53,
+      "strokes": 5
+    },
+    {
+      "player_id": 2,
+      "hole_id": 54,
+      "strokes": 7
+    },
+    {
+      "player_id": 2,
+      "hole_id": 55,
+      "strokes": 6
+    },
+    {
+      "player_id": 2,
+      "hole_id": 56,
+      "strokes": 6
+    },
+    {
+      "player_id": 2,
+      "hole_id": 57,
+      "strokes": 4
+    },
+    {
+      "player_id": 2,
+      "hole_id": 58,
+      "strokes": 4
+    },
+    {
+      "player_id": 2,
+      "hole_id": 59,
+      "strokes": 7
+    },
+    {
+      "player_id": 2,
+      "hole_id": 60,
+      "strokes": 3
+    },
+    {
+      "player_id": 2,
+      "hole_id": 61,
+      "strokes": 5
+    },
+    {
+      "player_id": 2,
+      "hole_id": 62,
+      "strokes": 6
+    },
+    {
+      "player_id": 2,
+      "hole_id": 63,
+      "strokes": 8
+    },
+    {
+      "player_id": 3,
+      "hole_id": 46,
+      "strokes": 5
+    },
+    {
+      "player_id": 3,
+      "hole_id": 47,
+      "strokes": 4
+    },
+    {
+      "player_id": 3,
+      "hole_id": 48,
+      "strokes": 6
+    },
+    {
+      "player_id": 3,
+      "hole_id": 49,
+      "strokes": 5
+    },
+    {
+      "player_id": 3,
+      "hole_id": 50,
+      "strokes": 6
+    },
+    {
+      "player_id": 3,
+      "hole_id": 51,
+      "strokes": 6
+    },
+    {
+      "player_id": 3,
+      "hole_id": 52,
+      "strokes": 5
+    },
+    {
+      "player_id": 3,
+      "hole_id": 53,
+      "strokes": 4
+    },
+    {
+      "player_id": 3,
+      "hole_id": 54,
+      "strokes": 7
+    },
+    {
+      "player_id": 3,
+      "hole_id": 55,
+      "strokes": 6
+    },
+    {
+      "player_id": 3,
+      "hole_id": 56,
+      "strokes": 7
+    },
+    {
+      "player_id": 3,
+      "hole_id": 57,
+      "strokes": 4
+    },
+    {
+      "player_id": 3,
+      "hole_id": 58,
+      "strokes": 6
+    },
+    {
+      "player_id": 3,
+      "hole_id": 59,
+      "strokes": 6
+    },
+    {
+      "player_id": 3,
+      "hole_id": 60,
+      "strokes": 5
+    },
+    {
+      "player_id": 3,
+      "hole_id": 61,
+      "strokes": 6
+    },
+    {
+      "player_id": 3,
+      "hole_id": 62,
+      "strokes": 6
+    },
+    {
+      "player_id": 3,
+      "hole_id": 63,
+      "strokes": 6
+    },
+    {
+      "player_id": 4,
+      "hole_id": 46,
+      "strokes": 7
+    },
+    {
+      "player_id": 4,
+      "hole_id": 47,
+      "strokes": 5
+    },
+    {
+      "player_id": 4,
+      "hole_id": 48,
+      "strokes": 5
+    },
+    {
+      "player_id": 4,
+      "hole_id": 49,
+      "strokes": 5
+    },
+    {
+      "player_id": 4,
+      "hole_id": 50,
+      "strokes": 7
+    },
+    {
+      "player_id": 4,
+      "hole_id": 51,
+      "strokes": 6
+    },
+    {
+      "player_id": 4,
+      "hole_id": 52,
+      "strokes": 6
+    },
+    {
+      "player_id": 4,
+      "hole_id": 53,
+      "strokes": 3
+    },
+    {
+      "player_id": 4,
+      "hole_id": 54,
+      "strokes": 6
+    },
+    {
+      "player_id": 4,
+      "hole_id": 55,
+      "strokes": 5
+    },
+    {
+      "player_id": 4,
+      "hole_id": 56,
+      "strokes": 6
+    },
+    {
+      "player_id": 4,
+      "hole_id": 57,
+      "strokes": 2
+    },
+    {
+      "player_id": 4,
+      "hole_id": 58,
+      "strokes": 5
+    },
+    {
+      "player_id": 4,
+      "hole_id": 59,
+      "strokes": 6
+    },
+    {
+      "player_id": 4,
+      "hole_id": 60,
+      "strokes": 5
+    },
+    {
+      "player_id": 4,
+      "hole_id": 61,
+      "strokes": 5
+    },
+    {
+      "player_id": 4,
+      "hole_id": 62,
+      "strokes": 5
+    },
+    {
+      "player_id": 4,
+      "hole_id": 63,
+      "strokes": 8
+    },
+    {
+      "player_id": 5,
+      "hole_id": 46,
+      "strokes": 5
+    },
+    {
+      "player_id": 5,
+      "hole_id": 47,
+      "strokes": 5
+    },
+    {
+      "player_id": 5,
+      "hole_id": 48,
+      "strokes": 5
+    },
+    {
+      "player_id": 5,
+      "hole_id": 49,
+      "strokes": 6
+    },
+    {
+      "player_id": 5,
+      "hole_id": 50,
+      "strokes": 7
+    },
+    {
+      "player_id": 5,
+      "hole_id": 51,
+      "strokes": 6
+    },
+    {
+      "player_id": 5,
+      "hole_id": 52,
+      "strokes": 4
+    },
+    {
+      "player_id": 5,
+      "hole_id": 53,
+      "strokes": 4
+    },
+    {
+      "player_id": 5,
+      "hole_id": 54,
+      "strokes": 4
+    },
+    {
+      "player_id": 5,
+      "hole_id": 55,
+      "strokes": 5
+    },
+    {
+      "player_id": 5,
+      "hole_id": 56,
+      "strokes": 5
+    },
+    {
+      "player_id": 5,
+      "hole_id": 57,
+      "strokes": 4
+    },
+    {
+      "player_id": 5,
+      "hole_id": 58,
+      "strokes": 5
+    },
+    {
+      "player_id": 5,
+      "hole_id": 59,
+      "strokes": 8
+    },
+    {
+      "player_id": 5,
+      "hole_id": 60,
+      "strokes": 4
+    },
+    {
+      "player_id": 5,
+      "hole_id": 61,
+      "strokes": 4
+    },
+    {
+      "player_id": 5,
+      "hole_id": 62,
+      "strokes": 5
+    },
+    {
+      "player_id": 5,
+      "hole_id": 63,
+      "strokes": 6
+    },
+    {
+      "player_id": 6,
+      "hole_id": 46,
+      "strokes": 4
+    },
+    {
+      "player_id": 6,
+      "hole_id": 47,
+      "strokes": 4
+    },
+    {
+      "player_id": 6,
+      "hole_id": 48,
+      "strokes": 4
+    },
+    {
+      "player_id": 6,
+      "hole_id": 49,
+      "strokes": 4
+    },
+    {
+      "player_id": 6,
+      "hole_id": 50,
+      "strokes": 7
+    },
+    {
+      "player_id": 6,
+      "hole_id": 51,
+      "strokes": 6
+    },
+    {
+      "player_id": 6,
+      "hole_id": 52,
+      "strokes": 5
+    },
+    {
+      "player_id": 6,
+      "hole_id": 53,
+      "strokes": 3
+    },
+    {
+      "player_id": 6,
+      "hole_id": 54,
+      "strokes": 6
+    },
+    {
+      "player_id": 6,
+      "hole_id": 55,
+      "strokes": 6
+    },
+    {
+      "player_id": 6,
+      "hole_id": 56,
+      "strokes": 4
+    },
+    {
+      "player_id": 6,
+      "hole_id": 57,
+      "strokes": 3
+    },
+    {
+      "player_id": 6,
+      "hole_id": 58,
+      "strokes": 4
+    },
+    {
+      "player_id": 6,
+      "hole_id": 59,
+      "strokes": 3
+    },
+    {
+      "player_id": 6,
+      "hole_id": 60,
+      "strokes": 4
+    },
+    {
+      "player_id": 6,
+      "hole_id": 61,
+      "strokes": 4
+    },
+    {
+      "player_id": 6,
+      "hole_id": 62,
+      "strokes": 5
+    },
+    {
+      "player_id": 6,
+      "hole_id": 63,
+      "strokes": 7
+    },
+    {
+      "player_id": 7,
+      "hole_id": 46,
+      "strokes": 4
+    },
+    {
+      "player_id": 7,
+      "hole_id": 47,
+      "strokes": 3
+    },
+    {
+      "player_id": 7,
+      "hole_id": 48,
+      "strokes": 5
+    },
+    {
+      "player_id": 7,
+      "hole_id": 49,
+      "strokes": 4
+    },
+    {
+      "player_id": 7,
+      "hole_id": 50,
+      "strokes": 6
+    },
+    {
+      "player_id": 7,
+      "hole_id": 51,
+      "strokes": 6
+    },
+    {
+      "player_id": 7,
+      "hole_id": 52,
+      "strokes": 5
+    },
+    {
+      "player_id": 7,
+      "hole_id": 53,
+      "strokes": 2
+    },
+    {
+      "player_id": 7,
+      "hole_id": 54,
+      "strokes": 5
+    },
+    {
+      "player_id": 7,
+      "hole_id": 55,
+      "strokes": 5
+    },
+    {
+      "player_id": 7,
+      "hole_id": 56,
+      "strokes": 4
+    },
+    {
+      "player_id": 7,
+      "hole_id": 57,
+      "strokes": 4
+    },
+    {
+      "player_id": 7,
+      "hole_id": 58,
+      "strokes": 5
+    },
+    {
+      "player_id": 7,
+      "hole_id": 59,
+      "strokes": 4
+    },
+    {
+      "player_id": 7,
+      "hole_id": 60,
+      "strokes": 3
+    },
+    {
+      "player_id": 7,
+      "hole_id": 61,
+      "strokes": 3
+    },
+    {
+      "player_id": 7,
+      "hole_id": 62,
+      "strokes": 4
+    },
+    {
+      "player_id": 7,
+      "hole_id": 63,
+      "strokes": 5
+    },
+    {
+      "player_id": 8,
+      "hole_id": 46,
+      "strokes": 6
+    },
+    {
+      "player_id": 8,
+      "hole_id": 47,
+      "strokes": 5
+    },
+    {
+      "player_id": 8,
+      "hole_id": 48,
+      "strokes": 6
+    },
+    {
+      "player_id": 8,
+      "hole_id": 49,
+      "strokes": 7
+    },
+    {
+      "player_id": 8,
+      "hole_id": 50,
+      "strokes": 7
+    },
+    {
+      "player_id": 8,
+      "hole_id": 51,
+      "strokes": 6
+    },
+    {
+      "player_id": 8,
+      "hole_id": 52,
+      "strokes": 7
+    },
+    {
+      "player_id": 8,
+      "hole_id": 53,
+      "strokes": 5
+    },
+    {
+      "player_id": 8,
+      "hole_id": 54,
+      "strokes": 7
+    },
+    {
+      "player_id": 8,
+      "hole_id": 55,
+      "strokes": 6
+    },
+    {
+      "player_id": 8,
+      "hole_id": 56,
+      "strokes": 7
+    },
+    {
+      "player_id": 8,
+      "hole_id": 57,
+      "strokes": 3
+    },
+    {
+      "player_id": 8,
+      "hole_id": 58,
+      "strokes": 6
+    },
+    {
+      "player_id": 8,
+      "hole_id": 59,
+      "strokes": 8
+    },
+    {
+      "player_id": 8,
+      "hole_id": 60,
+      "strokes": 4
+    },
+    {
+      "player_id": 8,
+      "hole_id": 61,
+      "strokes": 5
+    },
+    {
+      "player_id": 8,
+      "hole_id": 62,
+      "strokes": 4
+    },
+    {
+      "player_id": 8,
+      "hole_id": 63,
+      "strokes": 8
+    },
+    {
+      "player_id": 10,
+      "hole_id": 46,
+      "strokes": 5
+    },
+    {
+      "player_id": 10,
+      "hole_id": 47,
+      "strokes": 4
+    },
+    {
+      "player_id": 10,
+      "hole_id": 48,
+      "strokes": 5
+    },
+    {
+      "player_id": 10,
+      "hole_id": 49,
+      "strokes": 6
+    },
+    {
+      "player_id": 10,
+      "hole_id": 50,
+      "strokes": 7
+    },
+    {
+      "player_id": 10,
+      "hole_id": 51,
+      "strokes": 6
+    },
+    {
+      "player_id": 10,
+      "hole_id": 52,
+      "strokes": 10
+    },
+    {
+      "player_id": 10,
+      "hole_id": 53,
+      "strokes": 5
+    },
+    {
+      "player_id": 10,
+      "hole_id": 54,
+      "strokes": 9
+    },
+    {
+      "player_id": 10,
+      "hole_id": 55,
+      "strokes": 7
+    },
+    {
+      "player_id": 10,
+      "hole_id": 56,
+      "strokes": 8
+    },
+    {
+      "player_id": 10,
+      "hole_id": 57,
+      "strokes": 5
+    },
+    {
+      "player_id": 10,
+      "hole_id": 58,
+      "strokes": 6
+    },
+    {
+      "player_id": 10,
+      "hole_id": 59,
+      "strokes": 7
+    },
+    {
+      "player_id": 10,
+      "hole_id": 60,
+      "strokes": 3
+    },
+    {
+      "player_id": 10,
+      "hole_id": 61,
+      "strokes": 6
+    },
+    {
+      "player_id": 10,
+      "hole_id": 62,
+      "strokes": 5
+    },
+    {
+      "player_id": 10,
+      "hole_id": 63,
+      "strokes": 8
+    },
+    {
+      "player_id": 11,
+      "hole_id": 46,
+      "strokes": 5
+    },
+    {
+      "player_id": 11,
+      "hole_id": 47,
+      "strokes": 3
+    },
+    {
+      "player_id": 11,
+      "hole_id": 48,
+      "strokes": 4
+    },
+    {
+      "player_id": 11,
+      "hole_id": 49,
+      "strokes": 4
+    },
+    {
+      "player_id": 11,
+      "hole_id": 50,
+      "strokes": 8
+    },
+    {
+      "player_id": 11,
+      "hole_id": 51,
+      "strokes": 6
+    },
+    {
+      "player_id": 11,
+      "hole_id": 52,
+      "strokes": 5
+    },
+    {
+      "player_id": 11,
+      "hole_id": 53,
+      "strokes": 3
+    },
+    {
+      "player_id": 11,
+      "hole_id": 54,
+      "strokes": 7
+    },
+    {
+      "player_id": 11,
+      "hole_id": 55,
+      "strokes": 4
+    },
+    {
+      "player_id": 11,
+      "hole_id": 56,
+      "strokes": 7
+    },
+    {
+      "player_id": 11,
+      "hole_id": 57,
+      "strokes": 4
+    },
+    {
+      "player_id": 11,
+      "hole_id": 58,
+      "strokes": 6
+    },
+    {
+      "player_id": 11,
+      "hole_id": 59,
+      "strokes": 5
+    },
+    {
+      "player_id": 11,
+      "hole_id": 60,
+      "strokes": 4
+    },
+    {
+      "player_id": 11,
+      "hole_id": 61,
+      "strokes": 4
+    },
+    {
+      "player_id": 11,
+      "hole_id": 62,
+      "strokes": 4
+    },
+    {
+      "player_id": 11,
+      "hole_id": 63,
+      "strokes": 8
+    },
+    {
+      "player_id": 13,
+      "hole_id": 46,
+      "strokes": 5
+    },
+    {
+      "player_id": 13,
+      "hole_id": 47,
+      "strokes": 5
+    },
+    {
+      "player_id": 13,
+      "hole_id": 48,
+      "strokes": 5
+    },
+    {
+      "player_id": 13,
+      "hole_id": 49,
+      "strokes": 7
+    },
+    {
+      "player_id": 13,
+      "hole_id": 50,
+      "strokes": 8
+    },
+    {
+      "player_id": 13,
+      "hole_id": 51,
+      "strokes": 5
+    },
+    {
+      "player_id": 13,
+      "hole_id": 52,
+      "strokes": 4
+    },
+    {
+      "player_id": 13,
+      "hole_id": 53,
+      "strokes": 4
+    },
+    {
+      "player_id": 13,
+      "hole_id": 54,
+      "strokes": 7
+    },
+    {
+      "player_id": 13,
+      "hole_id": 55,
+      "strokes": 6
+    },
+    {
+      "player_id": 13,
+      "hole_id": 56,
+      "strokes": 6
+    },
+    {
+      "player_id": 13,
+      "hole_id": 57,
+      "strokes": 4
+    },
+    {
+      "player_id": 13,
+      "hole_id": 58,
+      "strokes": 5
+    },
+    {
+      "player_id": 13,
+      "hole_id": 59,
+      "strokes": 6
+    },
+    {
+      "player_id": 13,
+      "hole_id": 60,
+      "strokes": 5
+    },
+    {
+      "player_id": 13,
+      "hole_id": 61,
+      "strokes": 5
+    },
+    {
+      "player_id": 13,
+      "hole_id": 62,
+      "strokes": 5
+    },
+    {
+      "player_id": 13,
+      "hole_id": 63,
+      "strokes": 8
+    }
+  ],
+  "showWildcard": true,
+  "netRankings": [
+    {
+      "id": 13,
+      "tournament_id": 1,
+      "player_number": 13,
+      "chinese_name": "洪豪聰",
+      "english_name": "Leon",
+      "handicap": 27,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 100,
+      "netScore": 73,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 50,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 50,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 1,
+      "categoryCounts": {
+        "1": 9,
+        "2": 5,
+        "3": 3,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 1,
+      "rankingPoints": 11
+    },
+    {
+      "id": 7,
+      "tournament_id": 1,
+      "player_number": 7,
+      "chinese_name": "林聰敏",
+      "english_name": "Johnny",
+      "handicap": 2,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 77,
+      "netScore": 75,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 2,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 4,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 3,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 40,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 37,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 3,
+      "parCount": 8,
+      "categoryCounts": {
+        "1": 6,
+        "2": 1,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 2,
+      "rankingPoints": 10
+    },
+    {
+      "id": 4,
+      "tournament_id": 1,
+      "player_number": 4,
+      "chinese_name": "簡旭宏",
+      "english_name": "Eddie",
+      "handicap": 20,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 97,
+      "netScore": 77,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 2,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 50,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 47,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 1,
+      "parCount": 1,
+      "categoryCounts": {
+        "1": 8,
+        "2": 6,
+        "3": 2,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 3,
+      "rankingPoints": 9
+    },
+    {
+      "id": 11,
+      "tournament_id": 1,
+      "player_number": 11,
+      "chinese_name": "王伯軒",
+      "english_name": "JJ",
+      "handicap": 14,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 91,
+      "netScore": 77,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 45,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 46,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 8,
+      "categoryCounts": {
+        "1": 4,
+        "2": 3,
+        "3": 3,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 4,
+      "rankingPoints": 8
+    },
+    {
+      "id": 6,
+      "tournament_id": 1,
+      "player_number": 6,
+      "chinese_name": "陳維立",
+      "english_name": "Albert",
+      "handicap": 5,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 83,
+      "netScore": 78,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 3,
+          "relativeToPar": -2
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 43,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 40,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 1,
+      "parCount": 8,
+      "categoryCounts": {
+        "1": 5,
+        "2": 4,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 5,
+      "rankingPoints": 7
+    },
+    {
+      "id": 5,
+      "tournament_id": 1,
+      "player_number": 5,
+      "chinese_name": "陳義榮",
+      "english_name": "Benny",
+      "handicap": 14,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 92,
+      "netScore": 78,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 4,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 46,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 46,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 1,
+      "parCount": 2,
+      "categoryCounts": {
+        "1": 10,
+        "2": 4,
+        "3": 1,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 6,
+      "rankingPoints": 6
+    },
+    {
+      "id": 8,
+      "tournament_id": 1,
+      "player_number": 8,
+      "chinese_name": "王裕為",
+      "english_name": "Casper",
+      "handicap": 24,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 107,
+      "netScore": 83,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 56,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 51,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 2,
+      "categoryCounts": {
+        "1": 2,
+        "2": 9,
+        "3": 5,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 7,
+      "rankingPoints": 5
+    },
+    {
+      "id": 2,
+      "tournament_id": 1,
+      "player_number": 2,
+      "chinese_name": "陳威龍",
+      "english_name": "Daniel",
+      "handicap": 16,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 100,
+      "netScore": 84,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 10,
+          "relativeToPar": 5
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 51,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 49,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 4,
+      "categoryCounts": {
+        "1": 4,
+        "2": 8,
+        "3": 1,
+        "4": 0,
+        "5": 1,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 8,
+      "rankingPoints": 4
+    },
+    {
+      "id": 3,
+      "tournament_id": 1,
+      "player_number": 3,
+      "chinese_name": "林家榮",
+      "english_name": "Jason",
+      "handicap": 14,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 100,
+      "netScore": 86,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 48,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 52,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 0,
+      "categoryCounts": {
+        "1": 9,
+        "2": 8,
+        "3": 1,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 9,
+      "rankingPoints": 3
+    },
+    {
+      "id": 10,
+      "tournament_id": 1,
+      "player_number": 10,
+      "chinese_name": "林全馳",
+      "english_name": "AD",
+      "handicap": 23,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 112,
+      "netScore": 89,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 10,
+          "relativeToPar": 6
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 9,
+          "relativeToPar": 4
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 8,
+          "relativeToPar": 4
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 57,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 55,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 1,
+      "categoryCounts": {
+        "1": 4,
+        "2": 8,
+        "3": 2,
+        "4": 2,
+        "5": 0,
+        "6": 1,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 10,
+      "rankingPoints": 2
+    },
+    {
+      "id": 1,
+      "tournament_id": 1,
+      "player_number": 1,
+      "chinese_name": "林楮君",
+      "english_name": "William",
+      "handicap": 11,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 108,
+      "netScore": 97,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 6,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 9,
+          "relativeToPar": 5
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 6,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 7,
+          "relativeToPar": 4
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 54,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 54,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 2,
+      "categoryCounts": {
+        "1": 4,
+        "2": 7,
+        "3": 3,
+        "4": 1,
+        "5": 1,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 11,
+      "rankingPoints": 1
+    },
+    {
+      "id": 9,
+      "tournament_id": 1,
+      "player_number": 9,
+      "chinese_name": "林健裕",
+      "english_name": "Jimmy",
+      "handicap": 13,
+      "group_id": null,
+      "no_show": 1,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": true,
+      "grossScore": null,
+      "netScore": null,
+      "holesPlayed": 0,
+      "sectionTotals": [],
+      "holeAnalysis": [],
+      "underParCount": 0,
+      "parCount": 0,
+      "categoryCounts": {},
+      "rank": 12,
+      "rankingPoints": 0
+    },
+    {
+      "id": 12,
+      "tournament_id": 1,
+      "player_number": 12,
+      "chinese_name": "黃建富",
+      "english_name": "Jeff",
+      "handicap": 26,
+      "group_id": null,
+      "no_show": 1,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": true,
+      "grossScore": null,
+      "netScore": null,
+      "holesPlayed": 0,
+      "sectionTotals": [],
+      "holeAnalysis": [],
+      "underParCount": 0,
+      "parCount": 0,
+      "categoryCounts": {},
+      "rank": 12,
+      "rankingPoints": 0
+    }
+  ],
+  "grossRankings": [
+    {
+      "id": 7,
+      "tournament_id": 1,
+      "player_number": 7,
+      "chinese_name": "林聰敏",
+      "english_name": "Johnny",
+      "handicap": 2,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 77,
+      "netScore": 75,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 2,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 4,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 3,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 40,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 37,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 3,
+      "parCount": 8,
+      "categoryCounts": {
+        "1": 6,
+        "2": 1,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "grossRank": 1
+    },
+    {
+      "id": 6,
+      "tournament_id": 1,
+      "player_number": 6,
+      "chinese_name": "陳維立",
+      "english_name": "Albert",
+      "handicap": 5,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 83,
+      "netScore": 78,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 3,
+          "relativeToPar": -2
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 43,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 40,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 1,
+      "parCount": 8,
+      "categoryCounts": {
+        "1": 5,
+        "2": 4,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "grossRank": 2
+    },
+    {
+      "id": 11,
+      "tournament_id": 1,
+      "player_number": 11,
+      "chinese_name": "王伯軒",
+      "english_name": "JJ",
+      "handicap": 14,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 91,
+      "netScore": 77,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 45,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 46,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 8,
+      "categoryCounts": {
+        "1": 4,
+        "2": 3,
+        "3": 3,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "grossRank": 3
+    },
+    {
+      "id": 5,
+      "tournament_id": 1,
+      "player_number": 5,
+      "chinese_name": "陳義榮",
+      "english_name": "Benny",
+      "handicap": 14,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 92,
+      "netScore": 78,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 4,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 46,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 46,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 1,
+      "parCount": 2,
+      "categoryCounts": {
+        "1": 10,
+        "2": 4,
+        "3": 1,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "grossRank": 4
+    },
+    {
+      "id": 4,
+      "tournament_id": 1,
+      "player_number": 4,
+      "chinese_name": "簡旭宏",
+      "english_name": "Eddie",
+      "handicap": 20,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 97,
+      "netScore": 77,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 2,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 50,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 47,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 1,
+      "parCount": 1,
+      "categoryCounts": {
+        "1": 8,
+        "2": 6,
+        "3": 2,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "grossRank": 5
+    },
+    {
+      "id": 2,
+      "tournament_id": 1,
+      "player_number": 2,
+      "chinese_name": "陳威龍",
+      "english_name": "Daniel",
+      "handicap": 16,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 100,
+      "netScore": 84,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 10,
+          "relativeToPar": 5
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 51,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 49,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 4,
+      "categoryCounts": {
+        "1": 4,
+        "2": 8,
+        "3": 1,
+        "4": 0,
+        "5": 1,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "grossRank": 6
+    },
+    {
+      "id": 3,
+      "tournament_id": 1,
+      "player_number": 3,
+      "chinese_name": "林家榮",
+      "english_name": "Jason",
+      "handicap": 14,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 100,
+      "netScore": 86,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 48,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 52,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 0,
+      "categoryCounts": {
+        "1": 9,
+        "2": 8,
+        "3": 1,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "grossRank": 6
+    },
+    {
+      "id": 13,
+      "tournament_id": 1,
+      "player_number": 13,
+      "chinese_name": "洪豪聰",
+      "english_name": "Leon",
+      "handicap": 27,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 100,
+      "netScore": 73,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 50,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 50,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 1,
+      "categoryCounts": {
+        "1": 9,
+        "2": 5,
+        "3": 3,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "grossRank": 6
+    },
+    {
+      "id": 8,
+      "tournament_id": 1,
+      "player_number": 8,
+      "chinese_name": "王裕為",
+      "english_name": "Casper",
+      "handicap": 24,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 107,
+      "netScore": 83,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 56,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 51,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 2,
+      "categoryCounts": {
+        "1": 2,
+        "2": 9,
+        "3": 5,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "grossRank": 9
+    },
+    {
+      "id": 1,
+      "tournament_id": 1,
+      "player_number": 1,
+      "chinese_name": "林楮君",
+      "english_name": "William",
+      "handicap": 11,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 108,
+      "netScore": 97,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 6,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 9,
+          "relativeToPar": 5
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 6,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 7,
+          "relativeToPar": 4
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 54,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 54,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 2,
+      "categoryCounts": {
+        "1": 4,
+        "2": 7,
+        "3": 3,
+        "4": 1,
+        "5": 1,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "grossRank": 10
+    },
+    {
+      "id": 10,
+      "tournament_id": 1,
+      "player_number": 10,
+      "chinese_name": "林全馳",
+      "english_name": "AD",
+      "handicap": 23,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 112,
+      "netScore": 89,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 10,
+          "relativeToPar": 6
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 9,
+          "relativeToPar": 4
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 8,
+          "relativeToPar": 4
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 57,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 55,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 1,
+      "categoryCounts": {
+        "1": 4,
+        "2": 8,
+        "3": 2,
+        "4": 2,
+        "5": 0,
+        "6": 1,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "grossRank": 11
+    },
+    {
+      "id": 9,
+      "tournament_id": 1,
+      "player_number": 9,
+      "chinese_name": "林健裕",
+      "english_name": "Jimmy",
+      "handicap": 13,
+      "group_id": null,
+      "no_show": 1,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": true,
+      "grossScore": null,
+      "netScore": null,
+      "holesPlayed": 0,
+      "sectionTotals": [],
+      "holeAnalysis": [],
+      "underParCount": 0,
+      "parCount": 0,
+      "categoryCounts": {},
+      "grossRank": 12
+    },
+    {
+      "id": 12,
+      "tournament_id": 1,
+      "player_number": 12,
+      "chinese_name": "黃建富",
+      "english_name": "Jeff",
+      "handicap": 26,
+      "group_id": null,
+      "no_show": 1,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": true,
+      "grossScore": null,
+      "netScore": null,
+      "holesPlayed": 0,
+      "sectionTotals": [],
+      "holeAnalysis": [],
+      "underParCount": 0,
+      "parCount": 0,
+      "categoryCounts": {},
+      "grossRank": 12
+    }
+  ],
+  "finalRankings": [
+    {
+      "id": 7,
+      "tournament_id": 1,
+      "player_number": 7,
+      "chinese_name": "林聰敏",
+      "english_name": "Johnny",
+      "handicap": 2,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 77,
+      "netScore": 75,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 2,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 4,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 3,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 40,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 37,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 3,
+      "parCount": 8,
+      "categoryCounts": {
+        "1": 6,
+        "2": 1,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 2,
+      "rankingPoints": 10,
+      "pickedPlayerId": 7,
+      "pickedPlayerName": "林聰敏 Johnny",
+      "horsePoints": 10,
+      "totalPoints": 20,
+      "finalRank": 1
+    },
+    {
+      "id": 4,
+      "tournament_id": 1,
+      "player_number": 4,
+      "chinese_name": "簡旭宏",
+      "english_name": "Eddie",
+      "handicap": 20,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 97,
+      "netScore": 77,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 2,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 50,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 47,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 1,
+      "parCount": 1,
+      "categoryCounts": {
+        "1": 8,
+        "2": 6,
+        "3": 2,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 3,
+      "rankingPoints": 9,
+      "pickedPlayerId": 4,
+      "pickedPlayerName": "簡旭宏 Eddie",
+      "horsePoints": 9,
+      "totalPoints": 18,
+      "finalRank": 2
+    },
+    {
+      "id": 11,
+      "tournament_id": 1,
+      "player_number": 11,
+      "chinese_name": "王伯軒",
+      "english_name": "JJ",
+      "handicap": 14,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 91,
+      "netScore": 77,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 45,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 46,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 8,
+      "categoryCounts": {
+        "1": 4,
+        "2": 3,
+        "3": 3,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 4,
+      "rankingPoints": 8,
+      "pickedPlayerId": 7,
+      "pickedPlayerName": "林聰敏 Johnny",
+      "horsePoints": 10,
+      "totalPoints": 18,
+      "finalRank": 3
+    },
+    {
+      "id": 6,
+      "tournament_id": 1,
+      "player_number": 6,
+      "chinese_name": "陳維立",
+      "english_name": "Albert",
+      "handicap": 5,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 83,
+      "netScore": 78,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 3,
+          "relativeToPar": -2
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 43,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 40,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 1,
+      "parCount": 8,
+      "categoryCounts": {
+        "1": 5,
+        "2": 4,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 5,
+      "rankingPoints": 7,
+      "pickedPlayerId": 7,
+      "pickedPlayerName": "林聰敏 Johnny",
+      "horsePoints": 10,
+      "totalPoints": 17,
+      "finalRank": 4
+    },
+    {
+      "id": 5,
+      "tournament_id": 1,
+      "player_number": 5,
+      "chinese_name": "陳義榮",
+      "english_name": "Benny",
+      "handicap": 14,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 92,
+      "netScore": 78,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 4,
+          "relativeToPar": -1
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 46,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 46,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 1,
+      "parCount": 2,
+      "categoryCounts": {
+        "1": 10,
+        "2": 4,
+        "3": 1,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 6,
+      "rankingPoints": 6,
+      "pickedPlayerId": 4,
+      "pickedPlayerName": "簡旭宏 Eddie",
+      "horsePoints": 9,
+      "totalPoints": 15,
+      "finalRank": 5
+    },
+    {
+      "id": 13,
+      "tournament_id": 1,
+      "player_number": 13,
+      "chinese_name": "洪豪聰",
+      "english_name": "Leon",
+      "handicap": 27,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 100,
+      "netScore": 73,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 50,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 50,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 1,
+      "categoryCounts": {
+        "1": 9,
+        "2": 5,
+        "3": 3,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 1,
+      "rankingPoints": 11,
+      "pickedPlayerId": 3,
+      "pickedPlayerName": "林家榮 Jason",
+      "horsePoints": 3,
+      "totalPoints": 14,
+      "finalRank": 6
+    },
+    {
+      "id": 8,
+      "tournament_id": 1,
+      "player_number": 8,
+      "chinese_name": "王裕為",
+      "english_name": "Casper",
+      "handicap": 24,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 107,
+      "netScore": 83,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 56,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 51,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 2,
+      "categoryCounts": {
+        "1": 2,
+        "2": 9,
+        "3": 5,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 7,
+      "rankingPoints": 5,
+      "pickedPlayerId": 6,
+      "pickedPlayerName": "陳維立 Albert",
+      "horsePoints": 7,
+      "totalPoints": 12,
+      "finalRank": 7
+    },
+    {
+      "id": 10,
+      "tournament_id": 1,
+      "player_number": 10,
+      "chinese_name": "林全馳",
+      "english_name": "AD",
+      "handicap": 23,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 112,
+      "netScore": 89,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 10,
+          "relativeToPar": 6
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 9,
+          "relativeToPar": 4
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 8,
+          "relativeToPar": 4
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 57,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 55,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 1,
+      "categoryCounts": {
+        "1": 4,
+        "2": 8,
+        "3": 2,
+        "4": 2,
+        "5": 0,
+        "6": 1,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 10,
+      "rankingPoints": 2,
+      "pickedPlayerId": 7,
+      "pickedPlayerName": "林聰敏 Johnny",
+      "horsePoints": 10,
+      "totalPoints": 12,
+      "finalRank": 8
+    },
+    {
+      "id": 1,
+      "tournament_id": 1,
+      "player_number": 1,
+      "chinese_name": "林楮君",
+      "english_name": "William",
+      "handicap": 11,
+      "group_id": 82,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 108,
+      "netScore": 97,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 6,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 9,
+          "relativeToPar": 5
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 6,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 5,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 7,
+          "relativeToPar": 4
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 54,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 54,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 2,
+      "categoryCounts": {
+        "1": 4,
+        "2": 7,
+        "3": 3,
+        "4": 1,
+        "5": 1,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 11,
+      "rankingPoints": 1,
+      "pickedPlayerId": 7,
+      "pickedPlayerName": "林聰敏 Johnny",
+      "horsePoints": 10,
+      "totalPoints": 11,
+      "finalRank": 9
+    },
+    {
+      "id": 3,
+      "tournament_id": 1,
+      "player_number": 3,
+      "chinese_name": "林家榮",
+      "english_name": "Jason",
+      "handicap": 14,
+      "group_id": 83,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 100,
+      "netScore": 86,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 7,
+          "relativeToPar": 3
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 6,
+          "relativeToPar": 1
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 48,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 52,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 0,
+      "categoryCounts": {
+        "1": 9,
+        "2": 8,
+        "3": 1,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 9,
+      "rankingPoints": 3,
+      "pickedPlayerId": 6,
+      "pickedPlayerName": "陳維立 Albert",
+      "horsePoints": 7,
+      "totalPoints": 10,
+      "finalRank": 10
+    },
+    {
+      "id": 2,
+      "tournament_id": 1,
+      "player_number": 2,
+      "chinese_name": "陳威龍",
+      "english_name": "Daniel",
+      "handicap": 16,
+      "group_id": 81,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": false,
+      "grossScore": 100,
+      "netScore": 84,
+      "holesPlayed": 18,
+      "holeAnalysis": [
+        {
+          "holeId": 46,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 47,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 48,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 49,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 50,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 10,
+          "relativeToPar": 5
+        },
+        {
+          "holeId": 51,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 52,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 53,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 3,
+          "strokes": 5,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 54,
+          "sectionId": 6,
+          "sectionOrder": 1,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 55,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 56,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 57,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 4,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 58,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 4,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 59,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 7,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 60,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 3,
+          "strokes": 3,
+          "relativeToPar": 0
+        },
+        {
+          "holeId": 61,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 5,
+          "relativeToPar": 1
+        },
+        {
+          "holeId": 62,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 4,
+          "strokes": 6,
+          "relativeToPar": 2
+        },
+        {
+          "holeId": 63,
+          "sectionId": 7,
+          "sectionOrder": 2,
+          "par": 5,
+          "strokes": 8,
+          "relativeToPar": 3
+        }
+      ],
+      "sectionTotals": [
+        {
+          "sectionId": 6,
+          "sectionName": "東區",
+          "sectionOrder": 1,
+          "total": 51,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        },
+        {
+          "sectionId": 7,
+          "sectionName": "西區",
+          "sectionOrder": 2,
+          "total": 49,
+          "holesPlayed": 9,
+          "totalHoles": 9
+        }
+      ],
+      "underParCount": 0,
+      "parCount": 4,
+      "categoryCounts": {
+        "1": 4,
+        "2": 8,
+        "3": 1,
+        "4": 0,
+        "5": 1,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "rank": 8,
+      "rankingPoints": 4,
+      "pickedPlayerId": 3,
+      "pickedPlayerName": "林家榮 Jason",
+      "horsePoints": 3,
+      "totalPoints": 7,
+      "finalRank": 11
+    },
+    {
+      "id": 9,
+      "tournament_id": 1,
+      "player_number": 9,
+      "chinese_name": "林健裕",
+      "english_name": "Jimmy",
+      "handicap": 13,
+      "group_id": null,
+      "no_show": 1,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": true,
+      "grossScore": null,
+      "netScore": null,
+      "holesPlayed": 0,
+      "sectionTotals": [],
+      "holeAnalysis": [],
+      "underParCount": 0,
+      "parCount": 0,
+      "categoryCounts": {},
+      "rank": 12,
+      "rankingPoints": 0,
+      "pickedPlayerId": null,
+      "pickedPlayerName": null,
+      "horsePoints": 0,
+      "totalPoints": 0,
+      "finalRank": 12
+    },
+    {
+      "id": 12,
+      "tournament_id": 1,
+      "player_number": 12,
+      "chinese_name": "黃建富",
+      "english_name": "Jeff",
+      "handicap": 26,
+      "group_id": null,
+      "no_show": 1,
+      "wildcard": 0,
+      "tee": "white",
+      "isNoShow": true,
+      "grossScore": null,
+      "netScore": null,
+      "holesPlayed": 0,
+      "sectionTotals": [],
+      "holeAnalysis": [],
+      "underParCount": 0,
+      "parCount": 0,
+      "categoryCounts": {},
+      "rank": 12,
+      "rankingPoints": 0,
+      "pickedPlayerId": null,
+      "pickedPlayerName": null,
+      "horsePoints": 0,
+      "totalPoints": 0,
+      "finalRank": 12
+    }
+  ],
+  "championChain": null,
+  "othersChain": null,
+  "playoffWinnerId": null
+}

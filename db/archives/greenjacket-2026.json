@@ -1,0 +1,2999 @@
+{
+  "year": "2026",
+  "created_at": "2026-09-05 06:10:01",
+  "version": 1,
+  "slug": "greenjacket",
+  "tournament": {
+    "name": "綠夾克盃",
+    "course_name": "再興高爾夫俱樂部",
+    "date": "2026-09-04",
+    "tee_time": "12:00",
+    "status": "finished"
+  },
+  "parTotal": 72,
+  "holes": [
+    {
+      "id": 73,
+      "label": "1",
+      "par": 4,
+      "yards": 379,
+      "yards_red": 310,
+      "section_id": 9,
+      "section_name": "前九",
+      "section_order": 1
+    },
+    {
+      "id": 74,
+      "label": "2",
+      "par": 4,
+      "yards": 391,
+      "yards_red": 328,
+      "section_id": 9,
+      "section_name": "前九",
+      "section_order": 1
+    },
+    {
+      "id": 75,
+      "label": "3",
+      "par": 3,
+      "yards": 212,
+      "yards_red": 168,
+      "section_id": 9,
+      "section_name": "前九",
+      "section_order": 1
+    },
+    {
+      "id": 76,
+      "label": "4",
+      "par": 5,
+      "yards": 501,
+      "yards_red": 486,
+      "section_id": 9,
+      "section_name": "前九",
+      "section_order": 1
+    },
+    {
+      "id": 77,
+      "label": "5",
+      "par": 5,
+      "yards": 460,
+      "yards_red": 330,
+      "section_id": 9,
+      "section_name": "前九",
+      "section_order": 1
+    },
+    {
+      "id": 78,
+      "label": "6",
+      "par": 4,
+      "yards": 346,
+      "yards_red": 277,
+      "section_id": 9,
+      "section_name": "前九",
+      "section_order": 1
+    },
+    {
+      "id": 79,
+      "label": "7",
+      "par": 4,
+      "yards": 366,
+      "yards_red": 293,
+      "section_id": 9,
+      "section_name": "前九",
+      "section_order": 1
+    },
+    {
+      "id": 80,
+      "label": "8",
+      "par": 3,
+      "yards": 170,
+      "yards_red": 153,
+      "section_id": 9,
+      "section_name": "前九",
+      "section_order": 1
+    },
+    {
+      "id": 81,
+      "label": "9",
+      "par": 5,
+      "yards": 505,
+      "yards_red": 480,
+      "section_id": 9,
+      "section_name": "前九",
+      "section_order": 1
+    },
+    {
+      "id": 82,
+      "label": "10",
+      "par": 4,
+      "yards": 330,
+      "yards_red": 255,
+      "section_id": 10,
+      "section_name": "後九",
+      "section_order": 2
+    },
+    {
+      "id": 83,
+      "label": "11",
+      "par": 5,
+      "yards": 561,
+      "yards_red": 479,
+      "section_id": 10,
+      "section_name": "後九",
+      "section_order": 2
+    },
+    {
+      "id": 84,
+      "label": "12",
+      "par": 4,
+      "yards": 328,
+      "yards_red": 287,
+      "section_id": 10,
+      "section_name": "後九",
+      "section_order": 2
+    },
+    {
+      "id": 85,
+      "label": "13",
+      "par": 3,
+      "yards": 158,
+      "yards_red": 120,
+      "section_id": 10,
+      "section_name": "後九",
+      "section_order": 2
+    },
+    {
+      "id": 86,
+      "label": "14",
+      "par": 4,
+      "yards": 393,
+      "yards_red": 321,
+      "section_id": 10,
+      "section_name": "後九",
+      "section_order": 2
+    },
+    {
+      "id": 87,
+      "label": "16",
+      "par": 3,
+      "yards": 164,
+      "yards_red": 118,
+      "section_id": 10,
+      "section_name": "後九",
+      "section_order": 2
+    },
+    {
+      "id": 88,
+      "label": "17",
+      "par": 5,
+      "yards": 516,
+      "yards_red": 493,
+      "section_id": 10,
+      "section_name": "後九",
+      "section_order": 2
+    },
+    {
+      "id": 89,
+      "label": "18",
+      "par": 4,
+      "yards": 417,
+      "yards_red": 381,
+      "section_id": 10,
+      "section_name": "後九",
+      "section_order": 2
+    },
+    {
+      "id": 90,
+      "label": "10A",
+      "par": 3,
+      "yards": 152,
+      "yards_red": 133,
+      "section_id": 10,
+      "section_name": "後九",
+      "section_order": 2
+    }
+  ],
+  "sections": [
+    {
+      "id": 9,
+      "name": "前九",
+      "section_order": 1
+    },
+    {
+      "id": 10,
+      "name": "後九",
+      "section_order": 2
+    }
+  ],
+  "groups": [
+    {
+      "id": 89,
+      "name": "組 1",
+      "group_order": 1
+    },
+    {
+      "id": 90,
+      "name": "組 2",
+      "group_order": 2
+    },
+    {
+      "id": 91,
+      "name": "組 3",
+      "group_order": 3
+    },
+    {
+      "id": 92,
+      "name": "組 4",
+      "group_order": 4
+    }
+  ],
+  "players": [
+    {
+      "id": 14,
+      "player_number": 1,
+      "chinese_name": "",
+      "english_name": "Benny",
+      "handicap": 14,
+      "group_id": 89,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 15,
+      "player_number": 2,
+      "chinese_name": "",
+      "english_name": "JJ",
+      "handicap": 14,
+      "group_id": 89,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 16,
+      "player_number": 3,
+      "chinese_name": "",
+      "english_name": "Daniel",
+      "handicap": 16,
+      "group_id": 89,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 18,
+      "player_number": 4,
+      "chinese_name": "",
+      "english_name": "Eddie",
+      "handicap": 20,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 19,
+      "player_number": 5,
+      "chinese_name": "",
+      "english_name": "Albert",
+      "handicap": 5,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 20,
+      "player_number": 6,
+      "chinese_name": "",
+      "english_name": "Katie",
+      "handicap": 11,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 1,
+      "tee": "red"
+    },
+    {
+      "id": 21,
+      "player_number": 7,
+      "chinese_name": "",
+      "english_name": "Debbie",
+      "handicap": 10,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 1,
+      "tee": "red"
+    },
+    {
+      "id": 22,
+      "player_number": 8,
+      "chinese_name": "",
+      "english_name": "William",
+      "handicap": 11,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 23,
+      "player_number": 9,
+      "chinese_name": "",
+      "english_name": "Lio",
+      "handicap": 21,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 24,
+      "player_number": 10,
+      "chinese_name": "",
+      "english_name": "Jimmy",
+      "handicap": 13,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 25,
+      "player_number": 11,
+      "chinese_name": "",
+      "english_name": "Casper",
+      "handicap": 24,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 26,
+      "player_number": 12,
+      "chinese_name": "",
+      "english_name": "Jason",
+      "handicap": 14,
+      "group_id": 92,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 27,
+      "player_number": 13,
+      "chinese_name": "",
+      "english_name": "Jeff",
+      "handicap": 26,
+      "group_id": 92,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white"
+    },
+    {
+      "id": 28,
+      "player_number": 14,
+      "chinese_name": "",
+      "english_name": "Ian",
+      "handicap": 14,
+      "group_id": 92,
+      "no_show": 0,
+      "wildcard": 1,
+      "tee": "white"
+    }
+  ],
+  "scores": [
+    {
+      "player_id": 14,
+      "hole_id": 73,
+      "strokes": 6
+    },
+    {
+      "player_id": 14,
+      "hole_id": 74,
+      "strokes": 6
+    },
+    {
+      "player_id": 14,
+      "hole_id": 75,
+      "strokes": 4
+    },
+    {
+      "player_id": 14,
+      "hole_id": 76,
+      "strokes": 7
+    },
+    {
+      "player_id": 14,
+      "hole_id": 77,
+      "strokes": 5
+    },
+    {
+      "player_id": 14,
+      "hole_id": 78,
+      "strokes": 5
+    },
+    {
+      "player_id": 14,
+      "hole_id": 79,
+      "strokes": 4
+    },
+    {
+      "player_id": 14,
+      "hole_id": 80,
+      "strokes": 4
+    },
+    {
+      "player_id": 14,
+      "hole_id": 81,
+      "strokes": 5
+    },
+    {
+      "player_id": 14,
+      "hole_id": 82,
+      "strokes": 6
+    },
+    {
+      "player_id": 14,
+      "hole_id": 83,
+      "strokes": 7
+    },
+    {
+      "player_id": 14,
+      "hole_id": 84,
+      "strokes": 6
+    },
+    {
+      "player_id": 14,
+      "hole_id": 85,
+      "strokes": 5
+    },
+    {
+      "player_id": 14,
+      "hole_id": 86,
+      "strokes": 6
+    },
+    {
+      "player_id": 14,
+      "hole_id": 87,
+      "strokes": 4
+    },
+    {
+      "player_id": 14,
+      "hole_id": 88,
+      "strokes": 6
+    },
+    {
+      "player_id": 14,
+      "hole_id": 89,
+      "strokes": 6
+    },
+    {
+      "player_id": 14,
+      "hole_id": 90,
+      "strokes": 3
+    },
+    {
+      "player_id": 15,
+      "hole_id": 73,
+      "strokes": 7
+    },
+    {
+      "player_id": 15,
+      "hole_id": 74,
+      "strokes": 5
+    },
+    {
+      "player_id": 15,
+      "hole_id": 75,
+      "strokes": 4
+    },
+    {
+      "player_id": 15,
+      "hole_id": 76,
+      "strokes": 9
+    },
+    {
+      "player_id": 15,
+      "hole_id": 77,
+      "strokes": 5
+    },
+    {
+      "player_id": 15,
+      "hole_id": 78,
+      "strokes": 7
+    },
+    {
+      "player_id": 15,
+      "hole_id": 79,
+      "strokes": 4
+    },
+    {
+      "player_id": 15,
+      "hole_id": 80,
+      "strokes": 5
+    },
+    {
+      "player_id": 15,
+      "hole_id": 81,
+      "strokes": 7
+    },
+    {
+      "player_id": 15,
+      "hole_id": 82,
+      "strokes": 5
+    },
+    {
+      "player_id": 15,
+      "hole_id": 83,
+      "strokes": 7
+    },
+    {
+      "player_id": 15,
+      "hole_id": 84,
+      "strokes": 4
+    },
+    {
+      "player_id": 15,
+      "hole_id": 85,
+      "strokes": 3
+    },
+    {
+      "player_id": 15,
+      "hole_id": 86,
+      "strokes": 6
+    },
+    {
+      "player_id": 15,
+      "hole_id": 87,
+      "strokes": 3
+    },
+    {
+      "player_id": 15,
+      "hole_id": 88,
+      "strokes": 6
+    },
+    {
+      "player_id": 15,
+      "hole_id": 89,
+      "strokes": 4
+    },
+    {
+      "player_id": 15,
+      "hole_id": 90,
+      "strokes": 3
+    },
+    {
+      "player_id": 16,
+      "hole_id": 73,
+      "strokes": 8
+    },
+    {
+      "player_id": 16,
+      "hole_id": 74,
+      "strokes": 6
+    },
+    {
+      "player_id": 16,
+      "hole_id": 75,
+      "strokes": 4
+    },
+    {
+      "player_id": 16,
+      "hole_id": 76,
+      "strokes": 5
+    },
+    {
+      "player_id": 16,
+      "hole_id": 77,
+      "strokes": 9
+    },
+    {
+      "player_id": 16,
+      "hole_id": 78,
+      "strokes": 6
+    },
+    {
+      "player_id": 16,
+      "hole_id": 79,
+      "strokes": 7
+    },
+    {
+      "player_id": 16,
+      "hole_id": 80,
+      "strokes": 3
+    },
+    {
+      "player_id": 16,
+      "hole_id": 81,
+      "strokes": 5
+    },
+    {
+      "player_id": 16,
+      "hole_id": 82,
+      "strokes": 6
+    },
+    {
+      "player_id": 16,
+      "hole_id": 83,
+      "strokes": 7
+    },
+    {
+      "player_id": 16,
+      "hole_id": 84,
+      "strokes": 6
+    },
+    {
+      "player_id": 16,
+      "hole_id": 85,
+      "strokes": 4
+    },
+    {
+      "player_id": 16,
+      "hole_id": 86,
+      "strokes": 5
+    },
+    {
+      "player_id": 16,
+      "hole_id": 87,
+      "strokes": 4
+    },
+    {
+      "player_id": 16,
+      "hole_id": 88,
+      "strokes": 6
+    },
+    {
+      "player_id": 16,
+      "hole_id": 89,
+      "strokes": 5
+    },
+    {
+      "player_id": 16,
+      "hole_id": 90,
+      "strokes": 3
+    },
+    {
+      "player_id": 18,
+      "hole_id": 73,
+      "strokes": 6
+    },
+    {
+      "player_id": 18,
+      "hole_id": 74,
+      "strokes": 6
+    },
+    {
+      "player_id": 18,
+      "hole_id": 75,
+      "strokes": 4
+    },
+    {
+      "player_id": 18,
+      "hole_id": 76,
+      "strokes": 6
+    },
+    {
+      "player_id": 18,
+      "hole_id": 77,
+      "strokes": 7
+    },
+    {
+      "player_id": 18,
+      "hole_id": 78,
+      "strokes": 6
+    },
+    {
+      "player_id": 18,
+      "hole_id": 79,
+      "strokes": 5
+    },
+    {
+      "player_id": 18,
+      "hole_id": 80,
+      "strokes": 3
+    },
+    {
+      "player_id": 18,
+      "hole_id": 81,
+      "strokes": 7
+    },
+    {
+      "player_id": 18,
+      "hole_id": 82,
+      "strokes": 5
+    },
+    {
+      "player_id": 18,
+      "hole_id": 83,
+      "strokes": 7
+    },
+    {
+      "player_id": 18,
+      "hole_id": 84,
+      "strokes": 6
+    },
+    {
+      "player_id": 18,
+      "hole_id": 85,
+      "strokes": 5
+    },
+    {
+      "player_id": 18,
+      "hole_id": 86,
+      "strokes": 5
+    },
+    {
+      "player_id": 18,
+      "hole_id": 87,
+      "strokes": 4
+    },
+    {
+      "player_id": 18,
+      "hole_id": 88,
+      "strokes": 7
+    },
+    {
+      "player_id": 18,
+      "hole_id": 89,
+      "strokes": 4
+    },
+    {
+      "player_id": 18,
+      "hole_id": 90,
+      "strokes": 4
+    },
+    {
+      "player_id": 19,
+      "hole_id": 73,
+      "strokes": 5
+    },
+    {
+      "player_id": 19,
+      "hole_id": 74,
+      "strokes": 5
+    },
+    {
+      "player_id": 19,
+      "hole_id": 75,
+      "strokes": 7
+    },
+    {
+      "player_id": 19,
+      "hole_id": 76,
+      "strokes": 5
+    },
+    {
+      "player_id": 19,
+      "hole_id": 77,
+      "strokes": 6
+    },
+    {
+      "player_id": 19,
+      "hole_id": 78,
+      "strokes": 4
+    },
+    {
+      "player_id": 19,
+      "hole_id": 79,
+      "strokes": 5
+    },
+    {
+      "player_id": 19,
+      "hole_id": 80,
+      "strokes": 3
+    },
+    {
+      "player_id": 19,
+      "hole_id": 81,
+      "strokes": 5
+    },
+    {
+      "player_id": 19,
+      "hole_id": 82,
+      "strokes": 4
+    },
+    {
+      "player_id": 19,
+      "hole_id": 83,
+      "strokes": 7
+    },
+    {
+      "player_id": 19,
+      "hole_id": 84,
+      "strokes": 5
+    },
+    {
+      "player_id": 19,
+      "hole_id": 85,
+      "strokes": 4
+    },
+    {
+      "player_id": 19,
+      "hole_id": 86,
+      "strokes": 5
+    },
+    {
+      "player_id": 19,
+      "hole_id": 87,
+      "strokes": 3
+    },
+    {
+      "player_id": 19,
+      "hole_id": 88,
+      "strokes": 5
+    },
+    {
+      "player_id": 19,
+      "hole_id": 89,
+      "strokes": 4
+    },
+    {
+      "player_id": 19,
+      "hole_id": 90,
+      "strokes": 3
+    },
+    {
+      "player_id": 20,
+      "hole_id": 73,
+      "strokes": 6
+    },
+    {
+      "player_id": 20,
+      "hole_id": 74,
+      "strokes": 7
+    },
+    {
+      "player_id": 20,
+      "hole_id": 75,
+      "strokes": 4
+    },
+    {
+      "player_id": 20,
+      "hole_id": 76,
+      "strokes": 6
+    },
+    {
+      "player_id": 20,
+      "hole_id": 77,
+      "strokes": 6
+    },
+    {
+      "player_id": 20,
+      "hole_id": 78,
+      "strokes": 6
+    },
+    {
+      "player_id": 20,
+      "hole_id": 79,
+      "strokes": 5
+    },
+    {
+      "player_id": 20,
+      "hole_id": 80,
+      "strokes": 4
+    },
+    {
+      "player_id": 20,
+      "hole_id": 81,
+      "strokes": 7
+    },
+    {
+      "player_id": 20,
+      "hole_id": 82,
+      "strokes": 4
+    },
+    {
+      "player_id": 20,
+      "hole_id": 83,
+      "strokes": 7
+    },
+    {
+      "player_id": 20,
+      "hole_id": 84,
+      "strokes": 6
+    },
+    {
+      "player_id": 20,
+      "hole_id": 85,
+      "strokes": 4
+    },
+    {
+      "player_id": 20,
+      "hole_id": 86,
+      "strokes": 6
+    },
+    {
+      "player_id": 20,
+      "hole_id": 87,
+      "strokes": 4
+    },
+    {
+      "player_id": 20,
+      "hole_id": 88,
+      "strokes": 7
+    },
+    {
+      "player_id": 20,
+      "hole_id": 89,
+      "strokes": 5
+    },
+    {
+      "player_id": 20,
+      "hole_id": 90,
+      "strokes": 4
+    },
+    {
+      "player_id": 21,
+      "hole_id": 73,
+      "strokes": 4
+    },
+    {
+      "player_id": 21,
+      "hole_id": 74,
+      "strokes": 7
+    },
+    {
+      "player_id": 21,
+      "hole_id": 75,
+      "strokes": 5
+    },
+    {
+      "player_id": 21,
+      "hole_id": 76,
+      "strokes": 6
+    },
+    {
+      "player_id": 21,
+      "hole_id": 77,
+      "strokes": 6
+    },
+    {
+      "player_id": 21,
+      "hole_id": 78,
+      "strokes": 5
+    },
+    {
+      "player_id": 21,
+      "hole_id": 79,
+      "strokes": 5
+    },
+    {
+      "player_id": 21,
+      "hole_id": 80,
+      "strokes": 3
+    },
+    {
+      "player_id": 21,
+      "hole_id": 81,
+      "strokes": 5
+    },
+    {
+      "player_id": 21,
+      "hole_id": 82,
+      "strokes": 5
+    },
+    {
+      "player_id": 21,
+      "hole_id": 83,
+      "strokes": 7
+    },
+    {
+      "player_id": 21,
+      "hole_id": 84,
+      "strokes": 6
+    },
+    {
+      "player_id": 21,
+      "hole_id": 85,
+      "strokes": 4
+    },
+    {
+      "player_id": 21,
+      "hole_id": 86,
+      "strokes": 5
+    },
+    {
+      "player_id": 21,
+      "hole_id": 87,
+      "strokes": 3
+    },
+    {
+      "player_id": 21,
+      "hole_id": 88,
+      "strokes": 6
+    },
+    {
+      "player_id": 21,
+      "hole_id": 89,
+      "strokes": 5
+    },
+    {
+      "player_id": 21,
+      "hole_id": 90,
+      "strokes": 3
+    },
+    {
+      "player_id": 22,
+      "hole_id": 73,
+      "strokes": 5
+    },
+    {
+      "player_id": 22,
+      "hole_id": 74,
+      "strokes": 7
+    },
+    {
+      "player_id": 22,
+      "hole_id": 75,
+      "strokes": 4
+    },
+    {
+      "player_id": 22,
+      "hole_id": 76,
+      "strokes": 6
+    },
+    {
+      "player_id": 22,
+      "hole_id": 77,
+      "strokes": 4
+    },
+    {
+      "player_id": 22,
+      "hole_id": 78,
+      "strokes": 4
+    },
+    {
+      "player_id": 22,
+      "hole_id": 79,
+      "strokes": 4
+    },
+    {
+      "player_id": 22,
+      "hole_id": 80,
+      "strokes": 4
+    },
+    {
+      "player_id": 22,
+      "hole_id": 81,
+      "strokes": 6
+    },
+    {
+      "player_id": 22,
+      "hole_id": 82,
+      "strokes": 4
+    },
+    {
+      "player_id": 22,
+      "hole_id": 83,
+      "strokes": 8
+    },
+    {
+      "player_id": 22,
+      "hole_id": 84,
+      "strokes": 6
+    },
+    {
+      "player_id": 22,
+      "hole_id": 85,
+      "strokes": 5
+    },
+    {
+      "player_id": 22,
+      "hole_id": 86,
+      "strokes": 6
+    },
+    {
+      "player_id": 22,
+      "hole_id": 87,
+      "strokes": 3
+    },
+    {
+      "player_id": 22,
+      "hole_id": 88,
+      "strokes": 5
+    },
+    {
+      "player_id": 22,
+      "hole_id": 89,
+      "strokes": 4
+    },
+    {
+      "player_id": 22,
+      "hole_id": 90,
+      "strokes": 4
+    },
+    {
+      "player_id": 23,
+      "hole_id": 73,
+      "strokes": 8
+    },
+    {
+      "player_id": 23,
+      "hole_id": 74,
+      "strokes": 8
+    },
+    {
+      "player_id": 23,
+      "hole_id": 75,
+      "strokes": 5
+    },
+    {
+      "player_id": 23,
+      "hole_id": 76,
+      "strokes": 10
+    },
+    {
+      "player_id": 23,
+      "hole_id": 77,
+      "strokes": 5
+    },
+    {
+      "player_id": 23,
+      "hole_id": 78,
+      "strokes": 7
+    },
+    {
+      "player_id": 23,
+      "hole_id": 79,
+      "strokes": 8
+    },
+    {
+      "player_id": 23,
+      "hole_id": 80,
+      "strokes": 5
+    },
+    {
+      "player_id": 23,
+      "hole_id": 81,
+      "strokes": 7
+    },
+    {
+      "player_id": 23,
+      "hole_id": 82,
+      "strokes": 5
+    },
+    {
+      "player_id": 23,
+      "hole_id": 83,
+      "strokes": 8
+    },
+    {
+      "player_id": 23,
+      "hole_id": 84,
+      "strokes": 7
+    },
+    {
+      "player_id": 23,
+      "hole_id": 85,
+      "strokes": 6
+    },
+    {
+      "player_id": 23,
+      "hole_id": 86,
+      "strokes": 8
+    },
+    {
+      "player_id": 23,
+      "hole_id": 87,
+      "strokes": 4
+    },
+    {
+      "player_id": 23,
+      "hole_id": 88,
+      "strokes": 6
+    },
+    {
+      "player_id": 23,
+      "hole_id": 89,
+      "strokes": 7
+    },
+    {
+      "player_id": 23,
+      "hole_id": 90,
+      "strokes": 4
+    },
+    {
+      "player_id": 24,
+      "hole_id": 73,
+      "strokes": 4
+    },
+    {
+      "player_id": 24,
+      "hole_id": 74,
+      "strokes": 5
+    },
+    {
+      "player_id": 24,
+      "hole_id": 75,
+      "strokes": 5
+    },
+    {
+      "player_id": 24,
+      "hole_id": 76,
+      "strokes": 7
+    },
+    {
+      "player_id": 24,
+      "hole_id": 77,
+      "strokes": 6
+    },
+    {
+      "player_id": 24,
+      "hole_id": 78,
+      "strokes": 4
+    },
+    {
+      "player_id": 24,
+      "hole_id": 79,
+      "strokes": 4
+    },
+    {
+      "player_id": 24,
+      "hole_id": 80,
+      "strokes": 3
+    },
+    {
+      "player_id": 24,
+      "hole_id": 81,
+      "strokes": 5
+    },
+    {
+      "player_id": 24,
+      "hole_id": 82,
+      "strokes": 4
+    },
+    {
+      "player_id": 24,
+      "hole_id": 83,
+      "strokes": 9
+    },
+    {
+      "player_id": 24,
+      "hole_id": 84,
+      "strokes": 6
+    },
+    {
+      "player_id": 24,
+      "hole_id": 85,
+      "strokes": 5
+    },
+    {
+      "player_id": 24,
+      "hole_id": 86,
+      "strokes": 4
+    },
+    {
+      "player_id": 24,
+      "hole_id": 87,
+      "strokes": 3
+    },
+    {
+      "player_id": 24,
+      "hole_id": 88,
+      "strokes": 6
+    },
+    {
+      "player_id": 24,
+      "hole_id": 89,
+      "strokes": 5
+    },
+    {
+      "player_id": 24,
+      "hole_id": 90,
+      "strokes": 4
+    },
+    {
+      "player_id": 25,
+      "hole_id": 73,
+      "strokes": 4
+    },
+    {
+      "player_id": 25,
+      "hole_id": 74,
+      "strokes": 5
+    },
+    {
+      "player_id": 25,
+      "hole_id": 75,
+      "strokes": 5
+    },
+    {
+      "player_id": 25,
+      "hole_id": 76,
+      "strokes": 8
+    },
+    {
+      "player_id": 25,
+      "hole_id": 77,
+      "strokes": 7
+    },
+    {
+      "player_id": 25,
+      "hole_id": 78,
+      "strokes": 6
+    },
+    {
+      "player_id": 25,
+      "hole_id": 79,
+      "strokes": 5
+    },
+    {
+      "player_id": 25,
+      "hole_id": 80,
+      "strokes": 4
+    },
+    {
+      "player_id": 25,
+      "hole_id": 81,
+      "strokes": 6
+    },
+    {
+      "player_id": 25,
+      "hole_id": 82,
+      "strokes": 6
+    },
+    {
+      "player_id": 25,
+      "hole_id": 83,
+      "strokes": 10
+    },
+    {
+      "player_id": 25,
+      "hole_id": 84,
+      "strokes": 7
+    },
+    {
+      "player_id": 25,
+      "hole_id": 85,
+      "strokes": 5
+    },
+    {
+      "player_id": 25,
+      "hole_id": 86,
+      "strokes": 5
+    },
+    {
+      "player_id": 25,
+      "hole_id": 87,
+      "strokes": 4
+    },
+    {
+      "player_id": 25,
+      "hole_id": 88,
+      "strokes": 7
+    },
+    {
+      "player_id": 25,
+      "hole_id": 89,
+      "strokes": 7
+    },
+    {
+      "player_id": 25,
+      "hole_id": 90,
+      "strokes": 4
+    },
+    {
+      "player_id": 26,
+      "hole_id": 73,
+      "strokes": 5
+    },
+    {
+      "player_id": 26,
+      "hole_id": 74,
+      "strokes": 7
+    },
+    {
+      "player_id": 26,
+      "hole_id": 75,
+      "strokes": 4
+    },
+    {
+      "player_id": 26,
+      "hole_id": 76,
+      "strokes": 5
+    },
+    {
+      "player_id": 26,
+      "hole_id": 77,
+      "strokes": 5
+    },
+    {
+      "player_id": 26,
+      "hole_id": 78,
+      "strokes": 4
+    },
+    {
+      "player_id": 26,
+      "hole_id": 79,
+      "strokes": 4
+    },
+    {
+      "player_id": 26,
+      "hole_id": 80,
+      "strokes": 4
+    },
+    {
+      "player_id": 26,
+      "hole_id": 81,
+      "strokes": 4
+    },
+    {
+      "player_id": 26,
+      "hole_id": 82,
+      "strokes": 6
+    },
+    {
+      "player_id": 26,
+      "hole_id": 83,
+      "strokes": 6
+    },
+    {
+      "player_id": 26,
+      "hole_id": 84,
+      "strokes": 5
+    },
+    {
+      "player_id": 26,
+      "hole_id": 85,
+      "strokes": 4
+    },
+    {
+      "player_id": 26,
+      "hole_id": 86,
+      "strokes": 5
+    },
+    {
+      "player_id": 26,
+      "hole_id": 87,
+      "strokes": 4
+    },
+    {
+      "player_id": 26,
+      "hole_id": 88,
+      "strokes": 6
+    },
+    {
+      "player_id": 26,
+      "hole_id": 89,
+      "strokes": 6
+    },
+    {
+      "player_id": 26,
+      "hole_id": 90,
+      "strokes": 4
+    },
+    {
+      "player_id": 27,
+      "hole_id": 73,
+      "strokes": 8
+    },
+    {
+      "player_id": 27,
+      "hole_id": 74,
+      "strokes": 8
+    },
+    {
+      "player_id": 27,
+      "hole_id": 75,
+      "strokes": 5
+    },
+    {
+      "player_id": 27,
+      "hole_id": 76,
+      "strokes": 5
+    },
+    {
+      "player_id": 27,
+      "hole_id": 77,
+      "strokes": 6
+    },
+    {
+      "player_id": 27,
+      "hole_id": 78,
+      "strokes": 4
+    },
+    {
+      "player_id": 27,
+      "hole_id": 79,
+      "strokes": 7
+    },
+    {
+      "player_id": 27,
+      "hole_id": 80,
+      "strokes": 5
+    },
+    {
+      "player_id": 27,
+      "hole_id": 81,
+      "strokes": 6
+    },
+    {
+      "player_id": 27,
+      "hole_id": 82,
+      "strokes": 8
+    },
+    {
+      "player_id": 27,
+      "hole_id": 83,
+      "strokes": 10
+    },
+    {
+      "player_id": 27,
+      "hole_id": 84,
+      "strokes": 6
+    },
+    {
+      "player_id": 27,
+      "hole_id": 85,
+      "strokes": 6
+    },
+    {
+      "player_id": 27,
+      "hole_id": 86,
+      "strokes": 7
+    },
+    {
+      "player_id": 27,
+      "hole_id": 87,
+      "strokes": 3
+    },
+    {
+      "player_id": 27,
+      "hole_id": 88,
+      "strokes": 6
+    },
+    {
+      "player_id": 27,
+      "hole_id": 89,
+      "strokes": 6
+    },
+    {
+      "player_id": 27,
+      "hole_id": 90,
+      "strokes": 4
+    },
+    {
+      "player_id": 28,
+      "hole_id": 73,
+      "strokes": 4
+    },
+    {
+      "player_id": 28,
+      "hole_id": 74,
+      "strokes": 5
+    },
+    {
+      "player_id": 28,
+      "hole_id": 75,
+      "strokes": 3
+    },
+    {
+      "player_id": 28,
+      "hole_id": 76,
+      "strokes": 6
+    },
+    {
+      "player_id": 28,
+      "hole_id": 77,
+      "strokes": 5
+    },
+    {
+      "player_id": 28,
+      "hole_id": 78,
+      "strokes": 6
+    },
+    {
+      "player_id": 28,
+      "hole_id": 79,
+      "strokes": 5
+    },
+    {
+      "player_id": 28,
+      "hole_id": 80,
+      "strokes": 4
+    },
+    {
+      "player_id": 28,
+      "hole_id": 81,
+      "strokes": 5
+    },
+    {
+      "player_id": 28,
+      "hole_id": 82,
+      "strokes": 5
+    },
+    {
+      "player_id": 28,
+      "hole_id": 83,
+      "strokes": 8
+    },
+    {
+      "player_id": 28,
+      "hole_id": 84,
+      "strokes": 5
+    },
+    {
+      "player_id": 28,
+      "hole_id": 85,
+      "strokes": 4
+    },
+    {
+      "player_id": 28,
+      "hole_id": 86,
+      "strokes": 5
+    },
+    {
+      "player_id": 28,
+      "hole_id": 87,
+      "strokes": 4
+    },
+    {
+      "player_id": 28,
+      "hole_id": 88,
+      "strokes": 7
+    },
+    {
+      "player_id": 28,
+      "hole_id": 89,
+      "strokes": 6
+    },
+    {
+      "player_id": 28,
+      "hole_id": 90,
+      "strokes": 5
+    }
+  ],
+  "showWildcard": true,
+  "netRankings": [
+    {
+      "id": 26,
+      "tournament_id": 2,
+      "player_number": 12,
+      "chinese_name": "",
+      "english_name": "Jason",
+      "handicap": 14,
+      "group_id": 92,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Jason",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        5,
+        7,
+        4,
+        5,
+        5,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        5,
+        4,
+        5,
+        4,
+        6,
+        6,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 88,
+      "netScore": 74,
+      "toPar": 16,
+      "front9": 42,
+      "back9": 46,
+      "last6": 29,
+      "last3": 16,
+      "last1": 4,
+      "rank": 1
+    },
+    {
+      "id": 24,
+      "tournament_id": 2,
+      "player_number": 10,
+      "chinese_name": "",
+      "english_name": "Jimmy",
+      "handicap": 13,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Jimmy",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        4,
+        5,
+        5,
+        7,
+        6,
+        4,
+        4,
+        3,
+        5,
+        4,
+        9,
+        6,
+        5,
+        4,
+        3,
+        6,
+        5,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 89,
+      "netScore": 76,
+      "toPar": 17,
+      "front9": 43,
+      "back9": 46,
+      "last6": 27,
+      "last3": 15,
+      "last1": 4,
+      "rank": 2
+    },
+    {
+      "id": 18,
+      "tournament_id": 2,
+      "player_number": 4,
+      "chinese_name": "",
+      "english_name": "Eddie",
+      "handicap": 20,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Eddie",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        6,
+        6,
+        4,
+        6,
+        7,
+        6,
+        5,
+        3,
+        7,
+        5,
+        7,
+        6,
+        5,
+        5,
+        4,
+        7,
+        4,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 97,
+      "netScore": 77,
+      "toPar": 25,
+      "front9": 50,
+      "back9": 47,
+      "last6": 29,
+      "last3": 15,
+      "last1": 4,
+      "rank": 3
+    },
+    {
+      "id": 22,
+      "tournament_id": 2,
+      "player_number": 8,
+      "chinese_name": "",
+      "english_name": "William",
+      "handicap": 11,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "William",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        5,
+        7,
+        4,
+        6,
+        4,
+        4,
+        4,
+        4,
+        6,
+        4,
+        8,
+        6,
+        5,
+        6,
+        3,
+        5,
+        4,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 89,
+      "netScore": 78,
+      "toPar": 17,
+      "front9": 44,
+      "back9": 45,
+      "last6": 27,
+      "last3": 13,
+      "last1": 4,
+      "rank": 4,
+      "sharedRank": false,
+      "awaitingPlayoff": false,
+      "playoffLabel": null,
+      "tiebreakWon": "後九總桿"
+    },
+    {
+      "id": 28,
+      "tournament_id": 2,
+      "player_number": 14,
+      "chinese_name": "",
+      "english_name": "Ian",
+      "handicap": 14,
+      "group_id": 92,
+      "no_show": 0,
+      "wildcard": 1,
+      "tee": "white",
+      "displayName": "Ian",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        4,
+        5,
+        3,
+        6,
+        5,
+        6,
+        5,
+        4,
+        5,
+        5,
+        8,
+        5,
+        4,
+        5,
+        4,
+        7,
+        6,
+        5
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 92,
+      "netScore": 78,
+      "toPar": 20,
+      "front9": 43,
+      "back9": 49,
+      "last6": 31,
+      "last3": 18,
+      "last1": 5,
+      "rank": 5,
+      "sharedRank": false,
+      "awaitingPlayoff": false,
+      "playoffLabel": null,
+      "tiebreakLost": "後九總桿"
+    },
+    {
+      "id": 19,
+      "tournament_id": 2,
+      "player_number": 5,
+      "chinese_name": "",
+      "english_name": "Albert",
+      "handicap": 5,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Albert",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        5,
+        5,
+        7,
+        5,
+        6,
+        4,
+        5,
+        3,
+        5,
+        4,
+        7,
+        5,
+        4,
+        5,
+        3,
+        5,
+        4,
+        3
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 85,
+      "netScore": 80,
+      "toPar": 13,
+      "front9": 45,
+      "back9": 40,
+      "last6": 24,
+      "last3": 12,
+      "last1": 3,
+      "rank": 6,
+      "sharedRank": false,
+      "awaitingPlayoff": false,
+      "playoffLabel": null,
+      "tiebreakWon": "後九總桿"
+    },
+    {
+      "id": 15,
+      "tournament_id": 2,
+      "player_number": 2,
+      "chinese_name": "",
+      "english_name": "JJ",
+      "handicap": 14,
+      "group_id": 89,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "JJ",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        7,
+        5,
+        4,
+        9,
+        5,
+        7,
+        4,
+        5,
+        7,
+        5,
+        7,
+        4,
+        3,
+        6,
+        3,
+        6,
+        4,
+        3
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 94,
+      "netScore": 80,
+      "toPar": 22,
+      "front9": 53,
+      "back9": 41,
+      "last6": 25,
+      "last3": 13,
+      "last1": 3,
+      "rank": 7,
+      "sharedRank": false,
+      "awaitingPlayoff": false,
+      "playoffLabel": null,
+      "tiebreakLost": "後九總桿",
+      "tiebreakWon": "後九總桿",
+      "awards": [
+        "lucky7"
+      ]
+    },
+    {
+      "id": 21,
+      "tournament_id": 2,
+      "player_number": 7,
+      "chinese_name": "",
+      "english_name": "Debbie",
+      "handicap": 10,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 1,
+      "tee": "red",
+      "displayName": "Debbie",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        4,
+        7,
+        5,
+        6,
+        6,
+        5,
+        5,
+        3,
+        5,
+        5,
+        7,
+        6,
+        4,
+        5,
+        3,
+        6,
+        5,
+        3
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 90,
+      "netScore": 80,
+      "toPar": 18,
+      "front9": 46,
+      "back9": 44,
+      "last6": 26,
+      "last3": 14,
+      "last1": 3,
+      "rank": 8,
+      "sharedRank": false,
+      "awaitingPlayoff": false,
+      "playoffLabel": null,
+      "tiebreakLost": "後九總桿"
+    },
+    {
+      "id": 14,
+      "tournament_id": 2,
+      "player_number": 1,
+      "chinese_name": "",
+      "english_name": "Benny",
+      "handicap": 14,
+      "group_id": 89,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Benny",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        6,
+        6,
+        4,
+        7,
+        5,
+        5,
+        4,
+        4,
+        5,
+        6,
+        7,
+        6,
+        5,
+        6,
+        4,
+        6,
+        6,
+        3
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 95,
+      "netScore": 81,
+      "toPar": 23,
+      "front9": 46,
+      "back9": 49,
+      "last6": 30,
+      "last3": 15,
+      "last1": 3,
+      "rank": 9,
+      "sharedRank": false,
+      "awaitingPlayoff": false,
+      "playoffLabel": null,
+      "tiebreakWon": "後九總桿"
+    },
+    {
+      "id": 25,
+      "tournament_id": 2,
+      "player_number": 11,
+      "chinese_name": "",
+      "english_name": "Casper",
+      "handicap": 24,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Casper",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        4,
+        5,
+        5,
+        8,
+        7,
+        6,
+        5,
+        4,
+        6,
+        6,
+        10,
+        7,
+        5,
+        5,
+        4,
+        7,
+        7,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 105,
+      "netScore": 81,
+      "toPar": 33,
+      "front9": 50,
+      "back9": 55,
+      "last6": 32,
+      "last3": 18,
+      "last1": 4,
+      "rank": 10,
+      "sharedRank": false,
+      "awaitingPlayoff": false,
+      "playoffLabel": null,
+      "tiebreakLost": "後九總桿"
+    },
+    {
+      "id": 16,
+      "tournament_id": 2,
+      "player_number": 3,
+      "chinese_name": "",
+      "english_name": "Daniel",
+      "handicap": 16,
+      "group_id": 89,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Daniel",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        8,
+        6,
+        4,
+        5,
+        9,
+        6,
+        7,
+        3,
+        5,
+        6,
+        7,
+        6,
+        4,
+        5,
+        4,
+        6,
+        5,
+        3
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 99,
+      "netScore": 83,
+      "toPar": 27,
+      "front9": 53,
+      "back9": 46,
+      "last6": 27,
+      "last3": 14,
+      "last1": 3,
+      "rank": 11
+    },
+    {
+      "id": 27,
+      "tournament_id": 2,
+      "player_number": 13,
+      "chinese_name": "",
+      "english_name": "Jeff",
+      "handicap": 26,
+      "group_id": 92,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Jeff",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        8,
+        8,
+        5,
+        5,
+        6,
+        4,
+        7,
+        5,
+        6,
+        8,
+        10,
+        6,
+        6,
+        7,
+        3,
+        6,
+        6,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 110,
+      "netScore": 84,
+      "toPar": 38,
+      "front9": 54,
+      "back9": 56,
+      "last6": 32,
+      "last3": 16,
+      "last1": 4,
+      "rank": 12
+    },
+    {
+      "id": 20,
+      "tournament_id": 2,
+      "player_number": 6,
+      "chinese_name": "",
+      "english_name": "Katie",
+      "handicap": 11,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 1,
+      "tee": "red",
+      "displayName": "Katie",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        6,
+        7,
+        4,
+        6,
+        6,
+        6,
+        5,
+        4,
+        7,
+        4,
+        7,
+        6,
+        4,
+        6,
+        4,
+        7,
+        5,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 98,
+      "netScore": 87,
+      "toPar": 26,
+      "front9": 51,
+      "back9": 47,
+      "last6": 30,
+      "last3": 16,
+      "last1": 4,
+      "rank": 13,
+      "awards": [
+        "bb"
+      ]
+    },
+    {
+      "id": 23,
+      "tournament_id": 2,
+      "player_number": 9,
+      "chinese_name": "",
+      "english_name": "Lio",
+      "handicap": 21,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Lio",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        8,
+        8,
+        5,
+        10,
+        5,
+        7,
+        8,
+        5,
+        7,
+        5,
+        8,
+        7,
+        6,
+        8,
+        4,
+        6,
+        7,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 118,
+      "netScore": 97,
+      "toPar": 46,
+      "front9": 63,
+      "back9": 55,
+      "last6": 35,
+      "last3": 17,
+      "last1": 4,
+      "rank": 14
+    }
+  ],
+  "grossRankings": [
+    {
+      "id": 19,
+      "tournament_id": 2,
+      "player_number": 5,
+      "chinese_name": "",
+      "english_name": "Albert",
+      "handicap": 5,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Albert",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        5,
+        5,
+        7,
+        5,
+        6,
+        4,
+        5,
+        3,
+        5,
+        4,
+        7,
+        5,
+        4,
+        5,
+        3,
+        5,
+        4,
+        3
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 85,
+      "netScore": 80,
+      "toPar": 13,
+      "front9": 45,
+      "back9": 40,
+      "last6": 24,
+      "last3": 12,
+      "last1": 3,
+      "grossRank": 1,
+      "inProgress": false
+    },
+    {
+      "id": 26,
+      "tournament_id": 2,
+      "player_number": 12,
+      "chinese_name": "",
+      "english_name": "Jason",
+      "handicap": 14,
+      "group_id": 92,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Jason",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        5,
+        7,
+        4,
+        5,
+        5,
+        4,
+        4,
+        4,
+        4,
+        6,
+        6,
+        5,
+        4,
+        5,
+        4,
+        6,
+        6,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 88,
+      "netScore": 74,
+      "toPar": 16,
+      "front9": 42,
+      "back9": 46,
+      "last6": 29,
+      "last3": 16,
+      "last1": 4,
+      "grossRank": 2,
+      "inProgress": false
+    },
+    {
+      "id": 22,
+      "tournament_id": 2,
+      "player_number": 8,
+      "chinese_name": "",
+      "english_name": "William",
+      "handicap": 11,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "William",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        5,
+        7,
+        4,
+        6,
+        4,
+        4,
+        4,
+        4,
+        6,
+        4,
+        8,
+        6,
+        5,
+        6,
+        3,
+        5,
+        4,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 89,
+      "netScore": 78,
+      "toPar": 17,
+      "front9": 44,
+      "back9": 45,
+      "last6": 27,
+      "last3": 13,
+      "last1": 4,
+      "grossRank": 3,
+      "inProgress": false
+    },
+    {
+      "id": 24,
+      "tournament_id": 2,
+      "player_number": 10,
+      "chinese_name": "",
+      "english_name": "Jimmy",
+      "handicap": 13,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Jimmy",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        4,
+        5,
+        5,
+        7,
+        6,
+        4,
+        4,
+        3,
+        5,
+        4,
+        9,
+        6,
+        5,
+        4,
+        3,
+        6,
+        5,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 89,
+      "netScore": 76,
+      "toPar": 17,
+      "front9": 43,
+      "back9": 46,
+      "last6": 27,
+      "last3": 15,
+      "last1": 4,
+      "grossRank": 3,
+      "inProgress": false
+    },
+    {
+      "id": 21,
+      "tournament_id": 2,
+      "player_number": 7,
+      "chinese_name": "",
+      "english_name": "Debbie",
+      "handicap": 10,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 1,
+      "tee": "red",
+      "displayName": "Debbie",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        4,
+        7,
+        5,
+        6,
+        6,
+        5,
+        5,
+        3,
+        5,
+        5,
+        7,
+        6,
+        4,
+        5,
+        3,
+        6,
+        5,
+        3
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 90,
+      "netScore": 80,
+      "toPar": 18,
+      "front9": 46,
+      "back9": 44,
+      "last6": 26,
+      "last3": 14,
+      "last1": 3,
+      "grossRank": 5,
+      "inProgress": false
+    },
+    {
+      "id": 28,
+      "tournament_id": 2,
+      "player_number": 14,
+      "chinese_name": "",
+      "english_name": "Ian",
+      "handicap": 14,
+      "group_id": 92,
+      "no_show": 0,
+      "wildcard": 1,
+      "tee": "white",
+      "displayName": "Ian",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        4,
+        5,
+        3,
+        6,
+        5,
+        6,
+        5,
+        4,
+        5,
+        5,
+        8,
+        5,
+        4,
+        5,
+        4,
+        7,
+        6,
+        5
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 92,
+      "netScore": 78,
+      "toPar": 20,
+      "front9": 43,
+      "back9": 49,
+      "last6": 31,
+      "last3": 18,
+      "last1": 5,
+      "grossRank": 6,
+      "inProgress": false
+    },
+    {
+      "id": 15,
+      "tournament_id": 2,
+      "player_number": 2,
+      "chinese_name": "",
+      "english_name": "JJ",
+      "handicap": 14,
+      "group_id": 89,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "JJ",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        7,
+        5,
+        4,
+        9,
+        5,
+        7,
+        4,
+        5,
+        7,
+        5,
+        7,
+        4,
+        3,
+        6,
+        3,
+        6,
+        4,
+        3
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 94,
+      "netScore": 80,
+      "toPar": 22,
+      "front9": 53,
+      "back9": 41,
+      "last6": 25,
+      "last3": 13,
+      "last1": 3,
+      "grossRank": 7,
+      "inProgress": false
+    },
+    {
+      "id": 14,
+      "tournament_id": 2,
+      "player_number": 1,
+      "chinese_name": "",
+      "english_name": "Benny",
+      "handicap": 14,
+      "group_id": 89,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Benny",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        6,
+        6,
+        4,
+        7,
+        5,
+        5,
+        4,
+        4,
+        5,
+        6,
+        7,
+        6,
+        5,
+        6,
+        4,
+        6,
+        6,
+        3
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 95,
+      "netScore": 81,
+      "toPar": 23,
+      "front9": 46,
+      "back9": 49,
+      "last6": 30,
+      "last3": 15,
+      "last1": 3,
+      "grossRank": 8,
+      "inProgress": false
+    },
+    {
+      "id": 18,
+      "tournament_id": 2,
+      "player_number": 4,
+      "chinese_name": "",
+      "english_name": "Eddie",
+      "handicap": 20,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Eddie",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        6,
+        6,
+        4,
+        6,
+        7,
+        6,
+        5,
+        3,
+        7,
+        5,
+        7,
+        6,
+        5,
+        5,
+        4,
+        7,
+        4,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 97,
+      "netScore": 77,
+      "toPar": 25,
+      "front9": 50,
+      "back9": 47,
+      "last6": 29,
+      "last3": 15,
+      "last1": 4,
+      "grossRank": 9,
+      "inProgress": false
+    },
+    {
+      "id": 20,
+      "tournament_id": 2,
+      "player_number": 6,
+      "chinese_name": "",
+      "english_name": "Katie",
+      "handicap": 11,
+      "group_id": 90,
+      "no_show": 0,
+      "wildcard": 1,
+      "tee": "red",
+      "displayName": "Katie",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        6,
+        7,
+        4,
+        6,
+        6,
+        6,
+        5,
+        4,
+        7,
+        4,
+        7,
+        6,
+        4,
+        6,
+        4,
+        7,
+        5,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 98,
+      "netScore": 87,
+      "toPar": 26,
+      "front9": 51,
+      "back9": 47,
+      "last6": 30,
+      "last3": 16,
+      "last1": 4,
+      "grossRank": 10,
+      "inProgress": false
+    },
+    {
+      "id": 16,
+      "tournament_id": 2,
+      "player_number": 3,
+      "chinese_name": "",
+      "english_name": "Daniel",
+      "handicap": 16,
+      "group_id": 89,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Daniel",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        8,
+        6,
+        4,
+        5,
+        9,
+        6,
+        7,
+        3,
+        5,
+        6,
+        7,
+        6,
+        4,
+        5,
+        4,
+        6,
+        5,
+        3
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 99,
+      "netScore": 83,
+      "toPar": 27,
+      "front9": 53,
+      "back9": 46,
+      "last6": 27,
+      "last3": 14,
+      "last1": 3,
+      "grossRank": 11,
+      "inProgress": false
+    },
+    {
+      "id": 25,
+      "tournament_id": 2,
+      "player_number": 11,
+      "chinese_name": "",
+      "english_name": "Casper",
+      "handicap": 24,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Casper",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        4,
+        5,
+        5,
+        8,
+        7,
+        6,
+        5,
+        4,
+        6,
+        6,
+        10,
+        7,
+        5,
+        5,
+        4,
+        7,
+        7,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 105,
+      "netScore": 81,
+      "toPar": 33,
+      "front9": 50,
+      "back9": 55,
+      "last6": 32,
+      "last3": 18,
+      "last1": 4,
+      "grossRank": 12,
+      "inProgress": false
+    },
+    {
+      "id": 27,
+      "tournament_id": 2,
+      "player_number": 13,
+      "chinese_name": "",
+      "english_name": "Jeff",
+      "handicap": 26,
+      "group_id": 92,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Jeff",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        8,
+        8,
+        5,
+        5,
+        6,
+        4,
+        7,
+        5,
+        6,
+        8,
+        10,
+        6,
+        6,
+        7,
+        3,
+        6,
+        6,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 110,
+      "netScore": 84,
+      "toPar": 38,
+      "front9": 54,
+      "back9": 56,
+      "last6": 32,
+      "last3": 16,
+      "last1": 4,
+      "grossRank": 13,
+      "inProgress": false
+    },
+    {
+      "id": 23,
+      "tournament_id": 2,
+      "player_number": 9,
+      "chinese_name": "",
+      "english_name": "Lio",
+      "handicap": 21,
+      "group_id": 91,
+      "no_show": 0,
+      "wildcard": 0,
+      "tee": "white",
+      "displayName": "Lio",
+      "isNoShow": false,
+      "strokesInPlayOrder": [
+        8,
+        8,
+        5,
+        10,
+        5,
+        7,
+        8,
+        5,
+        7,
+        5,
+        8,
+        7,
+        6,
+        8,
+        4,
+        6,
+        7,
+        4
+      ],
+      "holesPlayed": 18,
+      "totalHoles": 18,
+      "isComplete": true,
+      "grossScore": 118,
+      "netScore": 97,
+      "toPar": 46,
+      "front9": 63,
+      "back9": 55,
+      "last6": 35,
+      "last3": 17,
+      "last1": 4,
+      "grossRank": 14,
+      "inProgress": false
+    }
+  ],
+  "finalRankings": [],
+  "championChain": [
+    "pk"
+  ],
+  "othersChain": [
+    "back9",
+    "hole_countback"
+  ],
+  "playoffWinnerId": null
+}
