@@ -153,6 +153,37 @@ const mk = () => {
   r = await admin('POST', '/api/roster', { english_name: 'NoHcp' });
   ck('沒差點不能新增', r.status === 400);
 
+  H('H:同一個人被打成兩筆 — 合併');
+  // The Green Jacket wrote J.J., the Ring Cup 王伯軒 JJ
+  r = await admin('POST', '/api/roster', { english_name: 'J.J.', handicap: 14, status: 'wildcard' });
+  const dupId = r.body.id;
+  ck('建立了重複的一筆', r.status === 200 && !!dupId);
+  const jj = (await admin('GET', '/api/roster')).body.roster.find(m => m.chinese_name === '王伯軒');
+  ck('找得到本尊 王伯軒 JJ', !!jj);
+  const beforeMerge = (await admin('GET', '/api/roster/' + jj.id)).body;
+  r = await admin('POST', `/api/roster/${jj.id}/merge`, { fromId: dupId });
+  ck('合併成功', r.status === 200, JSON.stringify(r.body));
+  const merged = (await admin('GET', '/api/roster/' + jj.id)).body;
+  ck('別名留下來了', (merged.player.aliasList || []).some(a => a.english_name === 'J.J.'),
+    JSON.stringify(merged.player.aliasList));
+  ck('比賽紀錄沒有減少', merged.rounds.length === beforeMerge.rounds.length,
+    `${merged.rounds.length} vs ${beforeMerge.rounds.length}`);
+  ck('重複那筆被刪掉', (await admin('GET', '/api/roster/' + dupId)).status === 404);
+  ck('合併留下一筆異動紀錄', merged.handicapLog.some(l => l.reason.includes('合併')),
+    JSON.stringify(merged.handicapLog[0]));
+  r = await admin('POST', `/api/roster/${jj.id}/merge`, { fromId: jj.id });
+  ck('不能跟自己合併', r.status === 400, 'status=' + r.status);
+
+  H('I:J.J. 這種寫法在建立名單時就會被視為同一人');
+  const { identityKey } = require('./roster');
+  ck('J.J. 與 JJ 視為同一個人',
+    identityKey({ english_name: 'J.J.' }) === identityKey({ english_name: 'JJ' }),
+    identityKey({ english_name: 'J.J.' }) + ' vs ' + identityKey({ english_name: 'JJ' }));
+  ck('大小寫與空白也一樣',
+    identityKey({ english_name: ' j j ' }) === identityKey({ english_name: 'JJ' }));
+  ck('不同的人還是分開',
+    identityKey({ english_name: 'Jason' }) !== identityKey({ english_name: 'JJ' }));
+
   console.log('\n' + pass + ' 通過 / ' + fail + ' 失敗');
   srv.kill();
   for (let i = 0; i < 20 && fs.existsSync(DB); i++) { try { fs.unlinkSync(DB); } catch { await new Promise(r => setTimeout(r, 250)); } }

@@ -164,6 +164,9 @@ function initDb() {
   addColumn("ALTER TABLE tournament ADD COLUMN awards TEXT DEFAULT ''");
   // Which person in the club roster this tournament entry is
   addColumn('ALTER TABLE players ADD COLUMN club_player_id INTEGER');
+  // Other names the same person has been entered under (JSON), kept when two
+  // records are merged — archived years are frozen with the name used that year
+  addColumn("ALTER TABLE club_players ADD COLUMN aliases TEXT DEFAULT ''");
   // Hole label — hole_number is INTEGER so it cannot hold "10A"
   addColumn("ALTER TABLE holes ADD COLUMN hole_label TEXT DEFAULT ''");
   // Second tee yardage (men play white, ladies play red)

@@ -27,12 +27,36 @@ export default function RosterPlayerPage() {
   const [editing, setEditing] = useState(null)
   const [hcp, setHcp] = useState({ open: false, value: '', reason: '' })
   const [openRound, setOpenRound] = useState(null)
+  const [merging, setMerging] = useState(null)
+  const [roster, setRoster] = useState([])
 
   useEffect(() => { load() }, [id])
   const load = () => api.get(`/roster/${id}`).then(d => {
     setData(d)
     document.title = nameOf(d.player)
   })
+
+  const openMerge = () => run(async () => {
+    const d = await api.get('/roster')
+    setRoster((d.roster || []).filter(m => String(m.id) !== String(id)))
+    setMerging('')
+  }, '選擇要合併過來的球員')
+
+  const doMerge = () => {
+    const other = roster.find(m => String(m.id) === String(merging))
+    if (!other) { alert('請選擇要合併的球員'); return }
+    if (!confirm(
+      `把「${nameOf(other)}」合併進「${nameOf(data.player)}」？\n\n` +
+      `• ${nameOf(other)} 的比賽紀錄與差點異動會轉過來\n` +
+      `• 他的名字會保留成「也曾登記為」,舊比賽才找得到\n` +
+      `• ${nameOf(other)} 這筆資料會被刪除\n\n此動作無法復原。`
+    )) return
+    run(async () => {
+      await api.post(`/roster/${id}/merge`, { fromId: other.id })
+      await load()
+      setMerging(null)
+    }, '已合併 ✓')
+  }
 
   const saveDetails = () => run(async () => {
     await api.put(`/roster/${id}`, editing)
@@ -59,6 +83,100 @@ export default function RosterPlayerPage() {
   return (
     <GjAdminShell title={nameOf(player)} subtitle={STATUS[player.status]?.label} showBack backTo="/admin/roster">
       {banner}
+
+      {/* Names, status and tee first — this is what gets edited most, and it used
+          to sit below a long list of rounds where nobody found it */}
+      <Card title="基本資料">
+        {editing ? (
+          <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-2">
+              <input className="border border-gray-300 rounded px-2 py-2 text-sm" placeholder="中文名"
+                value={editing.chinese_name || ''} onChange={e => setEditing({ ...editing, chinese_name: e.target.value })} />
+              <input className="border border-gray-300 rounded px-2 py-2 text-sm" placeholder="英文名"
+                value={editing.english_name || ''} onChange={e => setEditing({ ...editing, english_name: e.target.value })} />
+            </div>
+            <div className="flex gap-1.5">
+              {Object.entries(STATUS).map(([key, s]) => (
+                <button key={key} onClick={() => setEditing({ ...editing, status: key })}
+                  className={`flex-1 py-2 text-xs font-semibold rounded-lg border ${
+                    editing.status === key ? s.cls : 'bg-white text-gray-500 border-gray-200'}`}>
+                  {s.label}
+                </button>
+              ))}
+            </div>
+            <button onClick={() => setEditing({ ...editing, tee: editing.tee === 'red' ? 'white' : 'red' })}
+              className={`w-full py-2 rounded text-sm font-medium ${editing.tee === 'red' ? 'bg-red-100 text-red-700 border border-red-300' : 'bg-gray-100 text-gray-700 border border-gray-300'}`}>
+              預設 {editing.tee === 'red' ? '紅 Tee' : '白 Tee'}
+            </button>
+            <textarea className="w-full border border-gray-300 rounded px-2 py-2 text-sm" rows={2}
+              placeholder="備註（選填）" maxLength={500}
+              value={editing.notes || ''} onChange={e => setEditing({ ...editing, notes: e.target.value })} />
+            <div className="flex gap-2">
+              <button onClick={saveDetails} disabled={saving}
+                className="flex-1 bg-emerald-800 text-white py-2 rounded text-sm font-bold disabled:opacity-50">儲存</button>
+              <button onClick={() => setEditing(null)}
+                className="px-4 bg-gray-200 text-gray-700 py-2 rounded text-sm">取消</button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-3">
+            <div className="flex-1 text-sm text-gray-600">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span>{player.chinese_name || '（無中文名）'} · {player.english_name || '（無英文名）'}</span>
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${STATUS[player.status]?.cls}`}>
+                  {STATUS[player.status]?.label}
+                </span>
+              </div>
+              <div className="text-xs text-gray-400 mt-0.5">
+                預設 {player.tee === 'red' ? '紅' : '白'} Tee
+                {player.notes ? ` · ${player.notes}` : ''}
+              </div>
+              {player.aliasList?.length > 0 && (
+                <div className="text-xs text-gray-400 mt-0.5">
+                  也曾登記為:{player.aliasList.map(a =>
+                    [a.chinese_name, a.english_name].filter(Boolean).join(' ')).join('、')}
+                </div>
+              )}
+            </div>
+            <button onClick={() => setEditing({ ...player })}
+              className="bg-gray-100 text-gray-700 text-sm font-medium px-4 py-2 rounded-lg">修改</button>
+          </div>
+        )}
+
+        {/* Same person entered twice — J.J. and 王伯軒 JJ */}
+        <div className="mt-3 pt-3 border-t border-gray-100">
+          {merging === null ? (
+            <button onClick={openMerge} disabled={saving}
+              className="text-xs text-emerald-800 underline disabled:opacity-50">
+              🔗 這個人在名單上有兩筆？合併過來
+            </button>
+          ) : (
+            <div className="space-y-2">
+              <p className="text-xs text-gray-500">
+                選擇要<b>合併進這位球員</b>的另一筆資料。對方的比賽紀錄會轉過來,
+                名字保留成別名,然後刪除那筆。
+              </p>
+              <select value={merging} onChange={e => setMerging(e.target.value)}
+                className="w-full border border-gray-300 rounded px-2 py-2 text-sm">
+                <option value="">— 選擇球員 —</option>
+                {roster.map(m => (
+                  <option key={m.id} value={m.id}>
+                    {nameOf(m)}（差點 {m.handicap} · {m.roundsPlayed} 場）
+                  </option>
+                ))}
+              </select>
+              <div className="flex gap-2">
+                <button onClick={doMerge} disabled={saving || !merging}
+                  className="flex-1 bg-amber-500 text-amber-950 py-2 rounded text-sm font-bold disabled:opacity-50">
+                  合併
+                </button>
+                <button onClick={() => setMerging(null)}
+                  className="px-4 bg-gray-200 text-gray-700 py-2 rounded text-sm">取消</button>
+              </div>
+            </div>
+          )}
+        </div>
+      </Card>
 
       {/* Current handicap, and changing it */}
       <Card title="目前差點">
@@ -236,53 +354,6 @@ export default function RosterPlayerPage() {
         </div>
       </Card>
 
-      {/* Names, status, tee */}
-      <Card title="基本資料">
-        {editing ? (
-          <div className="space-y-2">
-            <div className="grid grid-cols-2 gap-2">
-              <input className="border border-gray-300 rounded px-2 py-2 text-sm" placeholder="中文名"
-                value={editing.chinese_name} onChange={e => setEditing({ ...editing, chinese_name: e.target.value })} />
-              <input className="border border-gray-300 rounded px-2 py-2 text-sm" placeholder="英文名"
-                value={editing.english_name} onChange={e => setEditing({ ...editing, english_name: e.target.value })} />
-            </div>
-            <div className="flex gap-1.5">
-              {Object.entries(STATUS).map(([key, s]) => (
-                <button key={key} onClick={() => setEditing({ ...editing, status: key })}
-                  className={`flex-1 py-2 text-xs font-semibold rounded-lg border ${
-                    editing.status === key ? s.cls : 'bg-white text-gray-500 border-gray-200'}`}>
-                  {s.label}
-                </button>
-              ))}
-            </div>
-            <button onClick={() => setEditing({ ...editing, tee: editing.tee === 'red' ? 'white' : 'red' })}
-              className={`w-full py-2 rounded text-sm font-medium ${editing.tee === 'red' ? 'bg-red-100 text-red-700 border border-red-300' : 'bg-gray-100 text-gray-700 border border-gray-300'}`}>
-              預設 {editing.tee === 'red' ? '紅 Tee' : '白 Tee'}
-            </button>
-            <textarea className="w-full border border-gray-300 rounded px-2 py-2 text-sm" rows={2}
-              placeholder="備註（選填）" maxLength={500}
-              value={editing.notes || ''} onChange={e => setEditing({ ...editing, notes: e.target.value })} />
-            <div className="flex gap-2">
-              <button onClick={saveDetails} disabled={saving}
-                className="flex-1 bg-emerald-800 text-white py-2 rounded text-sm font-bold disabled:opacity-50">儲存</button>
-              <button onClick={() => setEditing(null)}
-                className="px-4 bg-gray-200 text-gray-700 py-2 rounded text-sm">取消</button>
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-center gap-3">
-            <div className="flex-1 text-sm text-gray-600">
-              <div>{player.chinese_name || '（無中文名）'} · {player.english_name || '（無英文名）'}</div>
-              <div className="text-xs text-gray-400 mt-0.5">
-                預設 {player.tee === 'red' ? '紅' : '白'} Tee
-                {player.notes ? ` · ${player.notes}` : ''}
-              </div>
-            </div>
-            <button onClick={() => setEditing({ ...player })}
-              className="text-sm text-emerald-800 underline">修改</button>
-          </div>
-        )}
-      </Card>
     </GjAdminShell>
   )
 }

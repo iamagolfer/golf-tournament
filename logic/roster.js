@@ -11,7 +11,9 @@
 // table existed and cannot be rewritten, so their players carry no club id.
 // They are matched by name too.
 
-const norm = (s) => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
+// Punctuation and spacing are dropped, so J.J. and JJ are the same person —
+// they were typed by different people on different days.
+const norm = (s) => String(s || '').toLowerCase().replace(/[\s.,_'’-]/g, '');
 
 // The key two records of the same person will share
 function identityKey(player) {
@@ -24,12 +26,33 @@ function identityKey(player) {
 const displayName = (p) =>
   [p.chinese_name, p.english_name].filter(Boolean).join(' ').trim() || '(未命名)';
 
+// Names this member has also been entered under. Merging two records keeps the
+// absorbed one's name here, because archived snapshots are frozen with whatever
+// name was used that year and can never be corrected.
+function aliasesOf(member) {
+  try {
+    const parsed = JSON.parse(member?.aliases || '');
+    return Array.isArray(parsed) ? parsed.filter(a => a && (a.chinese_name || a.english_name)) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+const nameFormsOf = (member) => [
+  { chinese_name: member.chinese_name, english_name: member.english_name },
+  ...aliasesOf(member),
+];
+
+function matchesNameForm(row, form) {
+  const rowEn = norm(row.english_name), formEn = norm(form.english_name);
+  if (rowEn && formEn) return rowEn === formEn;
+  const rowZh = norm(row.chinese_name), formZh = norm(form.chinese_name);
+  return !!rowZh && rowZh === formZh;
+}
+
 // Does this archived or live player row refer to that club member?
 function matchesClubPlayer(row, member) {
-  const rowEn = norm(row.english_name), memEn = norm(member.english_name);
-  if (rowEn && memEn) return rowEn === memEn;
-  const rowZh = norm(row.chinese_name), memZh = norm(member.chinese_name);
-  return !!rowZh && rowZh === memZh;
+  return nameFormsOf(member).some(form => matchesNameForm(row, form));
 }
 
 // Gathers every distinct person out of the live tournaments and the archives,
@@ -191,4 +214,7 @@ function statsFor(rounds) {
   };
 }
 
-module.exports = { identityKey, displayName, matchesClubPlayer, collectCandidates, roundsFor, statsFor };
+module.exports = {
+  identityKey, displayName, matchesClubPlayer, aliasesOf, nameFormsOf,
+  collectCandidates, roundsFor, statsFor,
+};

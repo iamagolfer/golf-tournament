@@ -1,6 +1,8 @@
 const express = require('express');
 const { requireAnyAdmin } = require('../lib/tournamentContext');
-const { collectCandidates, roundsFor, statsFor, matchesClubPlayer } = require('../logic/roster');
+const {
+  collectCandidates, roundsFor, statsFor, matchesClubPlayer, nameFormsOf, aliasesOf,
+} = require('../logic/roster');
 
 const STATUSES = ['regular', 'wildcard', 'inactive'];
 const now = () => new Date().toISOString().replace('T', ' ').slice(0, 19);
@@ -34,7 +36,7 @@ module.exports = (db) => {
     if (!member) return res.status(404).json({ error: '找不到這位球員' });
     const rounds = roundsFor(db, member);
     res.json({
-      player: member,
+      player: { ...member, aliasList: aliasesOf(member) },
       rounds,
       stats: statsFor(rounds),
       handicapLog: db.prepare(
@@ -105,6 +107,50 @@ module.exports = (db) => {
       VALUES (?,?,?,?,?)
     `).run(member.id, member.handicap, Math.round(handicap), reason.slice(0, 200), stamp);
     res.json({ success: true, from: member.handicap, to: Math.round(handicap) });
+  });
+
+  // Two records, one person — J.J. and 王伯軒 JJ were entered on different days.
+  // The absorbed record's name is kept as an alias rather than discarded: the
+  // archived years are frozen with whatever name was used back then, and that is
+  // the only way those rounds are still found.
+  router.post('/:id/merge', (req, res) => {
+    const keep = db.prepare('SELECT * FROM club_players WHERE id=?').get(req.params.id);
+    const drop = db.prepare('SELECT * FROM club_players WHERE id=?').get(req.body?.fromId);
+    if (!keep || !drop) return res.status(404).json({ error: '找不到球員' });
+    if (keep.id === drop.id) return res.status(400).json({ error: '不能跟自己合併' });
+
+    const forms = [...nameFormsOf(keep), ...nameFormsOf(drop)];
+    const seen = new Set();
+    const aliases = [];
+    for (const f of forms) {
+      const zh = String(f.chinese_name || '').trim();
+      const en = String(f.english_name || '').trim();
+      if (!zh && !en) continue;
+      const key = `${zh}|${en}`.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      // The kept record's own names live in their columns, not the alias list
+      if (zh === (keep.chinese_name || '') && en === (keep.english_name || '')) continue;
+      aliases.push({ chinese_name: zh, english_name: en });
+    }
+
+    const stamp = now();
+    db.prepare('UPDATE club_players SET chinese_name=?, english_name=?, aliases=? WHERE id=?').run(
+      keep.chinese_name || drop.chinese_name || '',
+      keep.english_name || drop.english_name || '',
+      JSON.stringify(aliases),
+      keep.id,
+    );
+    db.prepare('UPDATE players SET club_player_id=? WHERE club_player_id=?').run(keep.id, drop.id);
+    db.prepare('UPDATE handicap_log SET club_player_id=? WHERE club_player_id=?').run(keep.id, drop.id);
+    db.prepare(`
+      INSERT INTO handicap_log (club_player_id, from_handicap, to_handicap, reason, changed_at)
+      VALUES (?,?,?,?,?)
+    `).run(keep.id, drop.handicap, keep.handicap,
+      `合併「${[drop.chinese_name, drop.english_name].filter(Boolean).join(' ')}」的資料`, stamp);
+    db.prepare('DELETE FROM club_players WHERE id=?').run(drop.id);
+
+    res.json({ success: true, aliases });
   });
 
   // Only for a record created by mistake. Someone who has played is kept and
