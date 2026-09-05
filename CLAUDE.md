@@ -490,6 +490,14 @@ The handicap is **copied, not referenced**: adjusting it inside a tournament
 affects that round alone, and a later club-level change never reaches back into
 a round already played. Both directions are covered by `logic/roster.test.js`.
 
+### Still to do — the Ring Cup's own player page
+`POST /api/players/from-roster` is tournament-scoped and already works for the
+Ring Cup; only the button is missing. The Green Jacket's 選手管理 adds people one
+at a time, so a "從球隊名單加入" list drops straight in, while the Ring Cup's
+`PlayersManager` is one editable table saved through the destructive bulk
+`PUT /api/players`. Wiring it up means giving that page the same add-one-at-a-time
+shape first. Deferred by Albert to the next Ring Cup (played June).
+
 ### Merging two records of one person
 Names are compared with punctuation and spacing stripped, so `J.J.`, `JJ` and
 `j j` are one person. For records already split, `POST /api/roster/:id/merge`
